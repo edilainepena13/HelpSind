@@ -148,9 +148,6 @@ drop column value;
 alter table expenses
     add idExpenseType bigint unsigned null;
 
-constraint foreign_key_name
-        foreign key (idExpenseType) references expense_type (id);
-
 alter table expenses
     change idExpenseType idexpensetype bigint unsigned null;
 

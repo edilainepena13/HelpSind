@@ -109,7 +109,10 @@ public class Condominium implements Serializable, Comparable<Condominium>{
 	}
 
 	public Long getIdCondominium() {
-		return idCondominium;
+	    if (trustee != null) {
+	        return trustee.getCondominium().getIdCondominium();
+	    }
+	    return null;
 	}
 
 	public void setIdCondominium(Long idCondominium) {

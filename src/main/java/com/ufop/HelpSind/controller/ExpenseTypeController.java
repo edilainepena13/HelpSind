@@ -1,8 +1,6 @@
 package com.ufop.HelpSind.controller;
 
-import com.ufop.HelpSind.domain.Apartment;
 import com.ufop.HelpSind.domain.ExpenseType;
-import com.ufop.HelpSind.enums.PaymentSituation;
 import com.ufop.HelpSind.enums.Status;
 import com.ufop.HelpSind.service.ApartmentService;
 import com.ufop.HelpSind.service.ExpenseTypeService;

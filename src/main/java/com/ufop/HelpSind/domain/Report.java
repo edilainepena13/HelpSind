@@ -1,7 +1,6 @@
 package com.ufop.HelpSind.domain;
 
 import org.hibernate.annotations.Immutable;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
