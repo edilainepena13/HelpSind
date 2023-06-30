@@ -15,6 +15,25 @@ CREATE TABLE if not exists  condominium (
     PRIMARY KEY(idCondominium)
     );
     
+CREATE TABLE if not exists  reports (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    idExpense BIGINT UNSIGNED NOT NULL,
+    expenseName VARCHAR(255) NULL,
+    expenseReceivingDate VARCHAR(100) NULL,
+    expenseExpirationDate VARCHAR(10) NULL,
+    type VARCHAR(100) NULL,
+    expenseSituation VARCHAR(100) NULL,
+    total DECIMAL(9, 2),
+    expenseType VARCHAR(100) NULL,
+    idApartmentReading BIGINT UNSIGNED NOT NULL,
+    idApartment BIGINT UNSIGNED NOT NULL,
+    apartmentNumber VARCHAR(10) NULL,
+    idPerson BIGINT UNSIGNED NOT NULL,
+    personName  VARCHAR(50) NULL,
+    idCondominium BIGINT UNSIGNED NOT NULL,
+    PRIMARY KEY(id)
+    );
+    
 CREATE TABLE if not exists  users (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     password VARCHAR(100) NULL,
@@ -192,7 +211,7 @@ alter table expense_apartment_reading
     change id_expense idexpense bigint unsigned not null;
 
 alter table expenses
-    modify total decimal(10, 2) null;
+    add column total decimal(10, 2) null;
     
 alter table expenses
     add column repeatable boolean;

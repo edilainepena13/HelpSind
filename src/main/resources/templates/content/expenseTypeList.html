@@ -2,12 +2,12 @@
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<title>Lista de Tipo de Despesa</title>
+	<title>Tipo de Despesas\Receitas</title>
 </head>
 <body>
 <th:block th:fragment="content">
 	<main role="main">
-		<h3 class="font-weight-light">Lista de Tipo de Despesa</h3>
+		<h3 class="font-weight-light">Tipo de Despesas\Receitas</h3>
 		<div class="btn-group mb-3 float-right">
 			<a class="btn btn-light" th:href="@{/trustee/expenseType/cadastro}"><i class="fas fa-plus"></i> Nova</a>
 		</div>
@@ -19,6 +19,7 @@
 				</caption>
 				<thead class="thead-light">
 				<tr>
+					<th scope="col"> Tipo</th>
 					<th scope="col"> Descrição</th>
 					<th scope="col"> Valor</th>
 					<th scope="col"> Status</th>
