@@ -23,13 +23,18 @@
 					<th scope="col"> Descrição</th>
 					<th scope="col"> Valor</th>
 					<th scope="col"> Status</th>
+					<th scope="col"> Rateio</th>
+					<th scope="col"> Taxa Mínima</th>
 				</tr>
 				</thead>
 				<tbody>
 				<tr th:each="expenseType : ${expenseType.content}">
+					<th scope="row" th:text="${expenseType.type}"></th>
 					<th scope="row" th:text="${expenseType.name}"></th>
 					<th scope="row" th:text="${expenseType.value}"></th>
 					<th scope="row" th:text="${expenseType.status}"></th>
+					<th scope="row" th:text="${expenseType.typeApport}"></th>
+					<th scope="row" th:text="${expenseType.minimumRate}"></th>
 					<td>
 						<a class="btn btn-outline-secondary btn-sm"
 						   th:href="@{/trustee/expenseType/{idExpenseType}/cadastro(idExpenseType=${expenseType.idExpenseType})}"><i

@@ -36,10 +36,43 @@
 											<select class="form-control" id="status" name="status" th:errorclass="is-invalid"
 											        th:field="*{status}">
 												<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
-												<option th:each="status : ${statusList}" th:value="${status.sigla}"
+												<option th:each="status : ${statusList}" th:value="${status.name}"
 												        th:text="${status.name}"></option>
 											</select>
 											<div class="invalid-feedback" th:errors="*{status}"></div>
+										</div>
+									</div>
+									<div class="form-row row">
+										<div class="form-group col-xs-12 col-md-3">
+											<label>Tipo</label>
+											<select class="form-control" id="type" name="type" th:errorclass="is-invalid"
+													th:field="*{type}">
+													<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
+													<option th:each="type : ${typeList}" th:value="${type.name}"
+															th:text="${type.name}"></option>
+											</select>
+											<div class="invalid-feedback" th:errors="*{type}"></div>
+										</div>
+										<div class="form-group col-xs-12 col-md-3">
+											<label>Tipo de Rateio</label>
+											<select class="form-control" id="typeApport" name="typeApport" th:errorclass="is-invalid"
+													th:field="*{typeApport}">
+													<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
+													<option th:each="typeApport : ${typeApportList}" th:value="${typeApport.name}"
+															th:text="${typeApport.name}"></option>
+											</select>
+											<div class="invalid-feedback" th:errors="*{typeApport}"></div>
+										</div>
+										<div class="form-group col-xs-12 col-md-3">
+											<label>Taxa Mínima</label>
+											<div class="row align-items-center">
+												<div class="col-md-1 text-center">
+													<input type="checkbox" id="taxaMinima" name="taxaMinima" value="true">
+												</div>
+												<div class="col">	
+													<input class="form-control" type="number" id="minimumRate" name="minimumRate" placeholder="Valor" required disabled>
+												</div>
+											</div>
 										</div>
 									</div>
 								</li>
@@ -49,6 +82,13 @@
 					<button th:unless="${param.somenteLeitura}" type="submit" class="btn btn-primary">Salvar</button>
 					<a class="btn btn-secondary" th:href="@{/trustee/expenseType/}" role="button" th:text="${param.somenteLeitura}?'Voltar':_">Cancelar</a>
 				</form>
+				<script>
+					document.getElementById('taxaMinima').addEventListener('change', function() {
+						var campominimumRate = document.getElementById('minimumRate');
+						campominimumRate.disabled = !this.checked;
+						campominimumRate.required = this.checked;
+					});
+				</script>
 			</main>
 		</th:block>
 		<th:block th:fragment="jsAdicional"></th:block>

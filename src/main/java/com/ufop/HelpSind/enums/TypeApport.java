@@ -1,9 +1,9 @@
 package com.ufop.HelpSind.enums;
 
-public enum Status {
+public enum TypeApport {
 
-	A("Ativo"),
-	X("Excluido");
+	A("Igualitário"),
+	X("Proporcional");
 
 	private final String name;
 
@@ -11,7 +11,7 @@ public enum Status {
 		return name;
 	}
 
-	private Status(String name) {
+	private TypeApport(String name) {
 		this.name = name;
 	}
 }
