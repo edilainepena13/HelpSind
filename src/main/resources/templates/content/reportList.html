@@ -13,8 +13,7 @@
 		<div id="printable" class="table-responsive mt-1">
 			<table class="table table-hover table-sm crud-list mb-0">
 				<caption class="pb-0">
-					<span th:text="${report.totalElements == 0} ? 'Nenhum' : 'Há '+${report.totalElements}"></span> <span
-						th:text="${report.totalElements>1} ? 'despesa cadastradas' : 'despesa cadastrada'"></span>.
+					<span th:text="'Total de despesas cadastradas: ' +${report.totalElements}"></span>
 				</caption>
 				<thead class="thead-light">
 				<tr>
