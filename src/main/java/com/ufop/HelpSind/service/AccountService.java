@@ -6,7 +6,6 @@ import com.ufop.HelpSind.domain.Account;
 
 public interface AccountService extends CrudService<Account, Long>{
 	
-	//currentBalance
-	public BigDecimal initialBalance();
+	public BigDecimal currentBalance();
 
 }

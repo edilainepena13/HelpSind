@@ -14,7 +14,8 @@
 		<div class="table-responsive">
 			<table class="table table-hover table-sm crud-list mb-0">
 				<caption class="pb-0">
-					<span th:text="'Total de registros cadastrados: ' +${expenseType.totalElements}"></span>
+					<span th:text="${expenseType.totalElements == 0} ? 'Nenhum' : 'Há '+${expenseType.totalElements}"></span> <span
+						th:text="${expenseType.totalElements>1} ? 'registros encontrado' : 'registro encontrado'"></span>.
 				</caption>
 				<thead class="thead-light">
 				<tr>

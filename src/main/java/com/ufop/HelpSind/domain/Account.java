@@ -38,10 +38,10 @@ public class Account implements Serializable, Comparable<Account>{
 	
 	@Column(name = "initialbalance")
 	private BigDecimal initialBalance;
-	/* 
+	
 	@Column(name = "currentbalance")
-	private BigDecimal currentbalance;
-	*/
+	private BigDecimal currentBalance;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominium")
 	private Condominium condominium;
@@ -78,12 +78,12 @@ public class Account implements Serializable, Comparable<Account>{
 		this.initialBalance = initialBalance;
 	}
 
-	public BigDecimal getinitialBalance() {
-		return initialBalance;
+	public BigDecimal getCurrentBalance() {
+		return currentBalance;
 	}
 
-	public void setinitialBalance(BigDecimal initialBalance) {
-		this.initialBalance = initialBalance;
+	public void setCurrentBalance(BigDecimal currentBalance) {
+		this.currentBalance = currentBalance;
 	}
 
 	public Condominium getCondominium() {

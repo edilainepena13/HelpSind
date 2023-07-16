@@ -14,7 +14,7 @@
 		<div class="table-responsive">
 			<table class="table table-hover table-sm crud-list mb-0">
 				<caption class="pb-0">
-					<span th:text="'Total de despesas cadastradas: ' +${expense.totalElements}"></span>
+					<span th:text="${expense.totalElements == 0} ? 'Nenhum' : 'Há '+${expense.totalElements}"></span> <span th:text="${expense.totalElements>1} ? 'despesa cadastradas' : 'despesa cadastrada'"></span>.
 				</caption>
 	    		<thead class="thead-light">
 	        		<tr>

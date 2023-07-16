@@ -31,7 +31,7 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public void save(Account entity) {
 		if(entity.getIdAccount() == null) {
-			entity.setinitialBalance(entity.getInitialBalance());
+			entity.setCurrentBalance(entity.getInitialBalance());
 			accountDao.save(entity);
 		}
 	}
@@ -63,8 +63,8 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public void update(Account entity) {
 		Account old = read(entity.getIdAccount());
-		entity.setinitialBalance(
-				old.getinitialBalance().subtract(old.getInitialBalance()).add(entity.getInitialBalance()));
+		entity.setCurrentBalance(
+				old.getCurrentBalance().subtract(old.getInitialBalance()).add(entity.getInitialBalance()));
 		accountDao.save(entity);
 	}
 
@@ -90,12 +90,12 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public BigDecimal initialBalance() {
+	public BigDecimal currentBalance() {
 		Condominium condominium = userService.logged().getCondominium();
 		if (condominium == null || condominium.getAccounts().isEmpty()) {
 			return BigDecimal.ZERO.setScale(2);
 		} else {
-			return accountDao.suminitialBalanceByCondominium(condominium);
+			return accountDao.sumCurrentBalanceByCondominium(condominium);
 		}
 	}
 

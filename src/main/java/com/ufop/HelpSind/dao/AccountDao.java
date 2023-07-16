@@ -23,7 +23,7 @@ public interface AccountDao extends PagingAndSortingRepository<Account, Long>, C
 	
 	Boolean existsByTypeAndCondominiumAndIdAccountNot(BankAccountType type, Condominium condominium, Long idCount);
 	
-	@Query("select sum(initialBalance) from #{#entityName} c where c.condominium = :condominium")
-	BigDecimal suminitialBalanceByCondominium(@Param("condominium") Condominium condominium);
+	@Query("select sum(currentBalance) from #{#entityName} c where c.condominium = :condominium")
+	BigDecimal sumCurrentBalanceByCondominium(@Param("condominium") Condominium condominium);
 
 }
