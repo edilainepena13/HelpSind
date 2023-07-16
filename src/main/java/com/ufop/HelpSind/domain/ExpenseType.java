@@ -33,10 +33,6 @@ public class ExpenseType implements Serializable, Comparable<ExpenseType>{
 	private BigDecimal value;
 
 	private String status;
-	private String type;
-	private String typeApport;
-	private String minimumRate;
-
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominium")
@@ -82,30 +78,6 @@ public class ExpenseType implements Serializable, Comparable<ExpenseType>{
 		this.status = status;
 	}
 
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getTypeApport() {
-		return typeApport;
-	}
-
-	public void setTypeApport(String typeApport) {
-		this.typeApport = typeApport;
-	}
-
-	public String getMinimumRate() {
-		return minimumRate;
-	}
-
-	public void setMinimumRate(String minimumRate) {
-		this.minimumRate = minimumRate;
-	}
-	
 	public Condominium getCondominium() {
 		return condominium;
 	}

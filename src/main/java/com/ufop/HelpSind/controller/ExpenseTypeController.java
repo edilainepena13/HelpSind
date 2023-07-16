@@ -2,8 +2,6 @@ package com.ufop.HelpSind.controller;
 
 import com.ufop.HelpSind.domain.ExpenseType;
 import com.ufop.HelpSind.enums.Status;
-import com.ufop.HelpSind.enums.Type;
-import com.ufop.HelpSind.enums.TypeApport;
 import com.ufop.HelpSind.service.ApartmentService;
 import com.ufop.HelpSind.service.ExpenseTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,17 +45,7 @@ public class ExpenseTypeController {
 	public List<Status> statusList() {
 		return Arrays.asList(Status.values());
 	}
-
-	@ModelAttribute("typeList")
-	public List<Type> typeList() {
-		return Arrays.asList(Type.values());
-	}
 	
-	@ModelAttribute("typeApportList")
-	public List<TypeApport> typeApportList() {
-		return Arrays.asList(TypeApport.values());
-	}
-
 	@GetMapping({ "", "/", "/lista" })
 	public ModelAndView getExpenseTypes(@RequestParam("expenseType") Optional<Integer> page,
 			@RequestParam("size") Optional<Integer> size, ModelMap model) {
