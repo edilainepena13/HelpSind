@@ -1,5 +1,8 @@
 package com.ufop.HelpSind.controller;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ufop.HelpSind.domain.Condominium;
 import com.ufop.HelpSind.enums.State;
+import com.ufop.HelpSind.enums.TypeApportCondominium;
 import com.ufop.HelpSind.service.CondominiumService;
 
 @Controller
@@ -34,6 +38,11 @@ public class CondominiumController {
 		return State.values();
 	}
 	
+	@ModelAttribute("typeApportCondominiumList")
+	public List<TypeApportCondominium> typeApportCondominiumList() {
+		return Arrays.asList(TypeApportCondominium.values());
+	}
+
 	@GetMapping("/cadastro")
 	public ModelAndView getCondominiumRegister(ModelMap model) {
 		Condominium condominium = condominiumService.read();

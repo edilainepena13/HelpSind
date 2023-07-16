@@ -33,6 +33,16 @@
 									<div class="invalid-feedback" th:errors="*{cnpj}"></div>
 									<small>Somente números</small>
 								</div>
+								<div class="form-group col-xs-12 col-md-3">
+									<label>Tipo de Rateio</label>
+									<select class="form-control" id="typeApportCondominium" name="typeApportCondominium" th:errorclass="is-invalid"
+											th:field="*{typeApportCondominium}">
+											<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
+											<option th:each="typeApportCondominium : ${typeApportCondominiumList}" th:value="${typeApportCondominium.sigla}"
+													th:text="${typeApportCondominium.name}"></option>
+									</select>
+									<div class="invalid-feedback" th:errors="*{typeApportCondominium}"></div>
+								</div>
 							</div>
 						</li>
 						<li class="list-group-item">

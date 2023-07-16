@@ -101,6 +101,8 @@ public class Condominium implements Serializable, Comparable<Condominium>{
 	@OrderBy(value = "issuanceDate desc, apartment, value")
 	private List<Expense> expense = new ArrayList<>();
 
+	private String typeApportCondominium;
+
 	public Condominium() {
 	}
 
@@ -245,6 +247,14 @@ public class Condominium implements Serializable, Comparable<Condominium>{
 
 	public void setExpense(List<Expense> expense) {
 		this.expense = expense;
+	}
+
+	public String getTypeApportCondominium() {
+		return typeApportCondominium;
+	}
+
+	public void setTypeApportCondominium(String typeApportCondominium) {
+		this.typeApportCondominium = typeApportCondominium;
 	}
 
 	@Override
