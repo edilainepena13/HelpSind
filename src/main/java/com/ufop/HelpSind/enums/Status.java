@@ -2,21 +2,16 @@ package com.ufop.HelpSind.enums;
 
 public enum Status {
 
-	A("Ativo", "A"),
-	X("Excluido", "X");
+	A("Ativo"),
+	X("Excluido");
 
 	private final String name;
-	private final String sigla;
 
 	public String getName() {
 		return name;
 	}
-	public String getSigla(){
-		return sigla;
-	}
 
-	private Status(String name, String sigla) {
+	private Status(String name) {
 		this.name = name;
-		this.sigla = sigla;
 	}
 }

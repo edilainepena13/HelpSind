@@ -2,21 +2,16 @@ package com.ufop.HelpSind.enums;
 
 public enum Type {
 
-	A("Despesa", "D"),
-	X("Receita", "R");
+	A("Despesa"),
+	X("Receita");
 
 	private final String name;
-	private final String sigla;
 
 	public String getName() {
 		return name;
 	}
-	public String getSigla(){
-		return sigla;
-	}
-	
-	private Type(String name, String sigla) {
+
+	private Type(String name) {
 		this.name = name;
-		this.sigla = sigla;
 	}
 }

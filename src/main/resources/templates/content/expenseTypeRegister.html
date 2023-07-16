@@ -36,7 +36,7 @@
 											<select class="form-control" id="status" name="status" th:errorclass="is-invalid"
 											        th:field="*{status}">
 												<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
-												<option th:each="status : ${statusList}" th:value="${status.sigla}"
+												<option th:each="status : ${statusList}" th:value="${status.name}"
 												        th:text="${status.name}"></option>
 											</select>
 											<div class="invalid-feedback" th:errors="*{status}"></div>
@@ -48,7 +48,7 @@
 											<select class="form-control" id="type" name="type" th:errorclass="is-invalid"
 													th:field="*{type}">
 													<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
-													<option th:each="type : ${typeList}" th:value="${type.sigla}"
+													<option th:each="type : ${typeList}" th:value="${type.name}"
 															th:text="${type.name}"></option>
 											</select>
 											<div class="invalid-feedback" th:errors="*{type}"></div>
@@ -58,7 +58,7 @@
 											<select class="form-control" id="typeApport" name="typeApport" th:errorclass="is-invalid"
 													th:field="*{typeApport}">
 													<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
-													<option th:each="typeApport : ${typeApportList}" th:value="${typeApport.sigla}"
+													<option th:each="typeApport : ${typeApportList}" th:value="${typeApport.name}"
 															th:text="${typeApport.name}"></option>
 											</select>
 											<div class="invalid-feedback" th:errors="*{typeApport}"></div>
