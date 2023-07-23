@@ -2,7 +2,7 @@
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<title>Rateio Fixo</title>
+	<title>Rateio Variável</title>
 </head>
 <body>
 <th:block th:fragment="content">
@@ -13,8 +13,8 @@
 		<div id="printable" class="table-responsive mt-1">
 			<table class="table table-hover table-sm crud-list mb-0">
 				<caption class="pb-0">
-					<span th:text="${report.totalElements == 0} ? 'Nenhum' : 'Há '+${report.totalElements}"></span> <span
-						th:text="${report.totalElements>1} ? 'despesa cadastradas' : 'despesa cadastrada'"></span>.
+					<span th:text="${varApport.totalElements == 0} ? 'Nenhum' : 'Há '+${varApport.totalElements}"></span> <span
+						th:text="${varApport.totalElements>1} ? 'despesa cadastradas' : 'despesa cadastrada'"></span>.
 				</caption>
 				<thead class="thead-light">
 				<tr>
@@ -27,18 +27,18 @@
 				</tr>
 				</thead>
 				<tbody>
-				<tr th:each="report : ${report.content}">
-					<td scope="row" th:text="${report.expenseName}">
+				<tr th:each="varApport : ${varApport.content}">
+					<td scope="row" th:text="${varApport.expenseName}">
 					</td>
-					<td scope="row" th:text="${report.expenseType}">
+					<td scope="row" th:text="${varApport.expenseType}">
 					</td>
-					<td scope="row" th:text="${report.type}">
+					<td scope="row" th:text="${varApport.type}">
 					</td>
-					<td scope="row" th:text="|R$ ${report.total}|">
+					<td scope="row" th:text="|R$ ${varApport.total}|">
 					</td>
-					<td scope="row" th:text="${report.apartmentNumber}">
+					<td scope="row" th:text="${varApport.apartmentNumber}">
 					</td>
-					<td scope="row" th:text="${report.personName}">
+					<td scope="row" th:text="${varApport.personName}">
 					</td>
 				</tr>
 				</tbody>
