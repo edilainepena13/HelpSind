@@ -12,182 +12,201 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import java.io.Serializable;
+
+import org.hibernate.validator.constraints.br.CPF;
+
+import com.ufop.HelpSind.enums.State;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+@SuppressWarnings("serial")
 @Entity
-@Table(name = "reports")
-@Immutable
-public class Report implements Serializable {
-
+@Table(name="report")
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Report implements Serializable, Comparable<Report>{
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "uuid", updatable = false, nullable = false)
-	private String id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idreport")
+	private Long idReport;
+	
+	@NotBlank
+	@Size(min = 1, max = 50)
+	private String name;
 
-	@Column(insertable = false, updatable = false)
-	private Long idExpense;
+	@Email
+	@Size(max = 100)
+	private String email;
+	
+	@CPF
+	@NotBlank
+	@Size(min=11, max=11)
+	private String cpf;
 
-	@Column(insertable = false, updatable = false)
-	private String expenseName;
+	@Size(max = 15)
+	private String phone;
 
-	@Column(insertable = false, updatable = false)
-	private LocalDate expenseReceivingDate;
+	@Size(max = 15)
+	private String cellphone;
 
-	@Column(insertable = false, updatable = false)
-	private LocalDate expenseExpirationDate;
+	@Size(max = 100)
+	private String address;
 
-	@Column(insertable = false, updatable = false)
-	private String type;
+	@Size(max = 6)
+	@Column(name = "addressnumber")
+	private String addressNumber;
 
-	@Column(insertable = false, updatable = false)
-	private String expenseSituation;
+	@Size(max = 30)
+	@Column(name = "addresscomplement")
+	private String addressComplement;
 
-	@Column(insertable = false, updatable = false)
-	private BigDecimal total;
+	@Size(max = 30)
+	private String neighborhood;
 
-	@Column(insertable = false, updatable = false)
-	private String expenseType;
+	@Size(max = 30)
+	private String city;
 
-	@Column(insertable = false, updatable = false)
-	private Long idApartmentReading;
+	@Enumerated(EnumType.STRING)
+	private State state;
 
-	@Column(insertable = false, updatable = false)
-	private Long idApartment;
+	@Size(max = 8)
+	private String cep;
 
-	@Column(insertable = false, updatable = false)
-	private Integer apartmentNumber;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idcondominium")
+	private Condominium condominium;
 
-	@Column(insertable = false, updatable = false)
-	private Long idPerson;
-
-	@Column(insertable = false, updatable = false)
-	private String personName;
-
-	@Column(name="idcondominium" , insertable = false, updatable = false)
-	private Long idCondominium;
-
-	public Report() {
+	public Long getIdReport() {
+		return idReport;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setIdReport(Long idReport) {
+		this.idReport = idReport;
 	}
 
-	public void setIdExpense(Long idExpense) {
-		this.idExpense = idExpense;
+	public String getName() {
+		return name;
 	}
 
-	public void setExpenseName(String expenseName) {
-		this.expenseName = expenseName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setExpenseReceivingDate(LocalDate expenseReceivingDate) {
-		this.expenseReceivingDate = expenseReceivingDate;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setExpenseExpirationDate(LocalDate expenseExpirationDate) {
-		this.expenseExpirationDate = expenseExpirationDate;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public String getPhone() {
+		return phone;
 	}
 
-	public void setExpenseSituation(String expenseSituation) {
-		this.expenseSituation = expenseSituation;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
-	public void setTotal(BigDecimal total) {
-		this.total = total;
+	public String getCellphone() {
+		return cellphone;
 	}
 
-	public void setExpenseType(String expenseType) {
-		this.expenseType = expenseType;
+	public void setCellphone(String cellphone) {
+		this.cellphone = cellphone;
 	}
 
-	public void setIdApartmentReading(Long idApartmentReading) {
-		this.idApartmentReading = idApartmentReading;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setIdApartment(Long idApartment) {
-		this.idApartment = idApartment;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
-	public void setApartmentNumber(Integer apartmentNumber) {
-		this.apartmentNumber = apartmentNumber;
+	public String getAddressNumber() {
+		return addressNumber;
 	}
 
-	public void setIdPerson(Long idPerson) {
-		this.idPerson = idPerson;
+	public void setAddressNumber(String addressNumber) {
+		this.addressNumber = addressNumber;
 	}
 
-	public void setPersonName(String personName) {
-		this.personName = personName;
+	public String getAddressComplement() {
+		return addressComplement;
 	}
 
-	public void setIdCondominium(Long idCondominium) {
-		this.idCondominium = idCondominium;
+	public void setAddressComplement(String addressComplement) {
+		this.addressComplement = addressComplement;
 	}
 
-	public String getId() {
-		return id;
+	public String getNeighborhood() {
+		return neighborhood;
 	}
 
-	public Long getIdExpense() {
-		return idExpense;
+	public void setNeighborhood(String neighborhood) {
+		this.neighborhood = neighborhood;
 	}
 
-	public String getExpenseName() {
-		return notEmptyString(expenseName);
+	public String getCity() {
+		return city;
 	}
 
-	public LocalDate getExpenseReceivingDate() {
-		return expenseReceivingDate;
+	public void setCity(String city) {
+		this.city = city;
 	}
 
-	public LocalDate getExpenseExpirationDate() {
-		return expenseExpirationDate;
+	public State getState() {
+		return state;
 	}
 
-	public String getType() {
-		return notEmptyString(type);
+	public void setState(State state) {
+		this.state = state;
 	}
 
-	public String getExpenseSituation() {
-		return notEmptyString(expenseSituation);
+	public String getCep() {
+		return cep;
 	}
 
-	public BigDecimal getTotal() {
-		return total;
+	public void setCep(String cep) {
+		this.cep = cep;
 	}
 
-	public String getExpenseType() {
-		return notEmptyString(expenseType);
+	public Condominium getCondominium() {
+		return condominium;
 	}
 
-	public Long getIdApartmentReading() {
-		return idApartmentReading;
+	public void setCondominium(Condominium condominium) {
+		this.condominium = condominium;
+	}
+	
+	public String getCpf() {
+		return cpf;
 	}
 
-	public Long getIdApartment() {
-		return idApartment;
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
-	public Integer getApartmentNumber() {
-		return apartmentNumber;
+	@Override
+	public int compareTo(Report o) {
+		return this.toString().compareTo(o.toString());
 	}
 
-	public Long getIdPerson() {
-		return idPerson;
-	}
-
-	public String getPersonName() {
-		return notEmptyString(personName);
-	}
-
-	public Long getIdCondominium() {
-		return idCondominium;
-	}
-
-	public String notEmptyString(String value){
-		return value == null || value.equals("") ? " - " : value;
-	}
 }

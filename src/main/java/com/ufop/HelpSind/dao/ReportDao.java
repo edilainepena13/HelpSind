@@ -7,10 +7,21 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-@Repository
-public interface ReportDao extends PagingAndSortingRepository<Report, String>{
+import com.ufop.HelpSind.domain.Condominium;
+import com.ufop.HelpSind.domain.Report;
 
-	Page<Report> findAllByIdCondominiumOrderByExpenseExpirationDateDesc(Long condominium, Pageable pagina);
-	List<Report> findAllByIdCondominiumOrderByExpenseExpirationDateDesc(Long condominium);
+public interface ReportDao extends PagingAndSortingRepository<Report, Long>, CrudRepository<Report, Long>{
+	
+	Page<Report> findAllByCondominiumOrderByName(Condominium condominium, Pageable page);
+	
+	Boolean existsByCpfAndCondominium(String cpf, Condominium condominium);
+
+	Boolean existsByCpfAndCondominiumAndIdReportNot(String cpf, Condominium condominium, Long idPessoa);
+
+
 }
