@@ -54,14 +54,5 @@ public class HomeController {
 		return retorno;
 	}
 
-	@ModelAttribute("totalizer")
-	public Totalizer paymentSituation() {
-		if(userService.logged() == null) {
-			return new Totalizer();
-		}
-		return expenseService.getTotalizer();
-		
-	}
-
 
 }

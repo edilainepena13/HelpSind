@@ -31,7 +31,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ufop.HelpSind.enums.ExpenseType;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.ufop.HelpSind.enums.PaymentSituation;
 
 @SuppressWarnings("serial")
 @Entity
@@ -57,9 +56,6 @@ public class Expense implements Serializable, Comparable<Expense>{
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	@Column(name = "receivingdate")
 	private LocalDate receivingDate;
-	
-	@Enumerated(EnumType.STRING)
-	private PaymentSituation situation;
 
 	@Column(name = "expense_type")
 	@Enumerated(EnumType.STRING)
@@ -100,14 +96,13 @@ public class Expense implements Serializable, Comparable<Expense>{
 	public Expense() {
 	}
 
-	public Expense(String name, LocalDate issuanceDate, LocalDate expirationDate, LocalDate receivingDate, PaymentSituation situation,
+	public Expense(String name, LocalDate issuanceDate, LocalDate expirationDate, LocalDate receivingDate,
 			ExpenseType typeEnum, Apartment apartment, Condominium condominium, com.ufop.HelpSind.domain.ExpenseType expenseType,
 			BigDecimal total) {
 		this.name = name;
 		this.issuanceDate = issuanceDate;
 		this.expirationDate = expirationDate;
 		this.receivingDate = receivingDate;
-		this.situation = situation;
 		this.typeEnum = typeEnum;
 		this.apartment = apartment;
 		this.condominium = condominium;
@@ -120,7 +115,6 @@ public class Expense implements Serializable, Comparable<Expense>{
 		this.issuanceDate = expense.getIssuanceDate();
 		this.expirationDate = expense.getExpirationDate();
 		this.receivingDate = expense.getReceivingDate();
-		this.situation = expense.getSituation();
 		this.typeEnum = expense.getTypeEnum();
 		this.apartment = apartment;
 		this.condominium = expense.getCondominium();
@@ -133,7 +127,6 @@ public class Expense implements Serializable, Comparable<Expense>{
 		this.issuanceDate = expense.getIssuanceDate();
 		this.expirationDate = expense.getExpirationDate();
 		this.receivingDate = expense.getReceivingDate();
-		this.situation = expense.getSituation();
 		this.typeEnum = expense.getTypeEnum();
 		this.apartment = apartment;
 		this.condominium = expense.getCondominium();
@@ -184,14 +177,6 @@ public class Expense implements Serializable, Comparable<Expense>{
 
 	public void setReceivingDate(LocalDate receivingDate) {
 		this.receivingDate = receivingDate;
-	}
-
-	public PaymentSituation getSituation() {
-		return situation;
-	}
-
-	public void setSituation(PaymentSituation situation) {
-		this.situation = situation;
 	}
 
 	public Apartment getApartment() {
@@ -297,14 +282,5 @@ public class Expense implements Serializable, Comparable<Expense>{
 		return ExpenseType.P.getSigla().equals(this.typeEnum.getSigla()) ?  "Proporcional" : "Igualitário";
 	}
 
-	@JsonProperty
-	public String getSituationComplete(){
-		if (PaymentSituation.P.getSigla().equals(this.situation.getSigla())){
-			return "Pago";
-		} else if (this.expirationDate != null && this.expirationDate.isBefore(LocalDate.now())) {
-			return "Vencido";
-		}else {
-			return "Não Pago";
-		}
-	}
+	
 }

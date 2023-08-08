@@ -27,9 +27,6 @@
 	    		</thead>
 			    <tbody>				
 			        <tr th:each="expense : ${expense.content}">
-				        <th scope="row" class="center">
-					        <span  th:text="${expense.situationComplete}" th:class="${expense.situationComplete} == 'Pago' ? 'th-success' :  'th-warning' " th:classappend=" ${expense.situationComplete} == 'Vencido' ? 'th-danger' : ''"></span>
-				        </th>
 				        <th scope="row" th:text="${expense.name}" >  </th>
 				        <th scope="row" th:text="${expense.issuanceDate}">  </th>
 				        <th scope="row" th:text="${expense.typeEnumComplete}">  </th>

@@ -22,7 +22,6 @@ import org.springframework.validation.BindingResult;
 import com.ufop.HelpSind.dao.ExpenseDao;
 import com.ufop.HelpSind.domain.Condominium;
 import com.ufop.HelpSind.domain.Expense;
-import com.ufop.HelpSind.enums.PaymentSituation;
 import com.ufop.HelpSind.service.ExpenseService;
 import com.ufop.HelpSind.service.UserService;
 
@@ -130,9 +129,6 @@ public class ExpenseServiceImpl implements ExpenseService {
 		if (expense.getIssuanceDate() == null) {
 			expense.setIssuanceDate(LocalDate.now());
 		}
-		if (expense.getSituation() == null) {
-			expense.setSituation(PaymentSituation.N);
-		}
 		if (expense.getCondominium() == null) {
 			expense.setCondominium(userService.logged().getCondominium());
 		}
@@ -205,54 +201,4 @@ public class ExpenseServiceImpl implements ExpenseService {
 		}
 	}
 
-	@Override
-	public Totalizer getTotalizer() {
-		if(userService.logged() == null) return new Totalizer();
-		Condominium condominium = userService.logged().getCondominium();
-		Integer toPay = expenseDao.countAllByCondominiumAndSituationAndExpirationDateAfter(condominium,PaymentSituation.N,LocalDate.now().plusDays(1L));
-		Integer paid = expenseDao.countAllByCondominiumAndSituationAndExpirationDateAfter(condominium,PaymentSituation.P,LocalDate.now().plusDays(1L));
-		Integer overdue = expenseDao.countAllByCondominiumAndSituationAndExpirationDateBefore(condominium,PaymentSituation.N,LocalDate.now());
-		return new Totalizer(toPay,paid,overdue);
-	}
-
-
-
-	public static class Totalizer {
-		private Integer toPay;
-		private Integer paid;
-		private Integer overdue;
-
-		public Totalizer() {
-		}
-
-		public Totalizer(Integer toPay, Integer paid, Integer overdue) {
-			this.toPay = toPay;
-			this.paid = paid;
-			this.overdue = overdue;
-		}
-
-		public Integer getToPay() {
-			return toPay;
-		}
-
-		public void setToPay(Integer toPay) {
-			this.toPay = toPay;
-		}
-
-		public Integer getPaid() {
-			return paid;
-		}
-
-		public void setPaid(Integer paid) {
-			this.paid = paid;
-		}
-
-		public Integer getOverdue() {
-			return overdue;
-		}
-
-		public void setOverdue(Integer overdue) {
-			this.overdue = overdue;
-		}
-	}
 }

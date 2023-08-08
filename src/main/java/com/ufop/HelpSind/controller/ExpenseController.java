@@ -31,7 +31,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ufop.HelpSind.domain.Apartment;
 import com.ufop.HelpSind.domain.Expense;
-import com.ufop.HelpSind.enums.PaymentSituation;
 import com.ufop.HelpSind.service.ApartmentService;
 import com.ufop.HelpSind.service.ExpenseService;
 
@@ -61,11 +60,6 @@ public class ExpenseController {
 	@ModelAttribute("expensesType")
 	public List<ExpenseType> expensesType() {
 		return expenseTypeService.list();
-	}
-
-	@ModelAttribute("situations")
-	public List<PaymentSituation> paymentSituation() {
-		return Arrays.asList(PaymentSituation.values());
 	}
 
 	@ModelAttribute("types")

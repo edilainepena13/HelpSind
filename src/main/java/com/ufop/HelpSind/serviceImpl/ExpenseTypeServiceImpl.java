@@ -3,8 +3,6 @@ package com.ufop.HelpSind.serviceImpl;
 import com.ufop.HelpSind.dao.ExpenseTypeDao;
 import com.ufop.HelpSind.domain.Condominium;
 import com.ufop.HelpSind.domain.ExpenseType;
-import com.ufop.HelpSind.enums.PaymentSituation;
-import com.ufop.HelpSind.service.ExpenseService;
 import com.ufop.HelpSind.service.ExpenseTypeService;
 import com.ufop.HelpSind.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

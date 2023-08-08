@@ -16,6 +16,4 @@ public interface ExpenseService extends CrudService<Expense, Long> {
 	
 		public List<Expense> listarInadimplencia();
 
-		Totalizer getTotalizer();
-
 }

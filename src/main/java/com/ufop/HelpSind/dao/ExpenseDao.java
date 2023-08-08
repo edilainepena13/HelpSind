@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.ufop.HelpSind.enums.PaymentSituation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jdbc.repository.query.Query;
@@ -32,6 +31,4 @@ public interface ExpenseDao extends PagingAndSortingRepository<Expense, Long>, C
 	Page<Expense> findAllByCondominiumOrderByIssuanceDateDescApartmentAsc(Condominium condominium,
 			Pageable page);
 
-	Integer countAllByCondominiumAndSituationAndExpirationDateAfter(Condominium condominium, PaymentSituation situation, LocalDate expirationDate);
-	Integer countAllByCondominiumAndSituationAndExpirationDateBefore(Condominium condominium, PaymentSituation situation, LocalDate expirationDate);
 }
