@@ -41,7 +41,7 @@ public class ReportServiceImpl implements ReportService{
 	public Report read(Long id) {
 		return reportDao.findById(id).get();
 	}
-
+/*
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public List<Report> list() {
@@ -51,7 +51,7 @@ public class ReportServiceImpl implements ReportService{
 		}
 		return condominium.getPeople();
 	}
-
+ */
 	@Override
 	public Page<Report> listPage(Pageable page) {
 		Condominium condominium = userService.logged().getCondominium();
@@ -84,6 +84,12 @@ public class ReportServiceImpl implements ReportService{
 				validation.rejectValue("cpf", "Unique");
 			}
 		}
+	}
+
+	@Override
+	public List<Report> list() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'list'");
 	}
 	
 

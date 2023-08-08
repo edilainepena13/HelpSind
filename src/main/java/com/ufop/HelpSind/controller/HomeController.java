@@ -1,8 +1,5 @@
 package com.ufop.HelpSind.controller;
 
-import com.ufop.HelpSind.service.ExpenseService;
-import com.ufop.HelpSind.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,16 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import static com.ufop.HelpSind.serviceImpl.ExpenseServiceImpl.*;
-
 @Controller
 public class HomeController {
-
-	@Autowired
-	private ExpenseService expenseService;
-	
-	@Autowired
-	private UserService userService;
 
 	@ModelAttribute("ativo")
 	public String[] ativo() {

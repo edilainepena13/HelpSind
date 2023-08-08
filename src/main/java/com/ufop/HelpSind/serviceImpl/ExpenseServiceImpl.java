@@ -1,7 +1,6 @@
 package com.ufop.HelpSind.serviceImpl;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +9,6 @@ import com.ufop.HelpSind.domain.Apartment;
 import com.ufop.HelpSind.domain.ApartmentReading;
 import com.ufop.HelpSind.enums.ExpenseType;
 import com.ufop.HelpSind.service.ApartmentService;
-import com.ufop.HelpSind.service.ExpenseTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,17 +36,11 @@ public class ExpenseServiceImpl implements ExpenseService {
 	@Autowired
 	private ApartmentService apartmentService;
 
-	@Autowired
-	private ExpenseTypeService expenseTypeService;
 	@Override
 	public void save(Expense expense) {
 		if (expense.getIdExpense() == null) {
-			standard(expense);
-			Expense persisted = expenseDao.save(expense);
-
-			new Thread(()->{
-				this.creatExpensesForApartments(persisted);
-			}).run();
+			expense.setCondominium(userService.logged().getCondominium());
+			expenseDao.save(expense);
 		}
 	}
 
@@ -67,14 +59,6 @@ public class ExpenseServiceImpl implements ExpenseService {
 		return condominium.getExpense();
 	}
 
-	@Override
-	public Page<Expense> listPage(Pageable page) {
-		Condominium condominium = userService.logged().getCondominium();
-		if (condominium == null) {
-			return Page.empty(page);
-		}
-		return expenseDao.findAllByCondominiumOrderByIssuanceDateDescApartmentAsc(condominium, page);
-	}
 
 	@Override
 	public void update(Expense expense) {
@@ -112,13 +96,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public List<Expense> listarInadimplencia() {
-		Condominium condominium = userService.logged().getCondominium();
-		List<Expense> exepenses = new ArrayList<>();
-		
-		if (condominium != null && !condominium.getExpense().isEmpty()) {
-			exepenses.addAll(expenseDao.findAllByCondominiumAndExpirationDateBeforeAndReceivingDateIsNullOrderByApartmentAscExpirationDateAsc(
-					condominium, LocalDate.now()));
-		}
+		List<Expense> exepenses = new ArrayList<>();	
 		
 		return exepenses;
 	}
@@ -126,34 +104,14 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void standard(Expense expense) {
-		if (expense.getIssuanceDate() == null) {
-			expense.setIssuanceDate(LocalDate.now());
-		}
+
 		if (expense.getCondominium() == null) {
 			expense.setCondominium(userService.logged().getCondominium());
 		}
 
 		this.createApartmentReadingSet(expense);
 	}
-
-	@Transactional
-	public void creatExpensesForApartments(Expense expense) {
-		if(Boolean.TRUE.equals(expense.getChild())) return;
-		var apartments = apartmentService.list();
-		if (ExpenseType.I.getSigla().equalsIgnoreCase(expense.getTypeEnum().getSigla())) {
-
-			BigDecimal total = expense.getTotal().divide(BigDecimal.valueOf(apartments.size()));
-			for (Apartment apartment : apartments) {
-				this.save(new Expense(expense, apartment, total));
-			}
-
-		}else if(expense.getApartment() == null && ExpenseType.P.getSigla().equalsIgnoreCase(expense.getTypeEnum().getSigla())){
-
-			BigDecimal fixedValue = expense.getExpenseType().getValue(); //valor minimo da despesa
-
-		}
-	}
-
+	
 
 	private void createApartmentReadingSet(Expense expense) {
 
@@ -167,6 +125,16 @@ public class ExpenseServiceImpl implements ExpenseService {
 		for (ApartmentReading apartmentReading : expense.getApartmentReadingList()) {
 			apartmentReading.setCondominium(userService.logged().getCondominium());
 		}
+	}
+
+
+	@Override
+	public Page<Expense> listPage(Pageable page) {
+		Condominium condominium = userService.logged().getCondominium();
+		if (condominium == null) {
+			return Page.empty(page);
+		}
+		return expenseDao.findAll(page);
 	}
 
 }

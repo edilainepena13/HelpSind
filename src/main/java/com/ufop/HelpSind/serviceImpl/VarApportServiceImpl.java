@@ -12,20 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
-
-import com.ufop.HelpSind.dao.VarApportDao;
 import com.ufop.HelpSind.domain.Condominium;
-import com.ufop.HelpSind.domain.VarApport;
-import com.ufop.HelpSind.service.VarApportService;
-import com.ufop.HelpSind.service.UserService;
 
 @Service
 @Transactional
@@ -50,7 +38,7 @@ public class VarApportServiceImpl implements VarApportService{
 	public VarApport read(Long id) {
 		return varApportDao.findById(id).get();
 	}
-
+/*
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public List<VarApport> list() {
@@ -60,7 +48,7 @@ public class VarApportServiceImpl implements VarApportService{
 		}
 		return condominium.getPeople();
 	}
-
+	*/
 	@Override
 	public Page<VarApport> listPage(Pageable page) {
 		Condominium condominium = userService.logged().getCondominium();
@@ -93,6 +81,12 @@ public class VarApportServiceImpl implements VarApportService{
 				validation.rejectValue("cpf", "Unique");
 			}
 		}
+	}
+
+	@Override
+	public List<VarApport> list() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'list'");
 	}
 	
 

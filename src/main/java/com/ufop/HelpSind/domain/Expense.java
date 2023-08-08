@@ -44,18 +44,6 @@ public class Expense implements Serializable, Comparable<Expense>{
 	
 	@Column(name = "name")
 	private String name;
-	
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-	@Column(name = "issuancedate")
-	private LocalDate issuanceDate;
-	
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-	@Column(name = "expirationdate")
-	private LocalDate expirationDate;
-	
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-	@Column(name = "receivingdate")
-	private LocalDate receivingDate;
 
 	@Column(name = "expense_type")
 	@Enumerated(EnumType.STRING)
@@ -92,13 +80,10 @@ public class Expense implements Serializable, Comparable<Expense>{
 	public Expense() {
 	}
 
-	public Expense(String name, LocalDate issuanceDate, LocalDate expirationDate, LocalDate receivingDate,
+	public Expense(String name,
 			ExpenseType typeEnum, Apartment apartment, Condominium condominium, com.ufop.HelpSind.domain.ExpenseType expenseType,
 			BigDecimal total) {
 		this.name = name;
-		this.issuanceDate = issuanceDate;
-		this.expirationDate = expirationDate;
-		this.receivingDate = receivingDate;
 		this.typeEnum = typeEnum;
 		this.apartment = apartment;
 		this.condominium = condominium;
@@ -108,9 +93,6 @@ public class Expense implements Serializable, Comparable<Expense>{
 
 	public Expense(Expense expense, Apartment apartment, BigDecimal total) {
 		this.name = this.getChildName(expense, apartment);
-		this.issuanceDate = expense.getIssuanceDate();
-		this.expirationDate = expense.getExpirationDate();
-		this.receivingDate = expense.getReceivingDate();
 		this.typeEnum = expense.getTypeEnum();
 		this.apartment = apartment;
 		this.condominium = expense.getCondominium();
@@ -134,30 +116,6 @@ public class Expense implements Serializable, Comparable<Expense>{
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public LocalDate getIssuanceDate() {
-		return issuanceDate;
-	}
-
-	public void setIssuanceDate(LocalDate issuanceDate) {
-		this.issuanceDate = issuanceDate;
-	}
-
-	public LocalDate getExpirationDate() {
-		return expirationDate;
-	}
-
-	public void setExpirationDate(LocalDate expirationDate) {
-		this.expirationDate = expirationDate;
-	}
-
-	public LocalDate getReceivingDate() {
-		return receivingDate;
-	}
-
-	public void setReceivingDate(LocalDate receivingDate) {
-		this.receivingDate = receivingDate;
 	}
 
 	public Apartment getApartment() {

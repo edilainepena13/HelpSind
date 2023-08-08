@@ -98,7 +98,6 @@ public class Condominium implements Serializable, Comparable<Condominium>{
 	private List<Person> people = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "condominium", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@OrderBy(value = "issuanceDate desc, apartment, value")
 	private List<Expense> expense = new ArrayList<>();
 
 	public Condominium() {
