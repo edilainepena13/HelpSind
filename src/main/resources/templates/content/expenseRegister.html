@@ -73,6 +73,12 @@
 												        th:text="${et.name}"></option>
 											</select>
 											<div class="invalid-feedback" th:errors="*{expenseType}"></div>
+										</div>										
+										<div class="col-xs-12 col-md-4">
+											<label for="minimumRate">Taxa Mínima</label>
+											<input type="checkbox" id="taxaMinimaChecked" name="taxaMinimaChecked"/>
+											<input class="form-control" type="number" id="minimumRate" name="minimumRate" disabled
+												   th:value="${expense.minimumRate}" placeholder="Valor"/>
 										</div>
 									</div>									
 								</li>
@@ -82,8 +88,18 @@
 					<button th:unless="${param.somenteLeitura}" type="submit" class="btn btn-primary">Salvar</button>
 					<a class="btn btn-secondary" th:href="@{/trustee/expense/}" role="button" th:text="${param.somenteLeitura}?'Voltar':_">Cancelar</a>
 				</form>
+				<script>
+					document.getElementById('taxaMinimaChecked').addEventListener('change', function () {
+						var taxaMinimaInput = document.getElementById('minimumRate');
+						taxaMinimaInput.disabled = !this.checked;
+						if (!this.checked) {
+							taxaMinimaInput.value = ''; // Limpar o valor quando o checkbox for desmarcado
+						}
+					});
+				</script>
 			</main>
 		</th:block>
 		<th:block th:fragment="jsAdicional"></th:block>
+
 	</body>
 </html>

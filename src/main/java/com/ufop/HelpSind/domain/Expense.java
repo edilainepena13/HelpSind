@@ -45,6 +45,9 @@ public class Expense implements Serializable, Comparable<Expense>{
 	@Column(name = "name")
 	private String name;
 
+	@Column(name = "MinimumRate")
+	private String MinimumRate;
+
 	@Column(name = "expense_type")
 	@Enumerated(EnumType.STRING)
 	private ExpenseType typeEnum;
@@ -117,7 +120,13 @@ public class Expense implements Serializable, Comparable<Expense>{
 	public void setName(String name) {
 		this.name = name;
 	}
+	public String getMinimumRate() {
+		return MinimumRate;
+	}
 
+	public void setMinimumRate(String minimumRate) {
+		this.MinimumRate = minimumRate;
+	}
 	public Apartment getApartment() {
 		return apartment;
 	}

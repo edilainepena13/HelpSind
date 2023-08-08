@@ -32,8 +32,6 @@ public class ExpenseType implements Serializable, Comparable<ExpenseType>{
 	@Column(name = "value")
 	private BigDecimal value;
 
-	private String status;
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominium")
 	private Condominium condominium;
@@ -68,22 +66,6 @@ public class ExpenseType implements Serializable, Comparable<ExpenseType>{
 
 	public void setValue(BigDecimal value) {
 		this.value = value;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public Condominium getCondominium() {
-		return condominium;
-	}
-
-	public void setCondominium(Condominium condominium) {
-		this.condominium = condominium;
 	}
 
 	@Override

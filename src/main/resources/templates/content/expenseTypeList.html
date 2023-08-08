@@ -19,17 +19,14 @@
 				</caption>
 				<thead class="thead-light">
 				<tr>
-					<th scope="col"> Tipo</th>
 					<th scope="col"> Descrição</th>
 					<th scope="col"> Valor</th>
-					<th scope="col"> Status</th>
 				</tr>
 				</thead>
 				<tbody>
 				<tr th:each="expenseType : ${expenseType.content}">
 					<th scope="row" th:text="${expenseType.name}"></th>
 					<th scope="row" th:text="${expenseType.value}"></th>
-					<th scope="row" th:text="${expenseType.status}"></th>
 					<td>
 						<a class="btn btn-outline-secondary btn-sm"
 						   th:href="@{/trustee/expenseType/{idExpenseType}/cadastro(idExpenseType=${expenseType.idExpenseType})}"><i
