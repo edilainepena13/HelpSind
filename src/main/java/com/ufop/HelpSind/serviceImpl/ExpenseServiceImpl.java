@@ -151,38 +151,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 			BigDecimal fixedValue = expense.getExpenseType().getValue(); //valor minimo da despesa
 
-			BigDecimal sumAllLastMeansurement = expense.getApartmentReadingSet().stream().map(apartmentReading->apartmentReading.getLastMeasurement()).reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
-			BigDecimal sumAllCurrentMeansurement = expense.getApartmentReadingSet().stream().map(apartmentReading->apartmentReading.getCurrentMeasurement()).reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
-
-			BigDecimal c30 = expense.getLastMeasurement().subtract(sumAllLastMeansurement);
-			BigDecimal d30 = expense.getCurrentMeasurement().subtract(sumAllCurrentMeansurement);
-
-			BigDecimal diffC30D30 = d30.subtract(c30);
-
-
-			expense.getApartmentReadingSet().stream().forEach(apartmentReading -> {
-				final BigDecimal diff = apartmentReading.getCurrentMeasurement().subtract(apartmentReading.getLastMeasurement());
-				final BigDecimal total = (diffC30D30.divide(BigDecimal.valueOf(apartments.size()))).add(diff);
-				final BigDecimal proporcionalValue = getFinalValue(total, fixedValue, expense);
-
-				this.save(new Expense(expense, apartmentReading.getApartment(), proporcionalValue, apartmentReading.getLastMeasurement(), apartmentReading.getCurrentMeasurement()));
-			});
-
 		}
-	}
-
-	private BigDecimal getFinalValue(BigDecimal individualTotal, BigDecimal minValue, Expense expense){
-		if (individualTotal.compareTo(BigDecimal.valueOf(5)) < 0){
-			return minValue;
-		}
-
-		var expenseMeasurementDiff = (expense.getLastMeasurement().subtract(expense.getCurrentMeasurement()));
-
-		if(expenseMeasurementDiff.compareTo(BigDecimal.ZERO)<0){
-			expenseMeasurementDiff = expenseMeasurementDiff.multiply(BigDecimal.valueOf(-1));
-		}
-
-		return expense.getTotal().divide(expenseMeasurementDiff,2, RoundingMode.UP).multiply(individualTotal.setScale(2,RoundingMode.HALF_UP).subtract(BigDecimal.valueOf(5))).add(minValue).setScale(2, RoundingMode.HALF_UP);
 	}
 
 
@@ -197,7 +166,6 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 		for (ApartmentReading apartmentReading : expense.getApartmentReadingList()) {
 			apartmentReading.setCondominium(userService.logged().getCondominium());
-			expense.getApartmentReadingSet().add(apartmentReading);
 		}
 	}
 

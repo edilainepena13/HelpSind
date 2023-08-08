@@ -30,11 +30,6 @@ public class ApartmentReading implements Serializable, Comparable<ApartmentReadi
 	@JoinColumn(name = "id_apartment")
 	private Apartment apartment;
 
-	private BigDecimal lastMeasurement;
-
-	private BigDecimal currentMeasurement;
-
-
 	@Override
 	public int compareTo(ApartmentReading ap) {
 		return this.toString().compareTo(ap.toString());
@@ -73,21 +68,5 @@ public class ApartmentReading implements Serializable, Comparable<ApartmentReadi
 
 	public void setApartment(Apartment apartment) {
 		this.apartment = apartment;
-	}
-
-	public BigDecimal getLastMeasurement() {
-		return lastMeasurement;
-	}
-
-	public void setLastMeasurement(BigDecimal lastMeasurement) {
-		this.lastMeasurement = lastMeasurement;
-	}
-
-	public BigDecimal getCurrentMeasurement() {
-		return currentMeasurement;
-	}
-
-	public void setCurrentMeasurement(BigDecimal currentMeasurement) {
-		this.currentMeasurement = currentMeasurement;
 	}
 }

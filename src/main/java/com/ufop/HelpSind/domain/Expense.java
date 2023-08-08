@@ -89,10 +89,6 @@ public class Expense implements Serializable, Comparable<Expense>{
 	@Transient
 	private Boolean child = Boolean.FALSE;
 
-	private BigDecimal lastMeasurement;
-
-	private BigDecimal currentMeasurement;
-
 	public Expense() {
 	}
 
@@ -122,21 +118,6 @@ public class Expense implements Serializable, Comparable<Expense>{
 		this.total = total;
 		this.child = true;
 	}
-	public Expense(Expense expense, Apartment apartment, BigDecimal total , BigDecimal lastMeasurement, BigDecimal currentMeasurement) {
-		this.name = this.getChildName(expense,apartment);
-		this.issuanceDate = expense.getIssuanceDate();
-		this.expirationDate = expense.getExpirationDate();
-		this.receivingDate = expense.getReceivingDate();
-		this.typeEnum = expense.getTypeEnum();
-		this.apartment = apartment;
-		this.condominium = expense.getCondominium();
-		this.expenseType = expense.getExpenseType();
-		this.lastMeasurement = lastMeasurement;
-		this.currentMeasurement = currentMeasurement;
-		this.total = total;
-		this.child = true;
-	}
-
 	
 
 	public Long getIdExpense() {
@@ -219,10 +200,6 @@ public class Expense implements Serializable, Comparable<Expense>{
 		this.typeEnum = typeEnum;
 	}
 
-	public Set<ApartmentReading> getApartmentReadingSet() {
-		return apartmentReadingSet;
-	}
-
 	public void setApartmentReadingSet(Set<ApartmentReading> apartmentReadingSet) {
 		this.apartmentReadingSet = apartmentReadingSet;
 	}
@@ -243,33 +220,10 @@ public class Expense implements Serializable, Comparable<Expense>{
 		this.child = child;
 	}
 
-	public BigDecimal getLastMeasurement() {
-		return lastMeasurement;
-	}
-
-	public void setLastMeasurement(BigDecimal lastMeasurement) {
-		this.lastMeasurement = lastMeasurement;
-	}
-
-	public BigDecimal getCurrentMeasurement() {
-		return currentMeasurement;
-	}
-
-	public void setCurrentMeasurement(BigDecimal currentMeasurement) {
-		this.currentMeasurement = currentMeasurement;
-	}
-
 	@Override
 	public int compareTo(Expense o) {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	@PrePersist
-	void onPersist(){
-		this.getApartmentReadingSet().forEach(each ->{
-			each.setCondominium(this.getCondominium());
-		});
 	}
 
 	private String getChildName(Expense expense, Apartment apartment){

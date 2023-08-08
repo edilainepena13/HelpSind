@@ -60,24 +60,8 @@
 											                                         th:required="true"
 											                                         placeholder="Informe o dia de vencimento." autofocus/>
 											<div class="invalid-feedback" th:errors="*{expirationDate}"></div>
-										</div>
-										
-										<div class="col-md-3">
-											<label>Última medição</label> <input class="form-control" type="number"
-											                                     th:required="true"
-											                                     name="expenseLastMeasurement" id="expenseLastMeasurement"
-											                                     th:field="*{lastMeasurement}">
-										</div>
-										<div class="col-md-3">
-											<label>Medição atual</label> <input class="form-control" type="number"
-											                                    name="expenseCurrentMeasurement"
-											                                    id="expenseCurrentMeasurement"
-											                                    th:required="true"
-											                                    th:field="*{currentMeasurement}">
-										</div>
-									
-									</div>
-								
+										</div>	
+									</div>			
 								</li>
 								<li class="list-group-item">
 									<p class="text-primary">
@@ -117,48 +101,7 @@
 											</select>
 											<div class="invalid-feedback" th:errors="*{expenseType}"></div>
 										</div>
-									</div>
-									<div>
-										<div>
-											<p class="text-primary">
-												<i class="bi bi-calendar-date"></i> Apartamentos
-											</p>
-											<div class="row">
-												<ul class="list-group list-group-flush">
-													<li class="list-group-item" th:each="ap, iStat: ${expense.apartmentReadingList}">
-														<div class="row">
-															<div class="col-md-2">
-																<label>Nº do apartamento </label>
-																<input type="text" style="display: none"
-																       name="arApartment" th:id="'arApartement' +__${iStat.index}__"
-																
-																       th:value="${ap.apartment.idApartment}"
-																       th:field="*{apartmentReadingList[__${iStat.index}__].apartment}"/>
-																<p th:text="${ap.apartment.number}">
-																</p>
-															</div>
-															<div class="col-md-3">
-																<label>Última medição</label><input class="form-control" type="number"
-																                                    name="lastMeasurement"
-																                                    th:id="'lastMeasurement'+__${iStat.index}__"
-																                                    th:required="true"
-																                                    th:field="*{apartmentReadingList[__${iStat.index}__].lastMeasurement}"/>
-															
-															</div>
-															<div class="col-md-3">
-																<label>Medição atual</label>
-																<input class="form-control" type="number" name="currentMeasurement"
-																       th:id="'currentMeasurement' +__${iStat.index}__"
-																       th:required="true"
-																       th:field="*{apartmentReadingList[__${iStat.index}__].currentMeasurement}"/>
-															</div>
-														</div>
-													</li>
-												</ul>
-											</div>
-										
-										</div>
-									</div>
+									</div>									
 								</li>
 							</ul>
 						</div>
