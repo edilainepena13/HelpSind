@@ -18,13 +18,13 @@
 										<i class="fas fa-building"></i> Informações principais
 									</p>
 									<div class="form-row row">
-										<div class="col-xs-12 col-md-4">
-											<label for="typeDR">Tipo</label>
-											<select class="form-control" id="typeDR" name="typeDR" th:required="true" th:errorclass="is-invalid"
-											        th:field="*{typeDR}">
-												<option value="" >Selecione</option>
-												<option th:each="typeDR : ${typeDRlist}" th:value="${typeDR.sigla}"
-												        th:text="${typeDR.name}"></option>
+										<div class="form-group col-xs-12 col-md-3">
+											<label>Tipo</label>
+											<select class="form-control" id="typeDR" name="typeDR" th:errorclass="is-invalid"
+													th:field="*{typeDR}">
+													<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
+													<option th:each="typeDR : ${typeDRList}" th:value="${typeDR.sigla}"
+															th:text="${typeDR.name}"></option>
 											</select>
 											<div class="invalid-feedback" th:errors="*{typeDR}"></div>
 										</div>

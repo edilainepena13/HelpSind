@@ -11,8 +11,10 @@ public enum TypeDR {
 	public String getName() {
 		return name;
 	}
-	public String getSigla(){return sigla;}
-
+	public String getSigla(){
+		return sigla;
+	}
+	
 	private TypeDR(String name, String sigla) {
 		this.name = name;
 		this.sigla = sigla;
