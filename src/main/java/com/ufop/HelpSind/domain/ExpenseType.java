@@ -36,6 +36,8 @@ public class ExpenseType implements Serializable, Comparable<ExpenseType>{
 	@JoinColumn(name = "idcondominium")
 	private Condominium condominium;
 
+	private String typeDR;
+
 	public ExpenseType() {
 	}
 
@@ -43,6 +45,12 @@ public class ExpenseType implements Serializable, Comparable<ExpenseType>{
 		this.idExpenseType = idExpenseType;
 	}
 
+	public String getTypeDR() {
+		return typeDR;
+	}
+	public void setTypeDR(String typeDR) {
+		this.typeDR = typeDR;
+	}
 
 	public Long getIdExpenseType() {
 		return idExpenseType;
@@ -51,7 +59,12 @@ public class ExpenseType implements Serializable, Comparable<ExpenseType>{
 	public void setIdExpenseType(Long idExpenseType) {
 		this.idExpenseType = idExpenseType;
 	}
-
+	public Condominium getCondominium() {
+		return condominium;
+	}
+	public void setCondominium(Condominium condominium) {
+		this.condominium = condominium;
+	}
 	public String getName() {
 		return name;
 	}

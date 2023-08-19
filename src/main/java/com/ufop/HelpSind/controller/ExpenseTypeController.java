@@ -1,6 +1,8 @@
 package com.ufop.HelpSind.controller;
 
 import com.ufop.HelpSind.domain.ExpenseType;
+import com.ufop.HelpSind.enums.BankAccountType;
+import com.ufop.HelpSind.enums.TypeDR;
 import com.ufop.HelpSind.service.ApartmentService;
 import com.ufop.HelpSind.service.ExpenseTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import com.ufop.HelpSind.enums.TypeDR;
 
 import javax.validation.Valid;
 import java.util.Arrays;
@@ -37,8 +40,12 @@ public class ExpenseTypeController {
 	public String[] ativo() {
 		return new String[] {"finance", "expenseTypes"};
 	}
-	
-	
+
+	@ModelAttribute("typeDRList")
+	public List<TypeDR> typeDRList() {
+		return Arrays.asList(TypeDR.values());
+	}
+
 	@GetMapping({ "", "/", "/lista" })
 	public ModelAndView getExpenseTypes(@RequestParam("expenseType") Optional<Integer> page,
 			@RequestParam("size") Optional<Integer> size, ModelMap model) {

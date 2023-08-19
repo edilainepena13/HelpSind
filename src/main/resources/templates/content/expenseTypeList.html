@@ -19,12 +19,14 @@
 				</caption>
 				<thead class="thead-light">
 				<tr>
+					<th scope="col"> Tipo </th>
 					<th scope="col"> Descrição</th>
 					<th scope="col"> Valor</th>
 				</tr>
 				</thead>
 				<tbody>
 				<tr th:each="expenseType : ${expenseType.content}">
+					<th scope="row" th:text="${expenseType.typeDR}" >  </th>
 					<th scope="row" th:text="${expenseType.name}"></th>
 					<th scope="row" th:text="${expenseType.value}"></th>
 					<td>
