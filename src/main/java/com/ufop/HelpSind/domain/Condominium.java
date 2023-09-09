@@ -37,6 +37,9 @@ public class Condominium implements Serializable, Comparable<Condominium>{
 	@Column(name = "idcondominium")
 	private Long idCondominium;
 	
+	@Column(name = "TypeCondominium")
+	private String TypeCondominium;
+
 	@NotBlank
 	@Size(min = 1, max =100)
 	@Column(name = "corporatename")
@@ -107,6 +110,14 @@ public class Condominium implements Serializable, Comparable<Condominium>{
 		this.idCondominium = idCondominium;
 	}
 
+	public String getTypeCondominium() {
+		return TypeCondominium;
+	}
+
+	public void setTypeCondominium(String typeCondominium) {
+		this.TypeCondominium = typeCondominium;
+	}
+	
 	public Long getIdCondominium() {
 	    if (trustee != null) {
 	        return trustee.getCondominium().getIdCondominium();

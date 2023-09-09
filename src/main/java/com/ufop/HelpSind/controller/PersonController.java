@@ -1,5 +1,6 @@
 package com.ufop.HelpSind.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,7 +53,7 @@ public class PersonController {
 	public State[] state() {
 		return State.values();
 	}
-	
+
 	@GetMapping({ "", "/", "/lista"})
 	public ModelAndView getPeople(@RequestParam("pagina") Optional<Integer> pagina,
 			@RequestParam("size") Optional<Integer> size, ModelMap model) {
@@ -67,7 +68,7 @@ public class PersonController {
 		model.addAttribute("content", "personRegister");
 		return new ModelAndView("layouts/trustee", model);
 	}
-	
+
 	@GetMapping("/{idPerson}/cadastro")
 	public ModelAndView getPessoaEditar(@PathVariable("idPerson") Long idPerson, ModelMap model) {
 		Person person = personService.read(idPerson);

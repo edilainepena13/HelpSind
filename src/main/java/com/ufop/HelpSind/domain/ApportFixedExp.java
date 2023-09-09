@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.List;
 
 import org.hibernate.validator.constraints.br.CPF;
 import javax.persistence.FetchType;
@@ -21,14 +20,14 @@ import javax.validation.constraints.Size;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name="varApport")
+@Table(name="apportFixedExp")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class VarApport implements Serializable, Comparable<VarApport>{
+public class ApportFixedExp implements Serializable, Comparable<ApportFixedExp>{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idvarApport")
-	private Long idVarApport;
+	@Column(name = "idapportFixedExp")
+	private Long idApportFixedExp;
 	
 	@NotBlank
 	@Size(min = 1, max = 50)
@@ -49,17 +48,16 @@ public class VarApport implements Serializable, Comparable<VarApport>{
 	@Size(max = 15)
 	private String cellphone;
 
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominium")
 	private Condominium condominium;
 
-	public Long getIdVarApport() {
-		return idVarApport;
+	public Long getIdApportFixedExp() {
+		return idApportFixedExp;
 	}
 
-	public void setIdVarApport(Long idVarApport) {
-		this.idVarApport = idVarApport;
+	public void setIdApportFixedExp(Long idApportFixedExp) {
+		this.idApportFixedExp = idApportFixedExp;
 	}
 
 	public String getName() {
@@ -111,11 +109,8 @@ public class VarApport implements Serializable, Comparable<VarApport>{
 	}
 
 	@Override
-	public int compareTo(VarApport o) {
+	public int compareTo(ApportFixedExp o) {
 		return this.toString().compareTo(o.toString());
 	}
-
-    public void setApportFixedExpList(List<ApportFixedExp> apportFixedExpList) {
-    }
 
 }

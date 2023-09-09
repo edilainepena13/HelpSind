@@ -42,7 +42,14 @@ public class Apartment implements Serializable, Comparable<Apartment> {
 	public Apartment() {
 
 	}
+	private String typePerson;
 
+	public String getTypePerson() {
+		return typePerson;
+	}
+	public void setTypePerson(String typePerson) {
+		this.typePerson = typePerson;
+	}
 	public Long getIdApartment() {
 		return idApartment;
 	}

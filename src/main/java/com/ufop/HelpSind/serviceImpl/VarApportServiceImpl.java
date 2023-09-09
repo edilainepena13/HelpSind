@@ -1,18 +1,21 @@
 package com.ufop.HelpSind.serviceImpl;
 
+import com.ufop.HelpSind.dao.ApportFixedExpDao;
 import com.ufop.HelpSind.dao.VarApportDao;
 import com.ufop.HelpSind.domain.VarApport;
 import com.ufop.HelpSind.service.VarApportService;
 import com.ufop.HelpSind.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.transaction.annotation.Propagation;
+
+import com.ufop.HelpSind.domain.ApportFixedExp;
 import com.ufop.HelpSind.domain.Condominium;
 
 @Service
@@ -24,6 +27,9 @@ public class VarApportServiceImpl implements VarApportService{
 	
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private ApportFixedExpDao apportFixedExpDao;
 
 	@Override
 	public void save(VarApport varApport) {
@@ -38,25 +44,26 @@ public class VarApportServiceImpl implements VarApportService{
 	public VarApport read(Long id) {
 		return varApportDao.findById(id).get();
 	}
-/*
-	@Override
-	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public List<VarApport> list() {
-		Condominium condominium = userService.logged().getCondominium();
-		if (condominium == null) {
-			return new ArrayList<VarApport>();
-		}
-		return condominium.getPeople();
-	}
-	*/
-	@Override
-	public Page<VarApport> listPage(Pageable page) {
-		Condominium condominium = userService.logged().getCondominium();
-		if (condominium == null) {
-			return Page.empty(page);
-		}
-		return varApportDao.findAllByCondominiumOrderByName(condominium, page);
-	}
+@Override
+public Page<VarApport> listPage(Pageable page) {
+    Condominium condominium = userService.logged().getCondominium();
+    
+    if (condominium == null) {
+        return Page.empty(page);
+    }
+    
+    List<VarApport> varApportList = varApportDao.findAllByCondominiumOrderByName(condominium, page).getContent();
+    
+	List<ApportFixedExp> apportFixedExpList = apportFixedExpDao.findAllByCondominiumOrderByName(condominium, page).getContent();
+
+	for (VarApport varApport : varApportList) {
+        varApport.setApportFixedExpList(apportFixedExpList);
+    }
+	
+    Page<VarApport> mergedPage = new PageImpl<>(varApportList, page, varApportList.size());
+    
+    return mergedPage;
+}
 
 	@Override
 	public void update(VarApport varApport) {
@@ -89,5 +96,8 @@ public class VarApportServiceImpl implements VarApportService{
 		throw new UnsupportedOperationException("Unimplemented method 'list'");
 	}
 	
+	public List<ApportFixedExp> listApportFixedExp() {
+		throw new UnsupportedOperationException("Unimplemented method 'listApportFixedExp'");
+	}
 
 }

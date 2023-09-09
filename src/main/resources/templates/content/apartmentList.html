@@ -19,13 +19,21 @@
 	    		<thead class="thead-light">
 	        		<tr>
 	            		<th scope="col"> Número </th>
-	            		<th scope="col"> Morador </th>
+	            		<th scope="col"> Nome </th>
+	            		<th scope="col"> Tipo </th>
 	       			</tr>
 	    		</thead>
 			    <tbody>				
 			        <tr th:each="apartments : ${apartments.content}">
 				        <th scope="row" th:text="${apartments.number}"></th>
 				        <th scope="row" th:text="${apartments.person.name}"></th>
+						<th scope="row">
+							<span th:switch="${apartments.typePerson}">
+								<span th:case="'M'">Morador</span>
+								<span th:case="'P'">Proprietário</span>
+								<span th:case="'A'">Proprietário/Morador</span>
+							</span>						
+						</th>
 				        <td>
 					        <a class="btn btn-outline-secondary btn-sm"
 					           th:href="@{/trustee/apartments/{idApartment}/cadastro(idApartment=${apartments.idApartment},somenteLeitura)}"><i

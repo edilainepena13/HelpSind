@@ -76,18 +76,14 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validate(Account entity, BindingResult validation) {
-		if (entity.getIdAccount() == null) {
-			if (accountDao.existsByTypeAndCondominium(entity.getType(), userService.logged().getCondominium())) {
-				validation.rejectValue("sigla", "Unique");
-			}
+		if (entity.getType() == null) {
+			validation.rejectValue("type", "NotNull");
 		}
-		else {
-			if (accountDao.existsByTypeAndCondominiumAndIdAccountNot(entity.getType(), userService.logged().getCondominium(), 
-					entity.getIdAccount())) {
-				validation.rejectValue("type", "Unique");
-			}
+		if (entity.getDescription() == null) {
+			validation.rejectValue("description", "NotNull");
 		}
 	}
+
 
 	@Override
 	public BigDecimal currentBalance() {

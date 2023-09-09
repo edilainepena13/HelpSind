@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -44,7 +45,7 @@ public class AccountController {
 	public BankAccountType[] bankAccountTypes() {
 		return BankAccountType.values();
 	}
-	
+
 	@GetMapping({ "", "/", "/lista" })
 	public ModelAndView getAccounts(@RequestParam("account") Optional<Integer> page,
 			@RequestParam("size") Optional<Integer> size, ModelMap model) {
@@ -62,17 +63,22 @@ public class AccountController {
 		return new ModelAndView("layouts/trustee", model);
 	}
 	
+	
+	@NotNull
+	private String type;
+
 	@PostMapping("/cadastro")
 	public ModelAndView postAccountsRegister(@Valid @ModelAttribute("account") Account account, BindingResult validation) {
 		account.setCondominium(userService.logged().getCondominium());
-		accountService.validate(account, validation);
+		
 		if (validation.hasErrors()) {
 			account.setIdAccount(null);
 			return new ModelAndView("layouts/trustee", "content", "accountRegister");
 		}
+		
 		accountService.save(account);
 		return new ModelAndView("redirect:/trustee/account");
-	}
+	}	
 	
 	@GetMapping("/{idAccount}/cadastro")
 	public ModelAndView getAccountsRegister(@PathVariable("idAccount") Long idAccount, ModelMap model) {

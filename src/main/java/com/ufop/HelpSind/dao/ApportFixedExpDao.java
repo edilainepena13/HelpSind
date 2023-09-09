@@ -1,6 +1,6 @@
 package com.ufop.HelpSind.dao;
 
-import com.ufop.HelpSind.domain.VarApport;
+import com.ufop.HelpSind.domain.ApportFixedExp;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -8,13 +8,13 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.ufop.HelpSind.domain.Condominium;
 
-public interface VarApportDao extends PagingAndSortingRepository<VarApport, Long>, CrudRepository<VarApport, Long>{
+public interface ApportFixedExpDao extends PagingAndSortingRepository<ApportFixedExp, Long>, CrudRepository<ApportFixedExp, Long>{
 	
-	Page<VarApport> findAllByCondominiumOrderByName(Condominium condominium, Pageable page);
+	Page<ApportFixedExp> findAllByCondominiumOrderByName(Condominium condominium, Pageable page);
 	
 	Boolean existsByCpfAndCondominium(String cpf, Condominium condominium);
 
-	Boolean existsByCpfAndCondominiumAndIdVarApportNot(String cpf, Condominium condominium, Long idPessoa);
+	Boolean existsByCpfAndCondominiumAndIdApportFixedExpNot(String cpf, Condominium condominium, Long idPessoa);
 
 
 }

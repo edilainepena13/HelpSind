@@ -1,5 +1,6 @@
 package com.ufop.HelpSind.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import com.ufop.HelpSind.enums.TypePerson;
 
 import com.ufop.HelpSind.domain.Apartment;
 import com.ufop.HelpSind.domain.Person;
@@ -49,6 +51,11 @@ public class ApartmentController {
 		return personService.list();
 	}
 	
+	@ModelAttribute("typePersonList")
+	public List<TypePerson> typePersonList() {
+		return Arrays.asList(TypePerson.values());
+	}
+
 	@GetMapping({ "", "/", "/lista" })
 	public ModelAndView getApartments(@RequestParam("page") Optional<Integer> page,
 			@RequestParam("size") Optional<Integer> size, ModelMap model) {

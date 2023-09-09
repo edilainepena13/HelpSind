@@ -26,7 +26,9 @@
 				</thead>
 				<tbody>
 				<tr th:each="expenseType : ${expenseType.content}">
-					<th scope="row" th:text="${expenseType.typeDR}" >  </th>
+					<th scope="row">
+						<span th:text="${expenseType.typeDR == 'D' ? 'Despesa' : (expenseType.typeDR == 'R' ? 'Receita' : expenseType.typeDR)}"></span>
+					</th>
 					<th scope="row" th:text="${expenseType.name}"></th>
 					<th scope="row" th:text="${expenseType.value}"></th>
 					<td>

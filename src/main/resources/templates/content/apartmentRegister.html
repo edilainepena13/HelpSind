@@ -27,14 +27,23 @@
 							</div>
 							
 							<div class="form-group col-md-5">
-								<label for="person">Morador</label> 
+								<label for="person">Nome</label> 
 								<select class="form-control" id="person" th:errorclass="is-invalid" th:field="*{person}">
 									<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 									<option th:each="person : ${people}" th:value="${person.idPerson}" th:text="${person.name}"></option>
 								</select>
 								<div class="invalid-feedback" th:errors="*{person}"></div>
 							</div>
-							
+							<div class="form-group col-xs-12 col-md-3">
+								<label>Tipo</label>
+								<select class="form-control" id="typePerson" name="typePerson" th:errorclass="is-invalid"
+										th:field="*{typePerson}">
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
+										<option th:each="typePerson : ${typePersonList}" th:value="${typePerson.sigla}"
+												th:text="${typePerson.name}"></option>
+								</select>
+								<div class="invalid-feedback" th:errors="*{typePerson}"></div>
+							</div>
 						</li>
 					</ul>
 				</div>
