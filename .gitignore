@@ -31,3 +31,4 @@ replay_pid*
 .classpath
 .project
 /src/main/webapp/
+/.idea/
