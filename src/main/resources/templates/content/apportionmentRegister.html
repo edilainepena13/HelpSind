@@ -2,69 +2,138 @@
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
 	
-	<title>Pessoa</title>
+	<title>Rateio Proporcional</title>
 
 </head>
 <body>
 <th:block th:fragment="content">
 	<main role="main">
-		<h3 class="font-weight-light">Cadastro do Pessoa</h3>
-		<form th:action="@{/trustee/varApport/cadastro}" th:object="${varApport}" th:method="${varApport.idVarApport == null} ? POST : PUT" novalidate>
-			<fieldset th:disabled="${param.somenteLeitura}" class="mb-3">
-				<input type="hidden" th:field="*{idVarApport}"/>
+		<h3 class="font-weight-light">Cadastro de Rateio Proporcinal</h3>
+		<form th:action="@{/trustee/apportionment/cadastro}" th:object="${apportionmentProportionalGeneralDataDto}" th:method="POST" novalidate>
+			<fieldset class="mb-3">
 				<div class="card">
 					<ul class="list-group list-group-flush">
 						<li class="list-group-item">
-							<p class="text-primary">
-								<i class="fas fa-building"></i> Informações principais
-							</p>
 							<div class="form-row row">
-								<div class="form-group col-xs-12 col-md-5">
-									<label>Nome: </label> <input class="form-control" type="text" th:errorclass="is-invalid"
-									                             th:field="*{name}" placeholder="Nome completo" autofocus/>
-									<div class="invalid-feedback" th:errors="*{name}"></div>
+								<div class="form-group col-xs-12 col-md-6">
+									<label for="expenses">Despesas</label>
+									<select class="form-control" id="expenses" name="type" th:errorclass="is-invalid" th:field="*{expense}">
+										<option value="" hidden="true">Selecione</option>
+										<option th:each="expense : ${expenses}" th:value="${expense}" th:text="${expense.name}"></option>
+									</select>
 								</div>
-								
 								<div class="form-group col-xs-12 col-md-2">
-									<label>CPF</label> <input class="form-control" type="text" th:errorclass="is-invalid" maxlength="11" data-inputmask="'mask': 'xxx.xxx.xxx-xx'" placeholder="CPF"
-									                          th:field="*{cpf}"/>
-									<div class="invalid-feedback" th:errors="*{cpf}"></div>
+									<label for="dataLeitura">Data Leitura</label>
+									<input class="form-control" id="dataLeitura" type="date">
+								</div>
+								<div class="form-group col-xs-12 col-md-2">
+									<button type="submit" style="margin-top: 25px;" class="btn btn-outline-secondary  btn-sm">Calcular Dias</button>
+								</div>
+								<div class="form-group col-xs-12 col-md-2">
+									<label for="dias">Dias</label>
+									<input class="form-control" id="dias" type="number" disabled>
 								</div>
 							</div>
-						</li>
-						<li class="list-group-item">
-							<p class="text-primary">
-								<i class="fas fa-envelope"></i> Dados de contato
-							</p>
 							<div class="form-row row">
-								<div class="form-group col-xs-12 col-md-3">
-									<label>E-mail</label> <input class="form-control" type="email" th:errorclass="is-invalid"
-									                             th:field="*{email}" placeholder="O e-mail do condomínio"/>
-									<div class="invalid-feedback" th:errors="*{email}"></div>
-								</div>
-								
 								<div class="form-group col-xs-12 col-md-2">
-									<label>Telefone</label> <input class="form-control" type="tel" th:errorclass="is-invalid"
-									                               pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-									                               th:field="*{phone}" placeholder="Telefone com DDD" maxlength="11"/>
-									<div class="invalid-feedback" th:errors="*{phone}"></div>
-									<small>Somente números</small>
+									<label for="valorTotal">Valor Total</label>
+									<input class="form-control" id="valorTotal" type="number" >
 								</div>
 								<div class="form-group col-xs-12 col-md-2">
-									<label>Celular</label> <input class="form-control" type="tel" th:errorclass="is-invalid"
-									                              th:field="*{cellphone}" placeholder="Celular com DDD" maxlength="11"/>
-									<div class="invalid-feedback" th:errors="*{cellphone}"></div>
-									<small>Somente números</small>
+									<label for="leituraInicial">Leitura Inicial</label>
+									<input class="form-control" id="leituraInicial" type="number" >
+								</div>
+								<div class="form-group col-xs-12 col-md-2">
+									<label for="leituraFinal">Leitura Final</label>
+									<input class="form-control" id="leituraFinal" type="number" >
+								</div>
+								<div class="form-group col-xs-12 col-md-2">
+									<label for="CondComum">Condomínio Comum</label>
+									<input class="form-control" id="CondComum" type="number" disabled>
+								</div>
+								<div class="form-group col-xs-12 col-md-2">
+									<label for="mesRef">Mês de Referencia</label>
+									<input class="form-control" id="mesRef" type="number" disabled>
 								</div>
 							</div>
 						</li>
 					</ul>
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
+							<div class="form-row row">
+								<tr th:each="apportionmentProportional : ${apportionmentProportionalGeneralDataDto.apportionmentProportional}">
+									<div class="form-group col-xs-12 col-md-2">
+										<label for="apartamento">Apartamento</label>
+										<input class="form-control" id="apartamento" type="number" th:value="${apportionmentProportional.apartment.number}" disabled>
+									</div>
+									<div class="form-group col-xs-12 col-md-2">
+										<label for="leituraInicialApt">Leitura Inicial</label>
+										<input class="form-control" id="leituraInicialApt" th:value="${apportionmentProportional.initialReading}" type="number" >
+									</div>
+									<div class="form-group col-xs-12 col-md-2">
+										<label for="leituraFinalApt">Leitura Final</label>
+										<input class="form-control" id="leituraFinalApt" th:value="${apportionmentProportional.finalReading}" type="number" >
+									</div>
+								</tr>
+							</div>
+							<div class="submit-group">
+								<a class="btn btn-secondary" th:href="@{/home}" role="button" th:text="${param.somenteLeitura}?'Voltar':_">Cancelar</a>
+								<button th:unless="${param.somenteLeitura}" type="submit" class="btn btn-primary ml10">Salvar</button>
+							</div>
+						</li>
+					</ul>
+					<!--					<ul class="list-group list-group-flush">-->
+<!--						<li class="list-group-item">-->
+<!--							<p class="text-primary">-->
+<!--								<i class="fas fa-building"></i> Informações principais-->
+<!--							</p>-->
+<!--							<div class="form-row row">-->
+<!--								<div class="form-group col-xs-12 col-md-5">-->
+<!--									<label>Nome: </label> <input class="form-control" type="text" th:errorclass="is-invalid"-->
+<!--									                             th:field="*{name}" placeholder="Nome completo" autofocus/>-->
+<!--									<div class="invalid-feedback" th:errors="*{name}"></div>-->
+<!--								</div>-->
+<!--								-->
+<!--								<div class="form-group col-xs-12 col-md-2">-->
+<!--									<label>CPF</label> <input class="form-control" type="text" th:errorclass="is-invalid" maxlength="11" data-inputmask="'mask': 'xxx.xxx.xxx-xx'" placeholder="CPF"-->
+<!--									                          th:field="*{cpf}"/>-->
+<!--									<div class="invalid-feedback" th:errors="*{cpf}"></div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--						</li>-->
+<!--						<li class="list-group-item">-->
+<!--							<p class="text-primary">-->
+<!--								<i class="fas fa-envelope"></i> Dados de contato-->
+<!--							</p>-->
+<!--							<div class="form-row row">-->
+<!--								<div class="form-group col-xs-12 col-md-3">-->
+<!--									<label>E-mail</label> <input class="form-control" type="email" th:errorclass="is-invalid"-->
+<!--									                             th:field="*{email}" placeholder="O e-mail do condomínio"/>-->
+<!--									<div class="invalid-feedback" th:errors="*{email}"></div>-->
+<!--								</div>-->
+<!--								-->
+<!--								<div class="form-group col-xs-12 col-md-2">-->
+<!--									<label>Telefone</label> <input class="form-control" type="tel" th:errorclass="is-invalid"-->
+<!--									                               pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"-->
+<!--									                               th:field="*{phone}" placeholder="Telefone com DDD" maxlength="11"/>-->
+<!--									<div class="invalid-feedback" th:errors="*{phone}"></div>-->
+<!--									<small>Somente números</small>-->
+<!--								</div>-->
+<!--								<div class="form-group col-xs-12 col-md-2">-->
+<!--									<label>Celular</label> <input class="form-control" type="tel" th:errorclass="is-invalid"-->
+<!--									                              th:field="*{cellphone}" placeholder="Celular com DDD" maxlength="11"/>-->
+<!--									<div class="invalid-feedback" th:errors="*{cellphone}"></div>-->
+<!--									<small>Somente números</small>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--						</li>-->
+<!--					</ul>-->
 				</div>
 			</fieldset>
-			<div class="submit-group">
-				<a class="btn btn-secondary" th:href="@{/trustee/varApport}" role="button" th:text="${param.somenteLeitura}?'Voltar':_">Cancelar</a>
-				<button th:unless="${param.somenteLeitura}" type="submit" class="btn btn-primary ml10">Salvar</button>
-			</div>
+<!--			<div class="submit-group">-->
+<!--				<a class="btn btn-secondary" th:href="@{/trustee/varApport}" role="button" th:text="${param.somenteLeitura}?'Voltar':_">Cancelar</a>-->
+<!--				<button th:unless="${param.somenteLeitura}" type="submit" class="btn btn-primary ml10">Salvar</button>-->
+<!--			</div>-->
 		</form>
 	</main>
 </th:block>

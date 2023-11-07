@@ -6,17 +6,10 @@
 </head>
 <body>
 <th:block th:fragment="content">
-    <main role="main">
-        <h3 class="font-weight-light">Rateio</h3>
-        <div class="btn-group mb-3 float-right">
-            <a class="btn btn-light" th:href="@{/trustee/apportionment/cadastro}"><i class="fas fa-plus"></i>Nova</a>
-        </div>
-        <div class="table-responsive">
+    <main role="main" >
+        <h3 class="font-weight-light">Rateio Igualitário</h3>
+        <div class="table-responsive" style="margin-bottom: 35px">
             <table class="table table-hover table-sm crud-list mb-0">
-                <caption class="pb-0">
-                    <span th:text="${apportionment.totalElements == 0} ? 'Nenhum' : 'Há '+${apportionment.totalElements}"></span>
-                    <span th:text="${apportionment.totalElements>1} ? 'rateios cadastrados' : 'rateio cadastrado'"></span>.
-                </caption>
                 <thead class="thead-light">
                 <tr>
                     <th scope="col">Despesa</th>
@@ -31,16 +24,75 @@
                     <th scope="row" th:text="${apportionment.value}"></th>
                     <th scope="row" th:text="${apportionment.numberOfApartments}"></th>
                     <th scope="row" th:text="${apportionment.valueForApartments}"></th>
-<!--                    <td><a class="btn btn-outline-secondary btn-sm"-->
-<!--                           th:href="@{/trustee/apportionment/{idExpense}/cadastro(idExpense=${apportionment.id},somenteLeitura)}"><i-->
-<!--                            class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm"-->
-<!--                                                                            th:href="@{/trustee/expense/{idExpense}/cadastro(idExpense=${expense.idExpense})}"><i-->
-<!--                            class="fas fa-edit"></i><span> Editar</span></a> <a-->
-<!--                            class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir"-->
-<!--                            data-target="#modalExcluir" th:data-idobj="${apportionment.id}"-->
-<!--                            th:data-obs="${apportionment.name}"><i class="fas fa-trash-alt"></i><span> Excluir</span></a>-->
-<!--                    </td>-->
                 </tr>
+                </tbody>
+            </table>
+            <section style="display: flex; justify-content: space-around;">
+                <div>
+                    <b>Total</b>
+                    <span th:text="${#aggregates.sum(apportionment.content.![value])}"></span>
+                </div>
+                <div>
+                    <b>Total por Apto</b>
+                    <span th:text="${#aggregates.sum(apportionment.content.![valueForApartments])}"></span>
+                </div>
+            </section>
+        </div>
+
+        <div style="display: flex">
+            <h3 class="font-weight-light" style="margin-right: 25px">Rateio Proporcional</h3>
+            <div class="btn-group mb-3 float-right">
+                <a class="btn btn-light" th:href="@{/trustee/apportionment/cadastro}"><i class="fas fa-plus"></i>Novo</a>
+            </div>
+        </div>
+
+        <div class="table-responsive" style="margin-bottom: 35px">
+            <table class="table table-hover table-sm crud-list mb-0">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">Apto</th>
+                    <th scope="col">Despesa</th>
+                    <th scope="col">Leitura Inicial</th>
+                    <th scope="col">Leitura Final</th>
+                    <th scope="col">Consumo</th>
+                    <th scope="col">Condomínio</th>
+                    <th scope="col">Valor Total</th>
+                </tr>
+                </thead>
+<!--                <tbody>-->
+<!--                <tr th:each="apartments : ${apartments.content}">-->
+<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
+<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
+<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
+<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
+<!--                    <th scope="row" th:text="${apartments.numbear}"></th>-->
+<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
+<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
+<!--                </tr>-->
+<!--                </tbody>-->
+            </table>
+        </div>
+        <h3 class="font-weight-light">Condomínio Total</h3>
+        <div class="table-responsive">
+            <table class="table table-hover table-sm crud-list mb-0">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">Apto</th>
+                    <th scope="col">Rateio Igualitário</th>
+                    <th scope="col">Rateio Proporcional</th>
+                    <th scope="col">Total Condominio</th>
+                    <th scope="col">Fundo de Obra + Reserva</th>
+                    <th scope="col">Total Geral</th>
+                </tr>
+                </thead>
+                <tbody>
+<!--                <tr th:each="apartments : ${apartments.content}">-->
+<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
+<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
+<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
+<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
+<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
+<!--                </tr>-->
                 </tbody>
             </table>
         </div>

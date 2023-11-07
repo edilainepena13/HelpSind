@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.ufop.HelpSind.domain.Apartment;
 import com.ufop.HelpSind.domain.ApartmentReading;
@@ -99,6 +100,17 @@ public class ExpenseServiceImpl implements ExpenseService {
 		List<Expense> exepenses = new ArrayList<>();	
 		
 		return exepenses;
+	}
+
+	@Override
+	public List<Expense> findExpensesByType(ExpenseType type) {
+		Condominium condominium = userService.logged().getCondominium();
+		if (condominium == null) {
+			return new ArrayList<>();
+		}
+		return condominium.getExpense().stream().filter(item -> {
+			return item.getTypeEnum().getSigla().equalsIgnoreCase(type.getSigla());
+		}).collect(Collectors.toList());
 	}
 
 

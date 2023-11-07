@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.ufop.HelpSind.domain.Expense;
+import com.ufop.HelpSind.enums.ExpenseType;
 
 public interface ExpenseService extends CrudService<Expense, Long> {
 	
@@ -12,5 +13,6 @@ public interface ExpenseService extends CrudService<Expense, Long> {
 
 	
 		public List<Expense> listarInadimplencia();
+		public List<Expense> findExpensesByType(ExpenseType type);
 
 }
