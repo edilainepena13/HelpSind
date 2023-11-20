@@ -1,15 +1,14 @@
 package com.ufop.HelpSind.enums;
 
-public enum TypePerson {
+public enum ApportionmentType {
 
-    M("Morador", "M"),
-    P("Proprietário", "P"),
-    A("Ambos", "A");
+    P("Proporcional", "P"),
+    I("Igualitario", "I");
 
     private final String name;
     private final String sigla;
 
-    private TypePerson(String name, String sigla) {
+    private ApportionmentType(String name, String sigla) {
         this.name = name;
         this.sigla = sigla;
     }

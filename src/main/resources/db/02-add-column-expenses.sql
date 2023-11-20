@@ -12,3 +12,14 @@ alter table expenses
     ADD reading_date int;
 alter table expenses
     ADD minimum_consumption double;
+alter table apartments
+    ADD name_tenant varchar(100);
+alter table apartments
+    ADD name_owner varchar(100);
+alter table person
+    ADD service varchar(100);
+alter table person
+    ADD description varchar(100);
+
+alter table person
+    ADD pix_key varchar(100);

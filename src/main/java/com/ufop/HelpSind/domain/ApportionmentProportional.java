@@ -26,6 +26,10 @@ public class ApportionmentProportional implements Serializable {
 
     @Column(name = "consumption")
     private Double consumption;
+
+    @Column(name = "total")
+    private Double total;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_expense")
     private Expense expense;

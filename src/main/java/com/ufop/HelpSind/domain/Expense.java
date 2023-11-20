@@ -17,15 +17,16 @@ import java.util.*;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "expenses")
-public class Expense implements Serializable, Comparable<Expense>{
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idexpense")
-	private Long idExpense;
-	
-	@Column(name = "name")
-	private String name;
+public class Expense implements Serializable, Comparable<Expense> {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idexpense")
+    private Long idExpense;
+
+    @NotEmpty
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "MinimumRate")
     private String MinimumRate;
@@ -191,47 +192,49 @@ public class Expense implements Serializable, Comparable<Expense>{
         return idExpense;
     }
 
-	public void setIdExpense(Long idExpense) {
-		this.idExpense = idExpense;
-	}
+    public void setIdExpense(Long idExpense) {
+        this.idExpense = idExpense;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getMinimumRate() {
-		return MinimumRate;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setMinimumRate(String minimumRate) {
-		this.MinimumRate = minimumRate;
-	}
-	public Apartment getApartment() {
-		return apartment;
-	}
+    public String getMinimumRate() {
+        return MinimumRate;
+    }
 
-	public void setApartment(Apartment apartment) {
-		this.apartment = apartment;
-	}
+    public void setMinimumRate(String minimumRate) {
+        this.MinimumRate = minimumRate;
+    }
 
-	public Condominium getCondominium() {
-		return condominium;
-	}
+    public Apartment getApartment() {
+        return apartment;
+    }
 
-	public void setCondominium(Condominium condominium) {
-		this.condominium = condominium;
-	}
+    public void setApartment(Apartment apartment) {
+        this.apartment = apartment;
+    }
+
+    public Condominium getCondominium() {
+        return condominium;
+    }
+
+    public void setCondominium(Condominium condominium) {
+        this.condominium = condominium;
+    }
 
     public BigDecimal getTotal() {
         return total;
     }
 
-	public void setTotal(BigDecimal total) {
-		this.total = total;
-	}
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
 
     public ApportionmentType getApportionmentTypeEnum() {
         return apportionmentTypeEnum;
@@ -249,36 +252,32 @@ public class Expense implements Serializable, Comparable<Expense>{
         this.expenseTypeEnum = expenseTypeEnum;
     }
 
-	public void setApartmentReadingSet(Set<ApartmentReading> apartmentReadingSet) {
-		this.apartmentReadingSet = apartmentReadingSet;
-	}
+    public List<ApartmentReading> getApartmentReadingList() {
+        return apartmentReadingList;
+    }
 
-	public List<ApartmentReading> getApartmentReadingList() {
-		return apartmentReadingList;
-	}
+    public void setApartmentReadingList(List<ApartmentReading> apartmentReadingList) {
+        this.apartmentReadingList = apartmentReadingList;
+    }
 
-	public void setApartmentReadingList(List<ApartmentReading> apartmentReadingList) {
-		this.apartmentReadingList = apartmentReadingList;
-	}
+    public Boolean getChild() {
+        return child;
+    }
 
-	public Boolean getChild() {
-		return child;
-	}
+    public void setChild(Boolean child) {
+        this.child = child;
+    }
 
-	public void setChild(Boolean child) {
-		this.child = child;
-	}
+    @Override
+    public int compareTo(Expense o) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
-	@Override
-	public int compareTo(Expense o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	private String getChildName(Expense expense, Apartment apartment){
-		String name = expense.getName() + " (Apartamento: %s)";
-		return String.format(name, apartment.getNumber());
-	}
+    private String getChildName(Expense expense, Apartment apartment) {
+        String name = expense.getName() + " (Apartamento: %s)";
+        return String.format(name, apartment.getNumber());
+    }
 
     @JsonProperty
     public String getApportionmentTypeEnumComplete() {

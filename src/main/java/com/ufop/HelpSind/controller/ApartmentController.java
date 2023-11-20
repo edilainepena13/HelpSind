@@ -1,10 +1,7 @@
 package com.ufop.HelpSind.controller;
 
 import com.ufop.HelpSind.domain.Apartment;
-import com.ufop.HelpSind.domain.Person;
-import com.ufop.HelpSind.enums.TypePerson;
 import com.ufop.HelpSind.service.ApartmentService;
-import com.ufop.HelpSind.service.PersonService;
 import com.ufop.HelpSind.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -26,8 +23,6 @@ public class ApartmentController {
     @Autowired
     private ApartmentService apartmentService;
 
-    @Autowired
-    private PersonService personService;
 
     @Autowired
     private UserService userService;
@@ -35,16 +30,6 @@ public class ApartmentController {
     @ModelAttribute("ativo")
     public String[] ativo() {
         return new String[]{"condominium", "apartments"};
-    }
-
-    @ModelAttribute("people")
-    public List<Person> people() {
-        return personService.list();
-    }
-
-    @ModelAttribute("typePersonList")
-    public List<TypePerson> typePersonList() {
-        return Arrays.asList(TypePerson.values());
     }
 
     @GetMapping({"", "/", "/lista"})

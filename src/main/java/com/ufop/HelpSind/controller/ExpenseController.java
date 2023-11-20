@@ -75,12 +75,21 @@ public class ExpenseController {
 
     @GetMapping("/cadastro")
     public ModelAndView getExpensesRegister(ModelMap model) {
-
         Expense expense = new Expense();
+        List<ApportionmentProportional> apportionmentProportionals = new ArrayList<>();
+        List<Apartment> apartments = apartmentService.list();
+
+        for (Apartment apartment : apartments) {
+            ApportionmentProportional apportionmentProportional = new ApportionmentProportional();
+            apportionmentProportional.setApartmentId(apartment.getNumber());
+            apportionmentProportional.setApartment(apartment);
+            apportionmentProportionals.add(apportionmentProportional);
+        }
+
         expense.setApartmentReadingList(apartmentReadingList());
+        expense.setApportionmentProportional(apportionmentProportionals);
 
         model.addAttribute("expense", expense);
-
         model.addAttribute("content", "expenseRegister");
         return new ModelAndView("layouts/trustee", model);
 
@@ -103,6 +112,82 @@ public class ExpenseController {
             return new ModelAndView("layouts/trustee", "content", "expenseRegister");
         }
         expenseService.save(expense);
+
+        if (expense.getApportionmentTypeEnum().getSigla().equalsIgnoreCase(ApportionmentType.I.getSigla())) {
+            return new ModelAndView("redirect:/trustee/expense");
+        }
+
+        double consumoComun = 0;
+        double sobra = 0;
+        BigDecimal bd = new BigDecimal(String.valueOf(expense.getTotal()));
+        double totalExpense = bd.doubleValue();
+
+        if (Double.parseDouble(expense.getMinimumRate()) != 0){
+            for (ApportionmentProportional apportionmentProportional : expense.getApportionmentProportional()) {
+                Apartment apartment = apartmentService.findApartmentByNumber(apportionmentProportional.getApartmentId());
+                apportionmentProportional.setConsumption(apportionmentProportional.getFinalReading() - apportionmentProportional.getInitialReading());
+                apportionmentProportional.setExpense(expense);
+                apportionmentProportional.setCondominium(expense.getCondominium());
+                apportionmentProportional.setApartment(apartment);
+
+                consumoComun = consumoComun + apportionmentProportional.getConsumption();
+
+                apportionmentProportionalService.save(apportionmentProportional);
+            }
+            consumoComun = expense.getFinalReading() - expense.getInitialReading() - consumoComun;
+            expense.setComumConsumption(consumoComun);
+            expenseService.save(expense);
+
+
+            for (ApportionmentProportional apportionmentProportional : expense.getApportionmentProportional()) {
+
+                double consumoIndividualComum = apportionmentProportional.getConsumption() + consumoComun / totalApartments;
+
+                if (consumoIndividualComum > Double.parseDouble(expense.getMinimumConsumption())) {
+                    sobra += consumoIndividualComum - Double.parseDouble(expense.getMinimumConsumption());
+                }
+            }
+
+            for (ApportionmentProportional apportionmentProportional : expense.getApportionmentProportional()) {
+
+                double consumoIndividualComum = apportionmentProportional.getConsumption() + consumoComun / totalApartments;
+
+                double valorRateio = (totalExpense - totalApartments * Double.parseDouble(expense.getMinimumRate())) / sobra * (consumoIndividualComum - Double.parseDouble(expense.getMinimumConsumption())) + Double.parseDouble(expense.getMinimumRate());
+
+                double minimum = totalApartments * Double.parseDouble(expense.getMinimumRate());
+
+                if ( valorRateio < Double.parseDouble(expense.getMinimumRate())){
+                    valorRateio = Double.parseDouble(expense.getMinimumRate());
+                }
+
+                apportionmentProportional.setValue(valorRateio);
+
+                apportionmentProportionalService.save(apportionmentProportional);
+
+            }
+        }else {
+            double consumo = 0;
+            for (ApportionmentProportional apportionmentProportional : expense.getApportionmentProportional()) {
+                Apartment apartment = apartmentService.findApartmentByNumber(apportionmentProportional.getApartmentId());
+                apportionmentProportional.setConsumption(apportionmentProportional.getFinalReading() - apportionmentProportional.getInitialReading());
+                apportionmentProportional.setExpense(expense);
+                apportionmentProportional.setCondominium(expense.getCondominium());
+                apportionmentProportional.setApartment(apartment);
+
+                consumo += (apportionmentProportional.getFinalReading() - apportionmentProportional.getInitialReading());
+
+                apportionmentProportionalService.save(apportionmentProportional);
+            }
+            for (ApportionmentProportional apportionmentProportional : expense.getApportionmentProportional()) {
+
+                double valorRateio = (apportionmentProportional.getFinalReading() - apportionmentProportional.getInitialReading()) * totalExpense / consumo;
+
+                apportionmentProportional.setValue(valorRateio);
+
+                apportionmentProportionalService.save(apportionmentProportional);
+            }
+        }
+
         return new ModelAndView("redirect:/trustee/expense");
     }
 

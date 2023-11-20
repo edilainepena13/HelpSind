@@ -20,6 +20,38 @@ public class Person implements Serializable, Comparable<Person> {
     @Column(name = "idperson")
     private Long idPerson;
 
+    @Column(name = "service")
+    private String service;
+
+    @Column(name = "pix_key")
+    private String pixKey;
+
+    public String getService() {
+        return service;
+    }
+
+    public void setService(String service) {
+        this.service = service;
+    }
+
+    public String getPixKey() {
+        return pixKey;
+    }
+
+    public void setPixKey(String pixKey) {
+        this.pixKey = pixKey;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Column(name = "description")
+    private String description;
     @NotBlank
     @Size(min = 1, max = 50)
     private String name;
@@ -28,9 +60,8 @@ public class Person implements Serializable, Comparable<Person> {
     @Size(max = 100)
     private String email;
 
-    @CPF
     @NotBlank
-    @Size(min = 11, max = 11)
+    @Size(min = 11, max = 14)
     private String cpf;
 
     @Size(max = 15)

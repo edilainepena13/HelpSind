@@ -39,6 +39,11 @@ public class PersonController {
         return null;
     }
 
+    @ModelAttribute("states")
+    public State[] states() {
+        return State.values();
+    }
+
     @ModelAttribute("state")
     public State[] state() {
         return State.values();

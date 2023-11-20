@@ -1,6 +1,8 @@
 package com.ufop.HelpSind.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
@@ -19,28 +21,39 @@ public class Apartment implements Serializable, Comparable<Apartment> {
     @JoinColumn(name = "idcondominium")
     private Condominium condominium;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idperson")
-    private Person person;
-//
+    public String getNameTenant() {
+        return nameTenant;
+    }
+
+    public void setNameTenant(String nameTenant) {
+        this.nameTenant = nameTenant;
+    }
+
+    public String getNameOwner() {
+        return nameOwner;
+    }
+
+    public void setNameOwner(String nameOwner) {
+        this.nameOwner = nameOwner;
+    }
+
+    @Size(min = 1, max = 50)
+    @Column(name = "name_tenant")
+    private String nameTenant;
+
+    @Size(min = 1, max = 50)
+    @Column(name = "name_owner")
+    private String nameOwner;
+
+    //
 //	@OneToMany(mappedBy = "apartment", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
 //	private List<Expense> expenses = new ArrayList<>();
-    private String typePerson;
-
     public Apartment(Long idApartment) {
         this.idApartment = idApartment;
     }
 
     public Apartment() {
 
-    }
-
-    public String getTypePerson() {
-        return typePerson;
-    }
-
-    public void setTypePerson(String typePerson) {
-        this.typePerson = typePerson;
     }
 
     public Long getIdApartment() {
@@ -67,13 +80,6 @@ public class Apartment implements Serializable, Comparable<Apartment> {
         this.condominium = condominium;
     }
 
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
-    }
 
     @Override
     public int compareTo(Apartment ap) {

@@ -7,28 +7,30 @@
 <body>
 	<th:block th:fragment="content">
 		<main role="main">
-		<h3 class="font-weight-light">Lista de Pessoas</h3>
+		<h3 class="font-weight-light">Lista de Contatos</h3>
 			<div class="btn-group mb-3 float-right">
 				<a class="btn btn-light" th:href="@{/trustee/person/cadastro}"><i class="fas fa-plus"></i> Nova</a>				
 			</div>
 		<div class="table-responsive">
 			<table class="table table-hover table-sm crud-list mb-0">
 				<caption class="pb-0">
-					<span th:text="${person.totalElements == 0} ? 'Nenhum' : 'Há '+${person.totalElements}"></span> <span th:text="${person.totalElements>1} ? 'pessoas cadastradas' : 'pessoa cadastrada'"></span>.
+					<span th:text="${person.totalElements == 0} ? 'Nenhum' : 'Há '+${person.totalElements}"></span> <span th:text="${person.totalElements>1} ? 'contatos cadastrados' : 'contato cadastrado'"></span>.
 				</caption>
 	    		<thead class="thead-light">
 	        		<tr>
 	            		<th scope="col"> Nome  </th>
-	            		<th scope="col"> Email </th>
 	            		<th scope="col"> Telefone </th>
+	            		<th scope="col"> Email </th>
+	            		<th scope="col"> Serviço Prestado </th>
 	       			</tr>
 	    		</thead>
 			    <tbody>				
 			        <tr th:each="person : ${person.content}">
 			            <th scope="row" th:text="${person.name}" >  </th>
-			            <th scope="row" th:text="${person.email}">  </th>
 			            <th scope="row" th:text="${person.cellphone}">  </th>
-			            <td><a class="btn btn-outline-secondary btn-sm" th:href="@{/trustee/person/{idPerson}/cadastro(idPerson=${person.idPerson},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/trustee/person/{idPerson}/cadastro(idPerson=${person.idPerson})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${person.idPerson}" th:data-obs="${person.name}"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
+						<th scope="row" th:text="${person.email}">  </th>
+						<th scope="row" th:text="${person.service}">  </th>
+						<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/trustee/person/{idPerson}/cadastro(idPerson=${person.idPerson},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/trustee/person/{idPerson}/cadastro(idPerson=${person.idPerson})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${person.idPerson}" th:data-obs="${person.name}"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
 			        </tr>
 			    </tbody>
 			</table>
