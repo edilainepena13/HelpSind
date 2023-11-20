@@ -1,0 +1,14 @@
+alter table expenses
+    ADD comum_consumption double;
+alter table expenses
+    ADD reference_month int;
+alter table expenses
+    ADD total_days int;
+alter table expenses
+    ADD initial_reading int;
+alter table expenses
+    ADD final_reading int;
+alter table expenses
+    ADD reading_date int;
+alter table expenses
+    ADD minimum_consumption double;

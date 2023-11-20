@@ -2,11 +2,13 @@ package com.ufop.HelpSind.controller;
 
 import com.ufop.HelpSind.domain.Apartment;
 import com.ufop.HelpSind.domain.ApartmentReading;
+import com.ufop.HelpSind.domain.ApportionmentProportional;
 import com.ufop.HelpSind.domain.Expense;
-import com.ufop.HelpSind.domain.ExpenseType;
+import com.ufop.HelpSind.enums.ApportionmentType;
 import com.ufop.HelpSind.service.ApartmentService;
+import com.ufop.HelpSind.service.ApportionmentProportionalService;
 import com.ufop.HelpSind.service.ExpenseService;
-import com.ufop.HelpSind.service.ExpenseTypeService;
+import com.ufop.HelpSind.serviceImpl.ApportionmentProportionalServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,13 +29,11 @@ import java.util.Optional;
 public class ExpenseController {
 
     @Autowired
+    private ApportionmentProportionalService apportionmentProportionalService;
+    @Autowired
     private ExpenseService expenseService;
-
     @Autowired
-    ApartmentService apartmentService;
-
-    @Autowired
-    ExpenseTypeService expenseTypeService;
+    private ApartmentService apartmentService;
 
     @ModelAttribute("ativo")
     public String[] ativo() {
@@ -44,13 +45,13 @@ public class ExpenseController {
         return apartmentService.list();
     }
 
-    @ModelAttribute("expensesType")
-    public List<ExpenseType> expensesType() {
-        return expenseTypeService.list();
+    @ModelAttribute("apportionmentTypes")
+    public List<com.ufop.HelpSind.enums.ApportionmentType> apportionmentTypes() {
+        return Arrays.asList(com.ufop.HelpSind.enums.ApportionmentType.values());
     }
 
-    @ModelAttribute("types")
-    public List<com.ufop.HelpSind.enums.ExpenseType> types() {
+    @ModelAttribute("expenseTypes")
+    public List<com.ufop.HelpSind.enums.ExpenseType> expenseTypes() {
         return Arrays.asList(com.ufop.HelpSind.enums.ExpenseType.values());
     }
 
@@ -94,6 +95,8 @@ public class ExpenseController {
 
     @PostMapping("/cadastro")
     public ModelAndView postExpensesRegister(@Valid @ModelAttribute("expense") Expense expense, BindingResult validation) {
+        int totalApartments = apartmentService.list().size();
+
         expenseService.validate(expense, validation);
         if (validation.hasErrors()) {
             expense.setIdExpense(null);

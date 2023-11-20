@@ -1,212 +1,186 @@
 package com.ufop.HelpSind.domain;
 
-import org.hibernate.annotations.Immutable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
-import java.io.Serializable;
-
+import com.ufop.HelpSind.enums.State;
 import org.hibernate.validator.constraints.br.CPF;
 
-import com.ufop.HelpSind.enums.State;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name="report")
+@Table(name = "report")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Report implements Serializable, Comparable<Report>{
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idreport")
-	private Long idReport;
-	
-	@NotBlank
-	@Size(min = 1, max = 50)
-	private String name;
+public class Report implements Serializable, Comparable<Report> {
 
-	@Email
-	@Size(max = 100)
-	private String email;
-	
-	@CPF
-	@NotBlank
-	@Size(min=11, max=11)
-	private String cpf;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idreport")
+    private Long idReport;
 
-	@Size(max = 15)
-	private String phone;
+    @NotBlank
+    @Size(min = 1, max = 50)
+    private String name;
 
-	@Size(max = 15)
-	private String cellphone;
+    @Email
+    @Size(max = 100)
+    private String email;
 
-	@Size(max = 100)
-	private String address;
+    @CPF
+    @NotBlank
+    @Size(min = 11, max = 11)
+    private String cpf;
 
-	@Size(max = 6)
-	@Column(name = "addressnumber")
-	private String addressNumber;
+    @Size(max = 15)
+    private String phone;
 
-	@Size(max = 30)
-	@Column(name = "addresscomplement")
-	private String addressComplement;
+    @Size(max = 15)
+    private String cellphone;
 
-	@Size(max = 30)
-	private String neighborhood;
+    @Size(max = 100)
+    private String address;
 
-	@Size(max = 30)
-	private String city;
+    @Size(max = 6)
+    @Column(name = "addressnumber")
+    private String addressNumber;
 
-	@Enumerated(EnumType.STRING)
-	private State state;
+    @Size(max = 30)
+    @Column(name = "addresscomplement")
+    private String addressComplement;
 
-	@Size(max = 8)
-	private String cep;
+    @Size(max = 30)
+    private String neighborhood;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idcondominium")
-	private Condominium condominium;
+    @Size(max = 30)
+    private String city;
 
-	public Long getIdReport() {
-		return idReport;
-	}
+    @Enumerated(EnumType.STRING)
+    private State state;
 
-	public void setIdReport(Long idReport) {
-		this.idReport = idReport;
-	}
+    @Size(max = 8)
+    private String cep;
 
-	public String getName() {
-		return name;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idcondominium")
+    private Condominium condominium;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Long getIdReport() {
+        return idReport;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setIdReport(Long idReport) {
+        this.idReport = idReport;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public String getCellphone() {
-		return cellphone;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setCellphone(String cellphone) {
-		this.cellphone = cellphone;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public String getCellphone() {
+        return cellphone;
+    }
 
-	public String getAddressNumber() {
-		return addressNumber;
-	}
+    public void setCellphone(String cellphone) {
+        this.cellphone = cellphone;
+    }
 
-	public void setAddressNumber(String addressNumber) {
-		this.addressNumber = addressNumber;
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public String getAddressComplement() {
-		return addressComplement;
-	}
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-	public void setAddressComplement(String addressComplement) {
-		this.addressComplement = addressComplement;
-	}
+    public String getAddressNumber() {
+        return addressNumber;
+    }
 
-	public String getNeighborhood() {
-		return neighborhood;
-	}
+    public void setAddressNumber(String addressNumber) {
+        this.addressNumber = addressNumber;
+    }
 
-	public void setNeighborhood(String neighborhood) {
-		this.neighborhood = neighborhood;
-	}
+    public String getAddressComplement() {
+        return addressComplement;
+    }
 
-	public String getCity() {
-		return city;
-	}
+    public void setAddressComplement(String addressComplement) {
+        this.addressComplement = addressComplement;
+    }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    public String getNeighborhood() {
+        return neighborhood;
+    }
 
-	public State getState() {
-		return state;
-	}
+    public void setNeighborhood(String neighborhood) {
+        this.neighborhood = neighborhood;
+    }
 
-	public void setState(State state) {
-		this.state = state;
-	}
+    public String getCity() {
+        return city;
+    }
 
-	public String getCep() {
-		return cep;
-	}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
+    public State getState() {
+        return state;
+    }
 
-	public Condominium getCondominium() {
-		return condominium;
-	}
+    public void setState(State state) {
+        this.state = state;
+    }
 
-	public void setCondominium(Condominium condominium) {
-		this.condominium = condominium;
-	}
-	
-	public String getCpf() {
-		return cpf;
-	}
+    public String getCep() {
+        return cep;
+    }
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
 
-	@Override
-	public int compareTo(Report o) {
-		return this.toString().compareTo(o.toString());
-	}
+    public Condominium getCondominium() {
+        return condominium;
+    }
+
+    public void setCondominium(Condominium condominium) {
+        this.condominium = condominium;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    @Override
+    public int compareTo(Report o) {
+        return this.toString().compareTo(o.toString());
+    }
 
 }

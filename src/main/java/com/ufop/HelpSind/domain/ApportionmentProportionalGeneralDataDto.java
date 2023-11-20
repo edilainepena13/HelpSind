@@ -18,14 +18,14 @@ public class ApportionmentProportionalGeneralDataDto {
 
     private int days;
 
-    private int currentMonth;
+    private int referenceMonth;
 
     private List<ApportionmentProportional> apportionmentProportional;
 
     public ApportionmentProportionalGeneralDataDto() {
     }
 
-    public ApportionmentProportionalGeneralDataDto(Double value, Double initialReading, Double finalReading, Double commonCondominium, Expense expense, Date readingDate, int days, int currentMonth, List<ApportionmentProportional> apportionmentProportional) {
+    public ApportionmentProportionalGeneralDataDto(Double value, Double initialReading, Double finalReading, Double commonCondominium, Expense expense, Date readingDate, int days, int referenceMonth, List<ApportionmentProportional> apportionmentProportional) {
         this.value = value;
         this.initialReading = initialReading;
         this.finalReading = finalReading;
@@ -33,7 +33,7 @@ public class ApportionmentProportionalGeneralDataDto {
         this.expense = expense;
         this.readingDate = readingDate;
         this.days = days;
-        this.currentMonth = currentMonth;
+        this.referenceMonth = referenceMonth;
         this.apportionmentProportional = apportionmentProportional;
     }
 
@@ -101,11 +101,11 @@ public class ApportionmentProportionalGeneralDataDto {
         this.days = days;
     }
 
-    public int getCurrentMonth() {
-        return currentMonth;
+    public int getReferenceMonth() {
+        return referenceMonth;
     }
 
-    public void setCurrentMonth(int currentMonth) {
-        this.currentMonth = currentMonth;
+    public void setReferenceMonth(int referenceMonth) {
+        this.referenceMonth = referenceMonth;
     }
 }

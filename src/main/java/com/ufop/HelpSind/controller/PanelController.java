@@ -10,18 +10,17 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/trustee")
 public class PanelController {
-	@ModelAttribute("ativo")
-	public String[] ativo() {
-		return new String[] {"panel", ""};
-	}
-	
-	@GetMapping({ "/", "", "/panel", "/dashboard" })
-	public ModelAndView sindico(ModelMap model) {
+    @ModelAttribute("ativo")
+    public String[] ativo() {
+        return new String[]{"panel", ""};
+    }
 
-	
+    @GetMapping({"/", "", "/panel", "/dashboard"})
+    public ModelAndView sindico(ModelMap model) {
 
-		model.addAttribute("content", "panel");
-		return new ModelAndView("layouts/trustee", model);
-	}
+
+        model.addAttribute("content", "panel");
+        return new ModelAndView("layouts/trustee", model);
+    }
 
 }

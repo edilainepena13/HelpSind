@@ -11,8 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.sql.DataSource;
-
 
 @Configuration
 @EnableWebSecurity
@@ -21,44 +19,43 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	DataSource dataSource;
 
-	@Autowired
-	private UserDetailsServiceImpl userDetailsService;
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests()
-			.antMatchers("/images/**").permitAll()
-			.antMatchers("/css/**").permitAll()
-			.antMatchers("/js/**").permitAll()
-			.antMatchers("/fonts/**").permitAll()
-			.antMatchers("/webfonts/**").permitAll()
-			.antMatchers("/vendors/**").permitAll()
-			.antMatchers("/account/cadastrar").permitAll()
-			.anyRequest().authenticated();
-		http.formLogin()
-			.loginPage("/login")
-			.loginProcessingUrl("/auth")
-			.defaultSuccessUrl("/home")
-			.permitAll()
-			.and()
-			.logout()
-			.logoutUrl("/sair")
-			.logoutSuccessUrl("/login")
-			.deleteCookies("JSESSIONID");
+        http.authorizeRequests()
+                .antMatchers("/images/**").permitAll()
+                .antMatchers("/css/**").permitAll()
+                .antMatchers("/js/**").permitAll()
+                .antMatchers("/fonts/**").permitAll()
+                .antMatchers("/webfonts/**").permitAll()
+                .antMatchers("/vendors/**").permitAll()
+                .antMatchers("/account/cadastrar").permitAll()
+                .anyRequest().authenticated();
+        http.formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/auth")
+                .defaultSuccessUrl("/home")
+                .permitAll()
+                .and()
+                .logout()
+                .logoutUrl("/sair")
+                .logoutSuccessUrl("/login")
+                .deleteCookies("JSESSIONID");
+    }
 
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());
+    }
 
-	}
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth
-				.userDetailsService(userDetailsService)
-				.passwordEncoder(passwordEncoder());
-	}
-
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder(12);
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(12);
+    }
 
 }

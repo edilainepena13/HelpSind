@@ -1,35 +1,17 @@
 package com.ufop.HelpSind.domain;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ufop.HelpSind.enums.ApportionmentType;
 import com.ufop.HelpSind.enums.ExpenseType;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.*;
 
 
 @SuppressWarnings("serial")
@@ -45,69 +27,169 @@ public class Expense implements Serializable, Comparable<Expense>{
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "MinimumRate")
-	private String MinimumRate;
+    @Column(name = "MinimumRate")
+    private String MinimumRate;
 
-	@Column(name = "expense_type")
-	@Enumerated(EnumType.STRING)
-	private ExpenseType typeEnum;
-	
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idapartment")
-	private Apartment apartment;
-	
+    @Column(name = "MinimumConsumption")
+    private String MinimumConsumption;
+    
+    @Column(name = "comum_consumption")
+    private Double comumConsumption;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idcondominium")
-	private Condominium condominium;
+    @NotNull
+    @Min(1)
+    @Column(name = "referenceMonth")
+    private Integer referenceMonth;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idexpensetype")
-	private com.ufop.HelpSind.domain.ExpenseType expenseType;
+    public Integer getTotalDays() {
+        return totalDays;
+    }
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "expense_apartment_reading", joinColumns = @JoinColumn(name = "idexpense"), inverseJoinColumns = @JoinColumn(name = "id_apartment_reading"))
-	private Set<ApartmentReading> apartmentReadingSet = new HashSet<>();
+    public void setTotalDays(Integer totalDays) {
+        this.totalDays = totalDays;
+    }
 
-	@Transient
-	private List<ApartmentReading> apartmentReadingList = new ArrayList<>();
+    @Column(name = "total_days")
+    private Integer totalDays;
 
-	@NotNull
-	@Min(0)
-	private BigDecimal total;
+    public Integer getReferenceMonth() {
+        return referenceMonth;
+    }
 
-	@Transient
-	private Boolean child = Boolean.FALSE;
+    public void setReferenceMonth(Integer referenceMonth) {
+        this.referenceMonth = referenceMonth;
+    }
 
-	public Expense() {
-	}
+    public String getMinimumConsumption() {
+        return MinimumConsumption;
+    }
 
-	public Expense(String name,
-			ExpenseType typeEnum, Apartment apartment, Condominium condominium, com.ufop.HelpSind.domain.ExpenseType expenseType,
-			BigDecimal total) {
-		this.name = name;
-		this.typeEnum = typeEnum;
-		this.apartment = apartment;
-		this.condominium = condominium;
-		this.expenseType = expenseType;
-		this.total = total;
-	}
+    public void setMinimumConsumption(String minimumConsumption) {
+        MinimumConsumption = minimumConsumption;
+    }
+    
+    @NotNull
+    @Column(name = "apportionment_type")
+    @Enumerated(EnumType.STRING)
+    private ApportionmentType apportionmentTypeEnum;
+    @NotNull
+    @Column(name = "expense_type")
+    @Enumerated(EnumType.STRING)
+    private ExpenseType expenseTypeEnum;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idapartment")
+    private Apartment apartment;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idcondominium")
+    private Condominium condominium;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "expense_apartment_reading", joinColumns = @JoinColumn(name = "idexpense"), inverseJoinColumns = @JoinColumn(name = "id_apartment_reading"))
+    private Set<ApartmentReading> apartmentReadingSet = new HashSet<>();
+    @Transient
+    private List<ApartmentReading> apartmentReadingList = new ArrayList<>();
+    @NotNull
+    @Min(0)
+    private BigDecimal total;
+    @Transient
+    private Boolean child = Boolean.FALSE;
+    @Transient
+    private List<ApportionmentProportional> apportionmentProportional;
+    @Column(name = "initial_reading")
+    private Double initialReading;
+    @Column(name = "final_reading")
+    private Double finalReading;
 
-	public Expense(Expense expense, Apartment apartment, BigDecimal total) {
-		this.name = this.getChildName(expense, apartment);
-		this.typeEnum = expense.getTypeEnum();
-		this.apartment = apartment;
-		this.condominium = expense.getCondominium();
-		this.expenseType = expense.getExpenseType();
-		this.total = total;
-		this.child = true;
-	}
-	
+    @Column(name = "reading_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date readingDate;
 
-	public Long getIdExpense() {
-		return idExpense;
-	}
+    @Transient
+    private Double totalPerApartment;
+
+    public Double getTotalPerApartment() {
+        return totalPerApartment;
+    }
+
+    public void setTotalPerApartment(Double totalPerApartment) {
+        this.totalPerApartment = totalPerApartment;
+    }
+
+    public Expense() {
+    }
+
+    public Expense(String name,
+                   ApportionmentType apportionmentTypeEnum, ExpenseType expenseTypeEnum, Apartment apartment, Condominium condominium,
+                   BigDecimal total) {
+        this.name = name;
+        this.apportionmentTypeEnum = apportionmentTypeEnum;
+        this.expenseTypeEnum = expenseTypeEnum;
+        this.apartment = apartment;
+        this.condominium = condominium;
+        this.total = total;
+    }
+
+    public Expense(Expense expense, Apartment apartment, BigDecimal total) {
+        this.name = this.getChildName(expense, apartment);
+        this.apportionmentTypeEnum = expense.getApportionmentTypeEnum();
+        this.apportionmentTypeEnum = expense.getApportionmentTypeEnum();
+        this.apartment = apartment;
+        this.condominium = expense.getCondominium();
+        this.total = total;
+        this.child = true;
+    }
+
+    public Double getComumConsumption() {
+        return comumConsumption;
+    }
+
+    public void setComumConsumption(Double comumConsumption) {
+        this.comumConsumption = comumConsumption;
+    }
+
+    public Date getReadingDate() {
+        return readingDate;
+    }
+
+    public void setReadingDate(Date readingDate) {
+        this.readingDate = readingDate;
+    }
+
+    public Double getInitialReading() {
+        return initialReading;
+    }
+
+    public void setInitialReading(Double initialReading) {
+        this.initialReading = initialReading;
+    }
+
+    public Double getFinalReading() {
+        return finalReading;
+    }
+
+    public void setFinalReading(Double finalReading) {
+        this.finalReading = finalReading;
+    }
+
+    public Set<ApartmentReading> getApartmentReadingSet() {
+        return apartmentReadingSet;
+    }
+
+    public void setApartmentReadingSet(Set<ApartmentReading> apartmentReadingSet) {
+        this.apartmentReadingSet = apartmentReadingSet;
+    }
+
+    public List<ApportionmentProportional> getApportionmentProportional() {
+        return apportionmentProportional;
+    }
+
+    public void setApportionmentProportional(List<ApportionmentProportional> apportionmentProportional) {
+        this.apportionmentProportional = apportionmentProportional;
+    }
+
+    public Long getIdExpense() {
+        return idExpense;
+    }
 
 	public void setIdExpense(Long idExpense) {
 		this.idExpense = idExpense;
@@ -143,29 +225,29 @@ public class Expense implements Serializable, Comparable<Expense>{
 		this.condominium = condominium;
 	}
 
-	public com.ufop.HelpSind.domain.ExpenseType getExpenseType() {
-		return expenseType;
-	}
-
-	public void setExpenseType(com.ufop.HelpSind.domain.ExpenseType expenseType) {
-		this.expenseType = expenseType;
-	}
-
-	public BigDecimal getTotal() {
-		return total;
-	}
+    public BigDecimal getTotal() {
+        return total;
+    }
 
 	public void setTotal(BigDecimal total) {
 		this.total = total;
 	}
 
-	public ExpenseType getTypeEnum() {
-		return typeEnum;
-	}
+    public ApportionmentType getApportionmentTypeEnum() {
+        return apportionmentTypeEnum;
+    }
 
-	public void setTypeEnum(ExpenseType typeEnum) {
-		this.typeEnum = typeEnum;
-	}
+    public void setApportionmentTypeEnum(ApportionmentType apportionmentTypeEnum) {
+        this.apportionmentTypeEnum = apportionmentTypeEnum;
+    }
+
+    public ExpenseType getExpenseTypeEnum() {
+        return expenseTypeEnum;
+    }
+
+    public void setExpenseTypeEnum(ExpenseType expenseTypeEnum) {
+        this.expenseTypeEnum = expenseTypeEnum;
+    }
 
 	public void setApartmentReadingSet(Set<ApartmentReading> apartmentReadingSet) {
 		this.apartmentReadingSet = apartmentReadingSet;
@@ -198,10 +280,14 @@ public class Expense implements Serializable, Comparable<Expense>{
 		return String.format(name, apartment.getNumber());
 	}
 
-	@JsonProperty
-	public String getTypeEnumComplete(){
-		return ExpenseType.P.getSigla().equals(this.typeEnum.getSigla()) ?  "Proporcional" : "Igualitário";
-	}
+    @JsonProperty
+    public String getApportionmentTypeEnumComplete() {
+        return ApportionmentType.P.getSigla().equals(this.apportionmentTypeEnum.getSigla()) ? "Proporcional" : "Igualitário";
+    }
 
-	
+    @JsonProperty
+    public String getExpenseTypeEnumComplete() {
+        return ApportionmentType.P.getSigla().equals(this.expenseTypeEnum.getSigla()) ? "Proporcional" : "Igualitário";
+    }
+
 }

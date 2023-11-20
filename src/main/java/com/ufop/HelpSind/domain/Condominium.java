@@ -1,265 +1,262 @@
 package com.ufop.HelpSind.domain;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ufop.HelpSind.enums.State;
+import org.hibernate.validator.constraints.br.CNPJ;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.validator.constraints.br.CNPJ;
-
-import com.ufop.HelpSind.enums.State;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "condominium")
-public class Condominium implements Serializable, Comparable<Condominium>{
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idcondominium")
-	private Long idCondominium;
-	
-	@Column(name = "TypeCondominium")
-	private String TypeCondominium;
+public class Condominium implements Serializable, Comparable<Condominium> {
 
-	@NotBlank
-	@Size(min = 1, max =100)
-	@Column(name = "corporatename")
-	private String corporateName;
-	
-	@CNPJ
-	private String cnpj;
-	
-	@Email
-	@Size(max = 100)
-	private String email;
-	
-	@Size(max = 15)
-	private String phone;
-	
-	@Size(max = 15)
-	private String cellphone;
-	
-	@Size(max = 30)
-	@Column(name = "address")
-	private String address;
-	
-	@NotBlank
-	@Size(min = 1, max = 6)
-	@Column(name = "addressnumber")
-	private String addressNumber;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idcondominium")
+    private Long idCondominium;
 
-	@Size(max = 30)
-	@Column(name = "addresscomplement")
-	private String addressComplement;
-	
-	@NotBlank
-	@Size(min = 1, max = 30)
-	private String neighborhood;
-	
-	@NotBlank
-	@Size(min = 1, max = 30)
-	private String city;
-	
-	@NotBlank
-	@Size(min = 8, max = 8)
-	private String cep;
-	
-	@NotNull
-	@Enumerated(EnumType.STRING)
-	private State state;
-	
-	@OneToMany(mappedBy = "condominium", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@OrderBy(value = "type")
-	private List<Account> accounts = new ArrayList<>();
+    @Column(name = "TypeCondominium")
+    private String TypeCondominium;
 
-	@JsonIgnore
-	@OneToOne(mappedBy = "condominium", fetch = FetchType.LAZY)
-	private User trustee;
+    @NotBlank
+    @Size(min = 1, max = 100)
+    @Column(name = "corporatename")
+    private String corporateName;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "condominium", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@OrderBy(value = "name")
-	private List<Person> people = new ArrayList<>();
-	
-	@OneToMany(mappedBy = "condominium", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	private List<Expense> expense = new ArrayList<>();
+    @CNPJ
+    private String cnpj;
 
-	public Condominium() {
-	}
+    public String getFundoObraReserva() {
+        return fundoObraReserva;
+    }
 
-	public Condominium(Long idCondominium) {
-		this.idCondominium = idCondominium;
-	}
+    public void setFundoObraReserva(String fundoObraReserva) {
+        this.fundoObraReserva = fundoObraReserva;
+    }
 
-	public String getTypeCondominium() {
-		return TypeCondominium;
-	}
+    @Column(name = "fundo_obra_reserva")
+    private String fundoObraReserva;
 
-	public void setTypeCondominium(String typeCondominium) {
-		this.TypeCondominium = typeCondominium;
-	}
-	
-	public Long getIdCondominium() {
-	    if (trustee != null) {
-	        return trustee.getCondominium().getIdCondominium();
-	    }
-	    return null;
-	}
+    @Email
+    @Size(max = 100)
+    private String email;
 
-	public void setIdCondominium(Long idCondominium) {
-		this.idCondominium = idCondominium;
-	}
+    @Size(max = 15)
+    private String phone;
 
-	public String getCorporateName() {
-		return corporateName;
-	}
+    @Size(max = 15)
+    private String cellphone;
 
-	public void setCorporateName(String corporateName) {
-		this.corporateName = corporateName;
-	}
+    @Size(max = 30)
+    @Column(name = "address")
+    private String address;
 
-	public String getCnpj() {
-		return cnpj;
-	}
+    @NotBlank
+    @Size(min = 1, max = 6)
+    @Column(name = "addressnumber")
+    private String addressNumber;
 
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
-	}
+    @Size(max = 30)
+    @Column(name = "addresscomplement")
+    private String addressComplement;
 
-	public String getEmail() {
-		return email;
-	}
+    @NotBlank
+    @Size(min = 1, max = 30)
+    private String neighborhood;
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    @NotBlank
+    @Size(min = 1, max = 30)
+    private String city;
 
-	public String getPhone() {
-		return phone;
-	}
+    @NotBlank
+    @Size(min = 8, max = 8)
+    private String cep;
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private State state;
 
-	public String getCellphone() {
-		return cellphone;
-	}
+    @OneToMany(mappedBy = "condominium", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OrderBy(value = "type")
+    private List<Account> accounts = new ArrayList<>();
 
-	public void setCellphone(String cellphone) {
-		this.cellphone = cellphone;
-	}
+    @JsonIgnore
+    @OneToOne(mappedBy = "condominium", fetch = FetchType.LAZY)
+    private User trustee;
 
-	public String getAddressNumber() {
-		return addressNumber;
-	}
+    @JsonIgnore
+    @OneToMany(mappedBy = "condominium", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OrderBy(value = "name")
+    private List<Person> people = new ArrayList<>();
 
-	public void setAddressNumber(String addressNumber) {
-		this.addressNumber = addressNumber;
-	}
+    @OneToMany(mappedBy = "condominium", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Expense> expense = new ArrayList<>();
 
-	public String getAddressComplement() {
-		return addressComplement;
-	}
+    public Condominium() {
+    }
 
-	public void setAddressComplement(String addressComplement) {
-		this.addressComplement = addressComplement;
-	}
+    public Condominium(Long idCondominium) {
+        this.idCondominium = idCondominium;
+    }
 
-	public String getNeighborhood() {
-		return neighborhood;
-	}
+    public String getTypeCondominium() {
+        return TypeCondominium;
+    }
 
-	public void setNeighborhood(String neighborhood) {
-		this.neighborhood = neighborhood;
-	}
+    public void setTypeCondominium(String typeCondominium) {
+        this.TypeCondominium = typeCondominium;
+    }
 
-	public String getCity() {
-		return city;
-	}
+    public Long getIdCondominium() {
+        if (trustee != null) {
+            return trustee.getCondominium().getIdCondominium();
+        }
+        return null;
+    }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    public void setIdCondominium(Long idCondominium) {
+        this.idCondominium = idCondominium;
+    }
 
-	public String getCep() {
-		return cep;
-	}
+    public String getCorporateName() {
+        return corporateName;
+    }
 
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
+    public void setCorporateName(String corporateName) {
+        this.corporateName = corporateName;
+    }
 
-	public State getState() {
-		return state;
-	}
+    public String getCnpj() {
+        return cnpj;
+    }
 
-	public void setState(State state) {
-		this.state = state;
-	}
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
 
-	public List<Account> getAccounts() {
-		return accounts;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setAccounts(List<Account> accounts) {
-		this.accounts = accounts;
-	}
-	
-	public String getAddress() {
-		return address;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public User getTrustee() {
-		return trustee;
-	}
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	public void setTrustee(User trustee) {
-		this.trustee = trustee;
-	}
+    public String getCellphone() {
+        return cellphone;
+    }
 
-	public List<Person> getPeople() {
-		return people;
-	}
+    public void setCellphone(String cellphone) {
+        this.cellphone = cellphone;
+    }
 
-	public void setPeople(List<Person> people) {
-		this.people = people;
-	}
+    public String getAddressNumber() {
+        return addressNumber;
+    }
 
-	public List<Expense> getExpense() {
-		return expense;
-	}
+    public void setAddressNumber(String addressNumber) {
+        this.addressNumber = addressNumber;
+    }
 
-	public void setExpense(List<Expense> expense) {
-		this.expense = expense;
-	}
+    public String getAddressComplement() {
+        return addressComplement;
+    }
 
-	@Override
-	public int compareTo(Condominium o) {
-		return this.corporateName.compareTo(o.getCorporateName());
-	}
+    public void setAddressComplement(String addressComplement) {
+        this.addressComplement = addressComplement;
+    }
+
+    public String getNeighborhood() {
+        return neighborhood;
+    }
+
+    public void setNeighborhood(String neighborhood) {
+        this.neighborhood = neighborhood;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public User getTrustee() {
+        return trustee;
+    }
+
+    public void setTrustee(User trustee) {
+        this.trustee = trustee;
+    }
+
+    public List<Person> getPeople() {
+        return people;
+    }
+
+    public void setPeople(List<Person> people) {
+        this.people = people;
+    }
+
+    public List<Expense> getExpense() {
+        return expense;
+    }
+
+    public void setExpense(List<Expense> expense) {
+        this.expense = expense;
+    }
+
+    @Override
+    public int compareTo(Condominium o) {
+        return this.corporateName.compareTo(o.getCorporateName());
+    }
 
 }

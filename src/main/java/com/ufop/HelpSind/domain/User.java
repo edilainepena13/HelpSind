@@ -1,157 +1,143 @@
 package com.ufop.HelpSind.domain;
 
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-
 import com.ufop.HelpSind.enums.Authorization;
+import org.hibernate.validator.constraints.br.CPF;
 
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.br.CPF;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "users")
-public class User implements Serializable{
+public class User implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@NotBlank
-	@Size(min=1, max=100)
-	private String name;
-	
-	@NotBlank
-	@Size(min = 1, max = 50)
-	private String username;
-	
-	@CPF
-	@NotBlank
-	@Size(min=11, max=11)
-	private String cpf;
-	
-	@NotBlank
-	@Size(min=11, max=11)
-	private String cellphone;
-	
-	@NotBlank
-	@Size(min = 4, max = 100)
-	private String password;
-	
-	@NotBlank
-	@Size(min = 1, max = 100)
-	@Email
-	private String email;
-	
-	@ElementCollection(targetClass = Authorization.class)
-	@CollectionTable(name="auths", joinColumns = @JoinColumn(name="id_user"))
-	@Enumerated(EnumType.STRING)
-	@Column(name = "auth")
-	private Set<Authorization> auth = new HashSet<>();
-	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@JoinColumn(name = "idcondominium")
-	private Condominium condominium;
-	
-	@NotNull
-	private Boolean active;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public Long getId() {
-		return id;
-	}
+    @NotBlank
+    @Size(min = 1, max = 100)
+    private String name;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @NotBlank
+    @Size(min = 1, max = 50)
+    private String username;
 
-	public String getNome() {
-		return name;
-	}
+    @CPF
+    @NotBlank
+    @Size(min = 11, max = 11)
+    private String cpf;
 
-	public void setNome(String nome) {
-		this.name = nome;
-	}
+    @NotBlank
+    @Size(min = 11, max = 11)
+    private String cellphone;
 
-	public String getCpf() {
-		return cpf;
-	}
+    @NotBlank
+    @Size(min = 4, max = 100)
+    private String password;
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
+    @NotBlank
+    @Size(min = 1, max = 100)
+    @Email
+    private String email;
 
-	public String getCellphone() {
-		return cellphone;
-	}
+    @ElementCollection(targetClass = Authorization.class)
+    @CollectionTable(name = "auths", joinColumns = @JoinColumn(name = "id_user"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "auth")
+    private Set<Authorization> auth = new HashSet<>();
 
-	public void setCellphone(String cellphone) {
-		this.cellphone = cellphone;
-	}
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JoinColumn(name = "idcondominium")
+    private Condominium condominium;
 
-	public String getPassword() {
-		return password;
-	}
+    @NotNull
+    private Boolean active;
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getNome() {
+        return name;
+    }
 
-	public Set<Authorization> getAuth() {
-		return auth;
-	}
+    public void setNome(String nome) {
+        this.name = nome;
+    }
 
-	public void setAuth(Set<Authorization> auth) {
-		this.auth = auth;
-	}
+    public String getCpf() {
+        return cpf;
+    }
 
-	public Boolean getActive() {
-		return active;
-	}
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
 
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
+    public String getCellphone() {
+        return cellphone;
+    }
 
-	public Condominium getCondominium() {
-		return condominium;
-	}
+    public void setCellphone(String cellphone) {
+        this.cellphone = cellphone;
+    }
 
-	public void setCondominium(Condominium condominium) {
-		this.condominium = condominium;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Set<Authorization> getAuth() {
+        return auth;
+    }
+
+    public void setAuth(Set<Authorization> auth) {
+        this.auth = auth;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Condominium getCondominium() {
+        return condominium;
+    }
+
+    public void setCondominium(Condominium condominium) {
+        this.condominium = condominium;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
 }

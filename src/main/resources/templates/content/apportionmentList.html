@@ -19,35 +19,32 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="apportionment : ${apportionment.content}">
-                    <th scope="row" th:text="${apportionment.expense.name}"></th>
-                    <th scope="row" th:text="${apportionment.value}"></th>
-                    <th scope="row" th:text="${apportionment.numberOfApartments}"></th>
-                    <th scope="row" th:text="${apportionment.valueForApartments}"></th>
+                <tr th:each="apportionment : ${apportionment}">
+                    <th scope="row" th:text="${apportionment.name}"></th>
+                    <th scope="row" th:text="${#numbers.formatDecimal(apportionment.total, 1, 'DEFAULT', 2, 'DEFAULT')}"></th>
+                    <th scope="row" th:text="${totalApartment}"></th>
+                    <th scope="row" th:text="${#numbers.formatDecimal(apportionment.totalPerApartment, 1, 'DEFAULT', 2, 'DEFAULT')}" ></th>
                 </tr>
                 </tbody>
             </table>
             <section style="display: flex; justify-content: space-around;">
                 <div>
                     <b>Total</b>
-                    <span th:text="${#aggregates.sum(apportionment.content.![value])}"></span>
+                    <span th:text="${#numbers.formatDecimal(#aggregates.sum(apportionment.![total]), 1, 'DEFAULT', 2, 'DEFAULT')}"></span>
                 </div>
                 <div>
                     <b>Total por Apto</b>
-                    <span th:text="${#aggregates.sum(apportionment.content.![valueForApartments])}"></span>
+                    <span th:text="${#numbers.formatDecimal(#aggregates.sum(apportionment.![totalPerApartment]), 1, 'DEFAULT', 2, 'DEFAULT')}"></span>
                 </div>
             </section>
         </div>
 
         <div style="display: flex">
             <h3 class="font-weight-light" style="margin-right: 25px">Rateio Proporcional</h3>
-            <div class="btn-group mb-3 float-right">
-                <a class="btn btn-light" th:href="@{/trustee/apportionment/cadastro}"><i class="fas fa-plus"></i>Novo</a>
-            </div>
         </div>
 
         <div class="table-responsive" style="margin-bottom: 35px">
-            <table class="table table-hover table-sm crud-list mb-0">
+            <table class="table table-hover table-sm crud-list mb-0" th:object="${apportionmentProportional}">
                 <thead class="thead-light">
                 <tr>
                     <th scope="col">Apto</th>
@@ -55,21 +52,19 @@
                     <th scope="col">Leitura Inicial</th>
                     <th scope="col">Leitura Final</th>
                     <th scope="col">Consumo</th>
-                    <th scope="col">Condomínio</th>
                     <th scope="col">Valor Total</th>
                 </tr>
                 </thead>
-<!--                <tbody>-->
-<!--                <tr th:each="apartments : ${apartments.content}">-->
-<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
-<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
-<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
-<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
-<!--                    <th scope="row" th:text="${apartments.numbear}"></th>-->
-<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
-<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
-<!--                </tr>-->
-<!--                </tbody>-->
+                <tbody>
+                <tr th:each="apportionmentProportional : ${apportionmentProportional}">
+                    <th scope="row" th:text="${apportionmentProportional.apartment.number}"></th>
+                    <th scope="row" th:text="${apportionmentProportional.expense.name}"></th>
+                    <th scope="row" th:text="${#numbers.formatDecimal(apportionmentProportional.initialReading, 1, 'DEFAULT', 2, 'DEFAULT')}"></th>
+                    <th scope="row" th:text="${#numbers.formatDecimal(apportionmentProportional.finalReading, 1, 'DEFAULT', 2, 'DEFAULT')}"></th>
+                    <th scope="row" th:text="${#numbers.formatDecimal(apportionmentProportional.consumption, 1, 'DEFAULT', 2, 'DEFAULT')}"></th>
+                    <th scope="row" th:text="${#numbers.formatDecimal(apportionmentProportional.value, 1, 'DEFAULT', 2, 'DEFAULT')}"></th>
+                </tr>
+                </tbody>
             </table>
         </div>
         <h3 class="font-weight-light">Condomínio Total</h3>
@@ -86,13 +81,14 @@
                 </tr>
                 </thead>
                 <tbody>
-<!--                <tr th:each="apartments : ${apartments.content}">-->
-<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
-<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
-<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
-<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
-<!--                    <th scope="row" th:text="${apartments.number}"></th>-->
-<!--                </tr>-->
+                <tr th:each="condominioTotal : ${condominioTotal}">
+                    <td th:text="${condominioTotal.apto}"></td>
+                    <td th:text="${#numbers.formatDecimal(condominioTotal.rateioIgualitario, 1, 'DEFAULT', 2, 'DEFAULT')}"></td>
+                    <td th:text="${#numbers.formatDecimal(condominioTotal.rateioProporcional, 1, 'DEFAULT', 2, 'DEFAULT')}"></td>
+                    <td th:text="${#numbers.formatDecimal(condominioTotal.totalCondominio, 1, 'DEFAULT', 2, 'DEFAULT')}"></td>
+                    <td th:text="${#numbers.formatDecimal(condominioTotal.fundoReservaObra, 1, 'DEFAULT', 2, 'DEFAULT')}"></td>
+                    <td th:text="${#numbers.formatDecimal(condominioTotal.totalGeral, 1, 'DEFAULT', 2, 'DEFAULT')}"></td>
+                </tr>
                 </tbody>
             </table>
         </div>

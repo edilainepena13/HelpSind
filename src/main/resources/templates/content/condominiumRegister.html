@@ -32,11 +32,16 @@
 									<div class="invalid-feedback" th:errors="*{cnpj}"></div>
 									<small>Somente números</small>
 								</div>
-								<div class="form-group col-xs-12 col-md-3">
+								<div class="form-group col-xs-12 col-md-2">
 									<label for="typeCondominium">Valor Fixo</label>
 											<input type="checkbox" id="typeCondominiumChecked" name="typeCondominiumChecked"/>
 											<input class="form-control" type="number" id="typeCondominium" name="typeCondominium" disabled
 												   th:value="${condominium.typeCondominium}" placeholder="Valor"/>
+								</div>
+								<div class="form-group col-xs-12 col-md-3">
+									<label>Fundo de Obras + Reserva</label> <input class="form-control" type="number" th:errorclass="is-invalid"
+															   th:field="*{fundoObraReserva}" />
+									<div class="invalid-feedback" th:errors="*{fundoObraReserva}"></div>
 								</div>
 							</div>
 						</li>

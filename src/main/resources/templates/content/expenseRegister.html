@@ -1,105 +1,184 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="UTF-8">
-		<title>Cadastro de despesas</title>
-	</head>
-	<body>
-		<th:block th:fragment="content">
-			<main role="main">
-				<h3 class="font-weight-light">Cadastro de despesa</h3>
-				<form th:action="@{/trustee/expense/cadastro}" th:object="${expense}" th:method="${expense.idExpense == null} ? post : put" novalidate>
-					<fieldset th:disabled="${param.somenteLeitura}" class="mb-3">
-						<input type="hidden" th:field="*{idExpense}" />
-						<div class="card">
-							<ul class="list-group list-group-flush">
-								<li class="list-group-item">
-									<p class="text-primary">
-										<i class="fas fa-building"></i> Informações principais
-									</p>
-									<div class="form-row row">
-										<div class="form-group col-xs-12 col-md-5">
-											<label>Descrição</label> <input class="form-control" type="text" th:errorclass="is-invalid"
-											                                th:field="*{name}"
-											                                th:required="true"
-											                                placeholder="Uma breve descrição" autofocus/>
-											<div class="invalid-feedback" th:errors="*{name}"></div>
-										</div>
-										
-										<div class="form-group col-xs-12 col-md-2">
-											<label>Valor</label> <input class="form-control" type="number" pattern="^\d*(\.\d{0,2})?$"
-											                            th:errorclass="is-invalid"
-											                            th:field="*{total}"
-											                            th:required="true"
-											                            placeholder="Valor da despesa." autofocus/>
-											<div class="invalid-feedback" th:errors="*{total}"></div>
-										</div>										
-									</div>
-								</li>								
-								<li class="list-group-item">
-									<p class="text-primary">
-										<i class="bi bi-calendar-date"></i> Origem da despesa
-									</p>
-									<div class="row">
-										<div th:if="${param.somenteLeitura}">
-											<div class="form-group col-xs-12 col-md-3">
-												<label for="apartment">Apartamento </label>
-												<select class="form-control" id="apartment" name="apartment" th:errorclass="is-invalid"
-												        th:field="*{apartment}">
-													<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
-													<option th:each="ap : ${apartment}" th:value="${ap.idApartment}"
-													        th:text="${ap.number} + ' - ' + ${ap.person.name}"></option>
-												</select>
-												<div class="invalid-feedback" th:errors="*{apartment}"></div>
-											</div>
-										</div>
-										
-										<div class="col-xs-12 col-md-4">
-											<label for="typeEnum">Tipo de Rateio</label>
-											<select class="form-control" id="typeEnum" name="typeEnum" th:required="true" th:errorclass="is-invalid"
-											        th:field="*{typeEnum}">
-												<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
-												<option th:each="ty : ${types}" th:value="${ty.sigla}"
-												        th:text="${ty.name}"></option>
-											</select>
-											<div class="invalid-feedback" th:errors="*{typeEnum}"></div>
-										</div>
-										<div class="col-xs-12 col-md-4">
-											<label for="expenseType">Tipo de Despesa</label>
-											<select class="form-control" id="expenseType" name="expenseType" th:errorclass="is-invalid"
-											        th:field="*{expenseType}">
-												<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
-												<option th:each="et : ${expensesType}" th:value="${et.idExpenseType}"
-												        th:text="${et.name}"></option>
-											</select>
-											<div class="invalid-feedback" th:errors="*{expenseType}"></div>
-										</div>										
-										<div class="col-xs-12 col-md-4">
-											<label for="minimumRate">Taxa Mínima</label>
-											<input type="checkbox" id="taxaMinimaChecked" name="taxaMinimaChecked"/>
-											<input class="form-control" type="number" id="minimumRate" name="minimumRate" disabled
-												   th:value="${expense.minimumRate}" placeholder="Valor"/>
-										</div>
-									</div>									
-								</li>
-							</ul>
-						</div>
-					</fieldset>
-					<button th:unless="${param.somenteLeitura}" type="submit" class="btn btn-primary">Salvar</button>
-					<a class="btn btn-secondary" th:href="@{/trustee/expense/}" role="button" th:text="${param.somenteLeitura}?'Voltar':_">Cancelar</a>
-				</form>
-				<script>
-					document.getElementById('taxaMinimaChecked').addEventListener('change', function () {
-						var taxaMinimaInput = document.getElementById('minimumRate');
-						taxaMinimaInput.disabled = !this.checked;
-						if (!this.checked) {
-							taxaMinimaInput.value = ''; // Limpar o valor quando o checkbox for desmarcado
-						}
-					});
-				</script>
-			</main>
-		</th:block>
-		<th:block th:fragment="jsAdicional"></th:block>
 
-	</body>
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de despesas</title>
+</head>
+
+<body>
+<th:block th:fragment="content">
+    <main role="main">
+        <h3 class="font-weight-light">Cadastro de despesa</h3>
+        <form th:action="@{/trustee/expense/cadastro}" th:object="${expense}"
+              th:method="${expense.idExpense == null} ? post : put" novalidate>
+            <fieldset th:disabled="${param.somenteLeitura}" class="mb-3">
+                <input type="hidden" th:field="*{idExpense}"/>
+                <div class="card">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="form-row row">
+                                <div class="form-group col-xs-12 col-md-6">
+                                    <label>Nome</label>
+                                    <input class="form-control" type="text"
+                                           th:errorclass="is-invalid" th:field="*{name}"
+                                           th:required="true"
+                                           placeholder="Uma breve descrição da despesa" autofocus/>
+                                    <div class="invalid-feedback" th:errors="*{name}"></div>
+                                </div>
+
+                                <div class="form-group col-xs-12 col-md-4">
+                                    <label>Valor Total</label>
+                                    <input class="form-control" type="number"
+                                           th:errorclass="is-invalid"
+                                           th:required="true"
+                                           pattern="^\d*(\.\d{0,2})?$"
+                                           th:field="*{total}"
+                                           placeholder="Valor total da despesa" autofocus/>
+                                    <div class="invalid-feedback" th:errors="*{total}"></div>
+                                </div>
+                                <div class="form-group col-xs-12 col-md-2">
+                                    <label for="referenceMonth">Mês de Referencia</label>
+                                    <input th:field="*{referenceMonth}"
+                                           class="form-control" id="referenceMonth"
+                                           th:errorclass="is-invalid"
+                                           th:required="true"
+                                           type="number">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div th:if="${param.somenteLeitura}">
+                                    <div class="form-group col-xs-12 col-md-3">
+                                        <label for="apartment">Apartamento</label>
+                                        <select class="form-control" id="apartment" name="apartment"
+                                                th:errorclass="is-invalid" th:field="*{apartment}">
+                                            <option th:unless="${param.somenteLeitura}" value="" hidden="true">
+                                                Selecione
+                                            </option>
+                                            <option th:each="ap : ${apartment}" th:value="${ap.idApartment}"
+                                                    th:text="${ap.number} + ' - ' + ${ap.person.name}"></option>
+                                        </select>
+                                        <div class="invalid-feedback" th:errors="*{apartment}"></div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-md-2">
+                                    <label for="expenseTypeEnum">Tipo de Despesa</label>
+                                    <select class="form-control" id="expenseTypeEnum" name="expenseTypeEnum"
+                                            th:required="true" th:errorclass="is-invalid" th:field="*{expenseTypeEnum}">
+                                        <option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione
+                                        </option>
+                                        <option th:each="ty : ${expenseTypes}" th:value="${ty.sigla}"
+                                                th:text="${ty.name}"></option>
+                                    </select>
+                                    <div class="invalid-feedback" th:errors="*{expenseTypeEnum}"></div>
+                                </div>
+                                <div class="col-xs-12 col-md-2">
+                                    <label for="apportionmentTypeEnum">Tipo de Rateio</label>
+                                    <select class="form-control" id="apportionmentTypeEnum"
+                                            name="apportionmentTypeEnum" th:required="true" th:errorclass="is-invalid"
+                                            th:field="*{apportionmentTypeEnum}">
+                                        <option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione
+                                        </option>
+                                        <option th:each="ty : ${apportionmentTypes}" th:value="${ty.sigla}"
+                                                th:text="${ty.name}"></option>
+                                    </select>
+                                    <div class="invalid-feedback" th:errors="*{apportionmentTypeEnum}"></div>
+                                </div>
+                                <div class="col-xs-12 col-md-1">
+                                    <label for="minimumRate">Tx mínima</label>
+                                    <input class="form-control" type="number" id="minimumRate" name="minimumRate"
+                                           th:value="*{minimumRate}" th:field="${expense.minimumRate}"
+                                           placeholder="Valor"/>
+                                </div>
+                                <div class="col-xs-12 col-md-1">
+                                    <label for="minimumConsumption">Qt mínima</label>
+                                    <input class="form-control" type="number" id="minimumConsumption" name="minimumConsumption"
+                                           th:value="*{minimumConsumption}" th:field="${expense.minimumConsumption}"
+                                           placeholder="Valor"/>
+                                </div>
+                                <div class="form-group col-xs-12 col-md-2">
+                                    <label for="leituraInicial">Leitura Inicial</label>
+                                    <input th:field="*{initialReading}" class="form-control" id="leituraInicial"
+                                           type="number">
+                                </div>
+                                <div class="form-group col-xs-12 col-md-2">
+                                    <label for="leituraFinal">Leitura Final</label>
+                                    <input th:field="*{finalReading}" class="form-control" id="leituraFinal"
+                                           type="number">
+                                </div>
+                                <div class="form-group col-xs-12 col-md-2">
+                                    <label for="dataLeitura">Data Leitura</label>
+                                    <input th:field="${expense.readingDate}" class="form-control" id="dataLeitura" type="date">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item" id="lista-apartamentos" style="display: none">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <div class="form-row row">
+                                        <tr th:each="apportionmentProportional, itemStat : ${expense.apportionmentProportional}">
+                                            <div class="form-group col-xs-12 col-md-2">
+                                                <label for="apartamento">Apartamento</label>
+                                                <input class="form-control" id="apartamento" type="number" style="pointer-events: none; background: #e9ecef"
+                                                       th:field="${expense.apportionmentProportional[__${itemStat.index}__].apartmentId}">
+                                            </div>
+                                            <div class="form-group col-xs-12 col-md-2">
+                                                <label for="leituraInicialApt">Leitura Inicial</label>
+                                                <input class="form-control" id="leituraInicialApt"
+                                                       th:value="${apportionmentProportional.initialReading}"
+                                                       th:field="${expense.apportionmentProportional[__${itemStat.index}__].initialReading}"
+                                                       th:errorclass="is-invalid"
+                                                       th:required="true"
+                                                       type="number">
+                                                <div class="invalid-feedback" th:errors="*{initialReading}"></div>
+                                            </div>
+                                            <div class="form-group col-xs-12 col-md-2">
+                                                <label for="leituraFinalApt">Leitura Final</label>
+                                                <input class="form-control" id="leituraFinalApt"
+                                                       th:value="${apportionmentProportional.finalReading}"
+                                                       th:field="${expense.apportionmentProportional[__${itemStat.index}__].finalReading}"
+                                                       th:errorclass="is-invalid"
+                                                       th:required="true"
+                                                       type="number">
+                                                <div class="invalid-feedback" th:errors="*{finalReading}"></div>
+                                            </div>
+                                        </tr>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </fieldset>
+            <button th:unless="${param.somenteLeitura}" type="submit" class="btn btn-primary">Salvar</button>
+            <a class="btn btn-secondary" th:href="@{/trustee/expense/}" role="button"
+               th:text="${param.somenteLeitura}?'Voltar':_">Cancelar</a>
+        </form>
+        <script>
+<!--				document.getElementById('taxaMinimaChecked').addEventListener('change', function () {-->
+<!--					var taxaMinimaInput = document.getElementById('minimumRate');-->
+<!--					taxaMinimaInput.disabled = !this.checked;-->
+<!--					if (!this.checked) {-->
+<!--						taxaMinimaInput.value = ''; // Limpar o valor quando o checkbox for desmarcado-->
+<!--					}-->
+<!--				});-->
+
+				document.getElementById('apportionmentTypeEnum').addEventListener('change', function (event) {
+				    if (event.target.value == 'P') {
+				        document.getElementById('lista-apartamentos').style.display = 'unset';
+				    }
+
+				    if (event.target.value == 'I') {
+				        document.getElementById('lista-apartamentos').style.display = 'none';
+				    }
+				});
+
+
+        </script>
+    </main>
+</th:block>
+<th:block th:fragment="jsAdicional"></th:block>
+
+</body>
+
 </html>

@@ -19,87 +19,86 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class CondominiumServiceImpl implements CondominiumService{
+public class CondominiumServiceImpl implements CondominiumService {
 
-	@Autowired
-	private CondominiumDao condominiumDao;
-	
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private CondominiumDao condominiumDao;
 
-	@Autowired
-	private EntityManager em;
+    @Autowired
+    private UserService userService;
 
-	@Override
-	public void save(Condominium condominium) {
-		if(condominium.getIdCondominium() == null) {
-			
-			condominiumDao.save(condominium);
-			
-			User trustee = userService.logged();
-			trustee.setCondominium(condominium);
-			userService.update(trustee);		
-		}
-	}
+    @Autowired
+    private EntityManager em;
 
-	@Override
-	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public Condominium read(Long id) {
-		return null;
-	}
+    @Override
+    public void save(Condominium condominium) {
+        if (condominium.getIdCondominium() == null) {
 
-	@Override
-	public List<Condominium> list() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+            condominiumDao.save(condominium);
 
-	@Override
-	public Page<Condominium> listPage(Pageable page) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+            User trustee = userService.logged();
+            trustee.setCondominium(condominium);
+            userService.update(trustee);
+        }
+    }
 
-	public Condominium loadById(Long id) {
-		Optional<Condominium> optional = condominiumDao.findById(id);
-		return optional.orElse(null);
-	}
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Condominium read(Long id) {
+        return null;
+    }
 
-	@Override
-	public void update(Condominium condominium) {
-		condominiumDao.save(condominium);
-	}
+    @Override
+    public List<Condominium> list() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public void delete(Condominium condominium) {
-		condominiumDao.delete(condominium);
-	}
+    @Override
+    public Page<Condominium> listPage(Pageable page) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public void validate(Condominium condominium, BindingResult validation) {
-		if (condominium.getIdCondominium() == null) {
-			if (condominium.getCnpj() != null && condominiumDao.existsByCnpj(condominium.getCnpj())) {
-				validation.rejectValue("cnpj", "Unique");
-			}
-		}
-		else {
-			if(condominium.getCnpj() != null && condominiumDao.existsByCnpjAndIdCondominiumNot(condominium.getCnpj(), condominium.getIdCondominium())) {
-				validation.rejectValue("cnpj", "Unique");
-			}			
-		}
-	}
+    public Condominium loadById(Long id) {
+        Optional<Condominium> optional = condominiumDao.findById(id);
+        return optional.orElse(null);
+    }
 
-	@Override
-	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public Condominium read() {
+    @Override
+    public void update(Condominium condominium) {
+        condominiumDao.save(condominium);
+    }
+
+    @Override
+    public void delete(Condominium condominium) {
+        condominiumDao.delete(condominium);
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public void validate(Condominium condominium, BindingResult validation) {
+        if (condominium.getIdCondominium() == null) {
+            if (condominium.getCnpj() != null && condominiumDao.existsByCnpj(condominium.getCnpj())) {
+                validation.rejectValue("cnpj", "Unique");
+            }
+        } else {
+            if (condominium.getCnpj() != null && condominiumDao.existsByCnpjAndIdCondominiumNot(condominium.getCnpj(), condominium.getIdCondominium())) {
+                validation.rejectValue("cnpj", "Unique");
+            }
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Condominium read() {
 //		Condominium condominium = userService.logged().getCondominium();
 //		if(condominium == null || condominium.getIdCondominium() == null) {
 //			throw new RuntimeException("Não foi possível recuperar o condimínio.");
 //		}
 //		em.detach(condominium);
 //		return this.loadById(condominium.getIdCondominium());
-		return userService.logged().getCondominium();
-	}
+        return userService.logged().getCondominium();
+    }
 
 }
