@@ -286,7 +286,8 @@ public class Expense implements Serializable, Comparable<Expense> {
 
     @JsonProperty
     public String getExpenseTypeEnumComplete() {
-        return ApportionmentType.P.getSigla().equals(this.expenseTypeEnum.getSigla()) ? "Proporcional" : "Igualitário";
+        return ExpenseType.F.getSigla().equals(this.expenseTypeEnum.getSigla()) ? "Fixa" : "Variável";
     }
+
 
 }

@@ -34,16 +34,28 @@ public class Condominium implements Serializable, Comparable<Condominium> {
     @CNPJ
     private String cnpj;
 
-    public String getFundoObraReserva() {
-        return fundoObraReserva;
+
+    @Column(name = "fundo_obra")
+    private String fundoObra;
+
+    public String getFundoObra() {
+        return fundoObra;
     }
 
-    public void setFundoObraReserva(String fundoObraReserva) {
-        this.fundoObraReserva = fundoObraReserva;
+    public void setFundoObra(String fundoObra) {
+        this.fundoObra = fundoObra;
     }
 
-    @Column(name = "fundo_obra_reserva")
-    private String fundoObraReserva;
+    public String getFundoReserva() {
+        return fundoReserva;
+    }
+
+    public void setFundoReserva(String fundoReserva) {
+        this.fundoReserva = fundoReserva;
+    }
+
+    @Column(name = "fundo_reserva")
+    private String fundoReserva;
 
     @Email
     @Size(max = 100)
@@ -77,7 +89,7 @@ public class Condominium implements Serializable, Comparable<Condominium> {
     private String city;
 
     @NotBlank
-    @Size(min = 8, max = 8)
+    @Size(min = 9, max = 9)
     private String cep;
 
     @NotNull
@@ -87,6 +99,31 @@ public class Condominium implements Serializable, Comparable<Condominium> {
     @OneToMany(mappedBy = "condominium", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     @OrderBy(value = "type")
     private List<Account> accounts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "condominium", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OrderBy(value = "type")
+    private List<MaintenancePlan> maintenancePlan = new ArrayList<>();
+
+
+    public List<TaxPlan> getTaxPlan() {
+        return taxPlan;
+    }
+
+    public void setTaxPlan(List<TaxPlan> taxPlan) {
+        this.taxPlan = taxPlan;
+    }
+
+    @OneToMany(mappedBy = "condominium", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OrderBy(value = "type")
+    private List<TaxPlan> taxPlan = new ArrayList<>();
+
+    public List<MaintenancePlan> getMaintenancePlan() {
+        return maintenancePlan;
+    }
+
+    public void setMaintenancePlan(List<MaintenancePlan> maintenancePlan) {
+        this.maintenancePlan = maintenancePlan;
+    }
 
     @JsonIgnore
     @OneToOne(mappedBy = "condominium", fetch = FetchType.LAZY)

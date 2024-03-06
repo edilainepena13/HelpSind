@@ -4,6 +4,9 @@
 
 <title>Cadastrar Condomínio</title>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.6/jquery.inputmask.min.js"></script>
+	<!-- ... -->
 </head>
 <body>
 	<th:block th:fragment="content">
@@ -25,23 +28,27 @@
 									                                   th:field="*{corporateName}"
 									                                   placeholder="A razão social ou o nome do condomínio" autofocus/>
 									<div class="invalid-feedback" th:errors="*{corporateName}"></div>
-								</div>								
-								<div class="form-group col-xs-12 col-md-3">
-									<label>CNPJ</label> <input class="form-control" type="number" th:errorclass="is-invalid"
-									                           th:field="*{cnpj}" placeholder="O CNPJ do condomínio"/>
+								</div>
+								<div class="form-group col-xs-12 col-md-2">
+									<label>CNPJ</label>
+									<input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{cnpj}" id="cnpjField" placeholder="CNPJ do condomínio" maxlength="18" th:value="${condominium.cnpj}"/>
 									<div class="invalid-feedback" th:errors="*{cnpj}"></div>
-									<small>Somente números</small>
 								</div>
 								<div class="form-group col-xs-12 col-md-2">
 									<label for="typeCondominium">Valor Fixo</label>
-											<input type="checkbox" id="typeCondominiumChecked" name="typeCondominiumChecked"/>
-											<input class="form-control" type="number" id="typeCondominium" name="typeCondominium" disabled
-												   th:value="${condominium.typeCondominium}" placeholder="Valor"/>
+									<input type="checkbox" id="typeCondominiumChecked" name="typeCondominiumChecked"/>
+									<input class="form-control" type="number" id="typeCondominium" name="typeCondominium" disabled
+										   th:value="${condominium.typeCondominium}" placeholder="Valor"/>
 								</div>
-								<div class="form-group col-xs-12 col-md-3">
-									<label>Fundo de Obras + Reserva</label> <input class="form-control" type="number" th:errorclass="is-invalid"
-															   th:field="*{fundoObraReserva}" />
-									<div class="invalid-feedback" th:errors="*{fundoObraReserva}"></div>
+								<div class="form-group col-xs-12 col-md-2">
+									<label>Fundo de Obras</label>
+									<input class="form-control" type="number" th:errorclass="is-invalid" th:field="*{fundoObra}" />
+									<div class="invalid-feedback" th:errors="*{fundoObra}"></div>
+								</div>
+								<div class="form-group col-xs-12 col-md-2">
+									<label>Fundo de Reservas</label>
+									<input class="form-control" type="number" th:errorclass="is-invalid" th:field="*{fundoReserva}" />
+									<div class="invalid-feedback" th:errors="*{fundoReserva}"></div>
 								</div>
 							</div>
 						</li>
@@ -57,14 +64,14 @@
 								</div>
 								
 								<div class="form-group col-xs-12 col-md-2">
-									<label>Telefone</label> <input class="form-control" type="tel" th:errorclass="is-invalid"
-									                               th:field="*{phone}" placeholder="Telefone com DDD"/>
+									<label>Telefone</label>
+									<input class="form-control" type="tel" th:errorclass="is-invalid" th:field="*{phone}" placeholder="Telefone com DDD" maxlength="14" />
 									<div class="invalid-feedback" th:errors="*{phone}"></div>
 									<small>Somente números</small>
 								</div>
 								<div class="form-group col-xs-12 col-md-2">
-									<label>Celular</label> <input class="form-control" type="tel" th:errorclass="is-invalid"
-									                              th:field="*{cellphone}" placeholder="Celular com DDD"/>
+									<label>Celular</label>
+									<input class="form-control" type="tel" th:errorclass="is-invalid" th:field="*{cellphone}" placeholder="Celular com DDD" maxlength="15" />
 									<div class="invalid-feedback" th:errors="*{cellphone}"></div>
 									<small>Somente números</small>
 								</div>
@@ -80,8 +87,8 @@
 									<label>CEP <a class="text-secondary" tabindex="-1"
 									              href="http://www.buscacep.correios.com.br/sistemas/buscacep/buscaCep.cfm"
 									              title="Não sei o CEP" target="_blank"><i class="fas fa-question-circle"></i></a></label>
-									<input class="form-control" type="number" th:errorclass="is-invalid" th:field="*{cep}"
-									       placeholder="O CEP do condominio"/>
+									<input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{cep}"
+									       placeholder="O CEP do condominio" maxlength="9" />
 									<div class="invalid-feedback" th:errors="*{cep}"></div>
 									<small>Somente números</small>
 								</div>
@@ -133,6 +140,11 @@
 				<button th:unless="${param.somenteLeitura}" type="submit" class="btn btn-primary ml10">Salvar</button>
 			</div>
 		</form>
+			<script>
+				$(document).ready(function() {
+					$('#cnpjField').inputmask('99.999.999/9999-99', { clearMaskOnLostFocus: false });
+				});
+			</script>
 		<script>
 			document.getElementById('typeCondominiumChecked').addEventListener('change', function () {
 				var typeCondominiumInput = document.getElementById('typeCondominium');
@@ -142,8 +154,85 @@
 				}
 			});
 		</script>
+		<script th:inline="javascript">
+
+			function mascaraCnpj(cnpj){
+				cnpj = cnpj.replace(/\D/g,"");
+				cnpj = cnpj.replace(/^(\d{2})(\d)/,"$1.$2");
+				cnpj = cnpj.replace(/^(\d{2})\.(\d{3})(\d)/,"$1.$2.$3");
+				cnpj = cnpj.replace(/\.(\d{3})(\d)/,".$1/$2");
+				cnpj = cnpj.replace(/(\d{4})(\d)/,"$1-$2");
+				return cnpj;
+			}
+
+			function mascaraTelefone(telefone) {
+				telefone = telefone.replace(/\D/g, '');
+				telefone = telefone.replace(/^(\d{2})(\d)/g, '($1) $2');
+				telefone = telefone.replace(/(\d)(\d{4})$/, '$1-$2');
+				return telefone;
+			}
+
+			function mascaraCelular(celular) {
+				celular = celular.replace(/\D/g, '');
+				celular = celular.replace(/^(\d{2})(\d)/g, '($1) $2');
+				celular = celular.replace(/(\d)(\d{4})$/, '$1-$2');
+				return celular;
+			}
+
+			function mascaraCep(cep) {
+				cep = cep.replace(/\D/g, '');
+				cep = cep.replace(/^(\d{5})(\d)/, '$1-$2');
+				return cep;
+			}
+
+			/* Aplicação da máscara nos campos Telefone, Celular, CNPJ e CEP */
+
+			document.addEventListener('DOMContentLoaded', function () {
+				var telefoneField = document.getElementById('phone');
+				var celularField = document.getElementById('cellphone');
+				var cepField = document.getElementById('cep');
+				var cnpjField = document.getElementById('cnpjField');
+
+				telefoneField.addEventListener('input', function () {
+					this.value = mascaraTelefone(this.value);
+				});
+
+				celularField.addEventListener('input', function () {
+					this.value = mascaraCelular(this.value);
+				});
+
+				cepField.addEventListener('input', function () {
+					this.value = mascaraCep(this.value);
+				});
+
+				cnpjField.addEventListener('input', function () {
+					this.value = mascaraCnpj(this.value);
+				});
+			});
+		</script>
+
 		</main>
 	</th:block>
-	<th:block th:fragment="jsAdicional"></th:block>
+	<th:block th:fragment="jsAdicional">
+<!--		<script>-->
+<!--            document.getElementById('typeCondominiumChecked').addEventListener('change', function () {-->
+<!--                var typeCondominiumInput = document.getElementById('typeCondominium');-->
+<!--                var fundoObraInput = document.querySelector('input[name="fundoObra"]');-->
+<!--                var fundoReservaInput = document.querySelector('input[name="fundoReserva"]');-->
+
+<!--                typeCondominiumInput.disabled = !this.checked;-->
+<!--                if (this.checked) {-->
+<!--                    typeCondominiumInput.value = '';-->
+<!--                    fundoObraInput.value = ''; // Zerar o valor de Fundo de Obras-->
+<!--                    fundoReservaInput.value = ''; // Zerar o valor de Fundo de Reservas-->
+<!--                    fundoObraInput.disabled = true; // Desativar campo de Fundo de Obras-->
+<!--                    fundoReservaInput.disabled = true; // Desativar campo de Fundo de Reservas-->
+<!--                } else {-->
+<!--                    fundoObraInput.disabled = false; // Habilitar campo de Fundo de Obras-->
+<!--                    fundoReservaInput.disabled = false; // Habilitar campo de Fundo de Reservas-->
+<!--                }-->
+<!--            });-->
+<!--        </script>-->
+	</th:block>
 </body>
 </html>

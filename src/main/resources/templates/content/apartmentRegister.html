@@ -28,15 +28,78 @@
 
 							<div class="form-row row">
 								<div class="form-group col-xs-12 col-md-6">
-									<label>Nome do Inquilino: </label> <input class="form-control" type="text" th:errorclass="is-invalid"
-																 th:field="*{nameTenant}" placeholder="Nome completo" autofocus/>
-									<div class="invalid-feedback" th:errors="*{nameTenant}"></div>
-								</div>
-								<div class="form-group col-xs-12 col-md-6">
 									<label>Nome do Proprietário: </label> <input class="form-control" type="text" th:errorclass="is-invalid"
 																			  th:field="*{nameOwner}" placeholder="Nome completo" autofocus/>
 									<div class="invalid-feedback" th:errors="*{nameOwner}"></div>
 								</div>
+								<div class="form-group col-xs-12 col-md-6">
+									<label>Nome do Inquilino: </label> <input class="form-control" type="text" th:errorclass="is-invalid"
+																			  th:field="*{nameTenant}" placeholder="Nome completo" autofocus/>
+									<div class="invalid-feedback" th:errors="*{nameTenant}"></div>
+								</div>
+							</div>
+							<div class="form-row row">
+								<div class="form-group col-xs-12 col-md-3">
+									<label>Celular: </label> <input class="form-control" type="text" th:errorclass="is-invalid"
+																			  th:field="*{cellphoneTenant}" maxlength="15"/>
+									<div class="invalid-feedback" th:errors="*{cellphoneTenant}"></div>
+								</div>
+
+								<div class="form-group col-xs-12 col-md-3">
+
+									<label>CPF: </label> <input class="form-control" type="text" th:errorclass="is-invalid"
+																	 th:field="*{cpfOwner}" maxlength="14"/>
+									<div class="invalid-feedback" th:errors="*{cpfOwner}"></div>
+								</div>
+								<div class="form-group col-xs-12 col-md-3">
+									<label>Celular: </label> <input class="form-control" type="text" th:errorclass="is-invalid"
+																	 th:field="*{cellphoneOwner}" maxlength="15"/>
+									<div class="invalid-feedback" th:errors="*{cellphoneOwner}"></div>
+								</div>
+								<div class="form-group col-xs-12 col-md-3">
+									<label>CPF: </label> <input class="form-control" type="text" th:errorclass="is-invalid"
+																th:field="*{cpfTenant}" maxlength="14"/>
+									<div class="invalid-feedback" th:errors="*{cpfTenant}"></div>
+								</div>
+							</div>
+							<div class="form-row row col-md-6">
+									<div class="form-group col-xs-12 col-md-10">
+										<label>Endereço: </label> <input class="form-control" type="text" th:errorclass="is-invalid"
+																		 th:field="*{address}"/>
+										<div class="invalid-feedback" th:errors="*{address}"></div>
+									</div>
+									<div class="form-group col-xs-12 col-md-2">
+										<label>Número: </label> <input class="form-control" type="text" th:errorclass="is-invalid"
+																	th:field="*{addressNumber}"/>
+										<div class="invalid-feedback" th:errors="*{addressNumber}"></div>
+									</div>
+							</div>
+							<div class="form-row row col-md-6">
+
+									<div class="form-group col-xs-12 col-md-3">
+										<label>Bairro: </label> <input class="form-control" type="text" th:errorclass="is-invalid"
+																		 th:field="*{neighborhood}"/>
+										<div class="invalid-feedback" th:errors="*{neighborhood}"></div>
+									</div>
+									<div class="form-group col-xs-12 col-md-3">
+										<label>CEP: </label> <input class="form-control" type="text" th:errorclass="is-invalid"
+																	th:field="*{cep}" maxlength="9"/>
+										<div class="invalid-feedback" th:errors="*{cep}"></div>
+									</div>
+									<div class="form-group col-xs-12 col-md-3">
+										<label>Cidade: </label> <input class="form-control" type="text" th:errorclass="is-invalid"
+																	th:field="*{city}"/>
+										<div class="invalid-feedback" th:errors="*{city}"></div>
+									</div>
+								<div class="form-group col-xs-12 col-md-3">
+									<label>Estado: </label>
+									<select class="form-control" id="state" name="state" th:errorclass="is-invalid" th:field="*{state}">
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
+										<option th:each="state : ${states}" th:value="${state}" th:text="${state.name}"></option>
+									</select>
+									<div class="invalid-feedback" th:errors="*{state}"></div>
+								</div>
+
 							</div>
 						</li>
 					</ul>
@@ -45,6 +108,59 @@
 			<button th:unless="${param.somenteLeitura}" type="submit" class="btn btn-primary">Salvar</button>
 			<a class="btn btn-secondary" th:href="@{/trustee/apartments/}" role="button" th:text="${param.somenteLeitura}?'Voltar':_">Cancelar</a>
 		</form>
+			<script th:inline="javascript">
+
+			function mascaraCelular(celular) {
+				celular = celular.replace(/\D/g, '');
+				celular = celular.replace(/^(\d{2})(\d)/g, '($1) $2');
+				celular = celular.replace(/(\d)(\d{4})$/, '$1-$2');
+				return celular;
+			}
+
+			function mascaraCPF(cpf) {
+				cpf = cpf.replace(/\D/g, '');
+				cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+				cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+				cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+				return cpf;
+			}
+
+			function mascaraCep(cep) {
+				cep = cep.replace(/\D/g, '');
+				cep = cep.replace(/^(\d{5})(\d)/, '$1-$2');
+				return cep;
+			}
+
+			/* Aplicação da máscara nos campos Telefone, Celular e CPF */
+
+			document.addEventListener('DOMContentLoaded', function () {
+				var cepField = document.getElementById('cep');
+				var celularOwnerField = document.getElementById('cellphoneOwner');
+				var celularTenantField = document.getElementById('cellphoneTenant');
+        		var cpfOwnerField = document.getElementById('cpfOwner');
+        		var cpfTenantField = document.getElementById('cpfTenant');
+
+				celularOwnerField.addEventListener('input', function () {
+					this.value = mascaraCelular(this.value);
+				});
+
+				celularTenantField.addEventListener('input', function () {
+					this.value = mascaraCelular(this.value);
+				});
+
+				cpfOwnerField.addEventListener('input', function () {
+					this.value = mascaraCPF(this.value);
+				});
+
+				cpfTenantField.addEventListener('input', function () {
+					this.value = mascaraCPF(this.value);
+				});
+
+				cepField.addEventListener('input', function () {
+					this.value = mascaraCep(this.value);
+				});
+			});
+		</script>
 		</main>
 	</th:block>
 	<th:block th:fragment="jsAdicional"></th:block>

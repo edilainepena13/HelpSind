@@ -28,8 +28,8 @@
 								
 								<div class="form-group col-xs-12 col-md-2">
 									<label>CPF</label>
-									<input autocomplete="off" class="form-control last" type="number" th:errorclass="is-invalid"
-									       th:field="*{cpf}" placeholder="Seu CPF" maxlength="11"
+									<input autocomplete="off" class="form-control last" type="text" th:errorclass="is-invalid"
+									       th:field="*{cpf}" placeholder="Seu CPF" maxlength="14"
 									       oninput="javascript: if (this.value.length > this.maxLength){this.value = this.value.slice(0, this.maxLength);}"/>
 									<div class="invalid-feedback" th:errors="*{cpf}"></div>
 								</div>
@@ -41,8 +41,8 @@
 								<div class="form-group col-xs-12 col-md-2">
 									<label>Celular</label>
 									<div class="input-group">
-										<input autocomplete="off" class="form-control last" type="number" th:field="*{cellphone}"
-										       placeholder="DDD + Numero do seu celular" maxlength="11"/>
+										<input autocomplete="off" class="form-control last" type="text" th:field="*{cellphone}"
+										       placeholder="DDD + Numero do seu celular" maxlength="15"/>
 										<div class="invalid-feedback" th:errors="*{cellphone}"></div>
 									</div>
 								</div>
@@ -79,6 +79,38 @@
 			
 			</div>
 		</form>
+			<script th:inline="javascript">
+
+			function mascaraCelular(celular) {
+				celular = celular.replace(/\D/g, '');
+				celular = celular.replace(/^(\d{2})(\d)/g, '($1) $2');
+				celular = celular.replace(/(\d)(\d{4})$/, '$1-$2');
+				return celular;
+			}
+
+			function mascaraCPF(cpf) {
+				cpf = cpf.replace(/\D/g, '');
+				cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+				cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+				cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+				return cpf;
+			}
+
+			/* Aplicação da máscara nos campos Telefone, Celular e CPF */
+
+			document.addEventListener('DOMContentLoaded', function () {
+				var celularField = document.getElementById('cellphone');
+        		var cpfField = document.getElementById('cpf');
+
+				celularField.addEventListener('input', function () {
+					this.value = mascaraCelular(this.value);
+				});
+
+				cpfField.addEventListener('input', function () {
+					this.value = mascaraCPF(this.value);
+				});
+			});
+		</script>
 		</main>
 		
 	</th:block>

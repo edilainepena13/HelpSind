@@ -61,7 +61,7 @@ public class Person implements Serializable, Comparable<Person> {
     private String email;
 
     @NotBlank
-    @Size(min = 11, max = 14)
+    @Size(min = 14, max = 18)
     private String cpf;
 
     @Size(max = 15)

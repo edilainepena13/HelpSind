@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+	<title>Demonstrativo</title>
+</head>
+<body>
+	<th:block th:fragment="content">
+		<main role="main">
+		<h3 class="font-weight-light">Demonstrativo</h3>
+			<div class="btn-group mb-3 float-right">
+				<a class="btn btn-light" th:href="@{/trustee/statement/cadastro}"><i class="fas fa-plus"></i> Nova</a>
+			</div>
+		<div class="table-responsive">
+			<section style="display: flex; justify-content: space-between;">
+				<div>
+					<b>Mês de Referência: Novembro</b>
+<!--					<span th:text="${#numbers.formatDecimal(#aggregates.sum(apportionment.![total]), 1, 'DEFAULT', 2, 'DEFAULT')}"></span>-->
+				</div>
+				<div>
+					<b>Saldo Inicial: 1000,00</b>
+<!--					<span th:text="${#numbers.formatDecimal(#aggregates.sum(apportionment.![totalPerApartment]), 1, 'DEFAULT', 2, 'DEFAULT')}"></span>-->
+				</div>
+			</section>
+			<section>
+				<div>
+					<b>Entradas</b>
+				</div>
+			</section>
+			<table class="table table-hover table-sm crud-list mb-0">
+	    		<thead class="thead-light">
+	        		<tr>
+	            		<th scope="col"> Contas de Controle  </th>
+	            		<th scope="col"> Condomínio </th>
+						<th scope="col"> Fundos </th>
+						<th scope="col"> Total Pago</th>
+	       			</tr>
+	    		</thead>
+			    <tbody>				
+			        <tr th:each="statement : ${statement.content}">
+			            <th scope="row" th:text="${statement.controlAccounts}" >  </th>
+			            <th scope="row" th:text="${statement.totalExpenses}">  </th>
+						<th scope="row" th:text="${statement.funds}">  </th>
+						<th scope="row" th:text="${statement.totalPaid}">  </th>
+			        </tr>
+			    </tbody>
+			</table>
+			<section style="display: flex; justify-content: right;">
+				<div>
+					<b>Total: 580,00</b>
+					<!--					<span th:text="${#numbers.formatDecimal(#aggregates.sum(apportionment.![total]), 1, 'DEFAULT', 2, 'DEFAULT')}"></span>-->
+				</div>
+			</section>
+
+			<section>
+				<div>
+					<b>Saidas</b>
+				</div>
+			</section>
+			<table class="table table-hover table-sm crud-list mb-0">
+				<thead class="thead-light">
+				<tr>
+					<th scope="col"> Despesa  </th>
+					<th scope="col"> Total </th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each="statement : ${statement.content}">
+					<th scope="row" th:text="${statement.expense}" >  </th>
+					<th scope="row" th:text="${statement.totalOutput}">  </th>
+				</tr>
+				</tbody>
+			</table>
+			<section style="display: flex; justify-content: right;">
+				<div>
+					<b>Total: 850,00</b>
+					<!--					<span th:text="${#numbers.formatDecimal(#aggregates.sum(apportionment.![total]), 1, 'DEFAULT', 2, 'DEFAULT')}"></span>-->
+				</div>
+			</section>
+			<section style="display: flex; justify-content: right;">
+				<div>
+					<b>Saldo Acumulado: 730,00</b>
+					<!--					<span th:text="${#numbers.formatDecimal(#aggregates.sum(apportionment.![total]), 1, 'DEFAULT', 2, 'DEFAULT')}"></span>-->
+				</div>
+			</section>
+		</div>
+		</main>
+
+		
+	<th:block th:fragment="jsAdicional"></th:block>
+	</th:block>
+</body>
+</html>

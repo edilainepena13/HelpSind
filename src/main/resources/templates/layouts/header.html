@@ -18,23 +18,20 @@
 									Administração
 								</a>
 								<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-									<a class="dropdown-item" th:href="@{~/trustee/apportionment/}">Rateio</a>
-									<a class="dropdown-item" th:href="@{~/trustee/report/}">Demonstrativo</a>
-									<a class="dropdown-item" th:href="@{~/trustee/apartments/}">Apartamentos</a>
-									<a class="dropdown-item" th:href="@{~/trustee/condominium/cadastro}">Condominios</a>
-									<a class="dropdown-item" th:href="@{~/trustee/account}">Contas</a>
-									<a class="dropdown-item" th:href="@{~/trustee/person}">Contatos</a>
-									<a class="dropdown-item" th:href="@{~/trustee/expense}">Despesas</a>									
+									<a class="dropdown-item" th:href="@{~/trustee/condominium/cadastro}">Condominio</a>
+									<a class="dropdown-item" th:href="@{~/trustee/apartments/}">Apartamentos / Inquilino e Proprietário</a>
+									<a class="dropdown-item" th:href="@{~/trustee/expense}">Lista de Despesas</a>
+									<a class="dropdown-item" th:href="@{~/trustee/apportionment/}">Rateio de Despesas</a>
+									<a class="dropdown-item" th:href="@{~/trustee/statement/}">Demonstrativo Financeiro</a>
+									<a class="dropdown-item" th:href="@{~/trustee/account}">Lista de Contas / Aplicações</a>
+									<a class="dropdown-item" th:href="@{~/trustee/person}">Cadastro de Fornecedor / Prestador</a>
+									<a class="dropdown-item" th:href="@{~/trustee/maintenancePlan}">Plano de Manutenção</a>
+									<a class="dropdown-item" th:href="@{~/trustee/taxPlan}">Plano de Impostos</a>
 								</div>
 							</li>
 						</ul>
-						<div class="ml10" sec:authorize="isAnonymous()">
-							<form class="form-inline mt-2 mt-md-0" th:action="@{/entrar}" method="get">
-								<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Entrar</button>
-							</form>
-						</div>
-						<div  class="ml10" sec:authorize="isAuthenticated()">
-							<form class="form-inline mt-2 mt-md-0" th:action="@{/sair}" method="post">
+						<div  class="ml10" style="justify-content: flex-end; margin-left: 110px" sec:authorize="isAuthenticated()">
+							<form class="form-inline mt-2 mt-md-0 "  th:action="@{/sair}" method="post">
 								<div class="btn-group">
 									<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Sair</button>
 								</div>

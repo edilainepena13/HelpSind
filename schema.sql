@@ -232,3 +232,19 @@ FROM
     expense
 WHERE
     repeatable = 1 AND DAYOFMONTH(NOW()) = 31;
+
+CREATE TABLE if not exists tax_plan (
+	idTaxPlan BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	initialDate DATE NULL,
+	finalDate DATE NULL,
+	days DECIMAL(9,3) NULL,
+    name VARCHAR(255) NULL,
+    description VARCHAR(255) NULL,
+
+    idCondominium BIGINT UNSIGNED NOT NULL,
+    PRIMARY KEY(idTaxPlan),
+    FOREIGN KEY(idCondominium)
+    REFERENCES condominium(idCondominium)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+    );

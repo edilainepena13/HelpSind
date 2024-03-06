@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+	
+	<title>Pessoa</title>
+
+</head>
+<body>
+<th:block th:fragment="content">
+	<main role="main">
+		<h3 class="font-weight-light">Cadastro do Pessoa</h3>
+		<form th:action="@{/trustee/statement/cadastro}" th:object="${statement}" th:method="${statement.idStatement == null} ? POST : PUT" enctype="multipart/form-data" novalidate>
+			<!-- Seus campos existentes -->
+
+			<input type="file" name="file" accept=".pdf">
+			<button type="submit">Ler PDF</button>
+			<!-- Seus outros botões e campos -->
+			<div class="submit-group">
+				<a class="btn btn-secondary" th:href="@{/trustee/statement}" role="button" th:text="${param.somenteLeitura}?'Voltar':_">Cancelar</a>
+				<button th:unless="${param.somenteLeitura}" type="submit" class="btn btn-primary ml10">Salvar</button>
+			</div>
+		</form>
+		<script>
+        function lerPDF() {
+            const input = document.getElementById('pdfFile');
+            const file = input.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('file', file);
+
+                fetch('/extrair-texto-pdf', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    }
+                    throw new Error('Erro ao processar o PDF');
+                })
+                .then(data => {
+                    // Manipular os dados do PDF, exibir ou fazer algo com eles
+                    console.log('Texto do PDF:', data);
+                })
+                .catch(error => {
+                    // Lidar com erros
+                    console.error('Erro:', error);
+                });
+            }
+        }
+    </script>
+	</main>
+</th:block>
+<th:block th:fragment="jsAdicional"></th:block>
+</body>
+</html>

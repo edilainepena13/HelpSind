@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de conta bancaria</title>
+</head>
+
+<body>
+<th:block th:fragment="content">
+    <main role="main">
+        <h3 class="font-weight-light">Cadastro de Plano de Manutenção</h3>
+        <form th:action="@{/trustee/maintenancePlan/cadastro}" th:object="${maintenancePlan}" th:method="${maintenancePlan.idMaintenancePlan == null} ? post : put" novalidate>
+            <fieldset th:disabled="${param.somenteLeitura}" class="mb-3">
+                <input type="hidden" th:field="*{idMaintenancePlan}" />
+                <div class="card">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="row">
+
+                            <div class="form-group col-xs-12 col-md-4">
+                                <label>Nome</label>
+                                <input class="form-control" type="text" th:errorclass="is-invalid"
+                                       th:field="*{name}"/>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                            </div>
+                            <div class="form-group col-xs-12 col-md-8">
+                                <label>Descrição</label>
+                                <input class="form-control" type="text" th:errorclass="is-invalid"
+                                       th:field="*{description}"/>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+                            </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-xs-12 col-md-4">
+                                    <label>Data da Ultima Manutenção</label> <input class="form-control" type="date" th:errorclass="is-invalid"
+                                                                               th:field="*{initialDate}"/>
+                                    <div class="invalid-feedback" th:errors="*{initialDate}"></div>
+                                </div>
+                            <div class="form-group col-xs-12 col-md-2">
+                                <label>Dias para Manutenção</label> <input class="form-control" type="text" th:errorclass="is-invalid"
+                                                                    th:field="*{days}"/>
+                                <div class="invalid-feedback" th:errors="*{days}"></div>
+                            </div>
+                            </div>
+
+                        </li>
+                    </ul>
+                </div>
+            </fieldset>
+            <button th:unless="${param.somenteLeitura}" type="submit" class="btn btn-primary">Salvar</button>
+            <a class="btn btn-secondary" th:href="@{/trustee/maintenancePlan/}" role="button" th:text="${param.somenteLeitura}?'Voltar':_">Cancelar</a>
+        </form>
+    </main>
+</th:block>
+<th:block th:fragment="jsAdicional"></th:block>
+
+</body>
+</html>

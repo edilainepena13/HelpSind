@@ -1,6 +1,7 @@
 package com.ufop.HelpSind.controller;
 
 import com.ufop.HelpSind.domain.Apartment;
+import com.ufop.HelpSind.enums.State;
 import com.ufop.HelpSind.service.ApartmentService;
 import com.ufop.HelpSind.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,11 @@ public class ApartmentController {
     @Autowired
     private UserService userService;
 
+    @ModelAttribute("states")
+    public State[] states() {
+        return State.values();
+    }
+    
     @ModelAttribute("ativo")
     public String[] ativo() {
         return new String[]{"condominium", "apartments"};
