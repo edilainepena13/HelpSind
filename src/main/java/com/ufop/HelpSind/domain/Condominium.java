@@ -153,12 +153,8 @@ public class Condominium implements Serializable, Comparable<Condominium> {
     }
 
     public Long getIdCondominium() {
-        if (trustee != null) {
-            return trustee.getCondominium().getIdCondominium();
-        }
-        return null;
+        return idCondominium;
     }
-
     public void setIdCondominium(Long idCondominium) {
         this.idCondominium = idCondominium;
     }

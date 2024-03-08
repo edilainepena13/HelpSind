@@ -49,18 +49,17 @@ public class CondominiumController {
             return new ModelAndView("layouts/trustee", "content", "condominiumRegister");
         }
         condominiumService.save(condominium);
-        return new ModelAndView("redirect:/home");
+        return new ModelAndView("redirect:/trustee/condominium/cadastro");
     }
 
     @PutMapping("/cadastro")
-    public ModelAndView putCondominioCadastro(@Valid @ModelAttribute("condominium") Condominium condominium, BindingResult validacao) {
-        condominiumService.validate(condominium, validacao);
-        if (validacao.hasErrors()) {
-            return new ModelAndView("layouts/trustee", "content", "condominiumRegister");
+    public ModelAndView putCondominioRegister(@Valid @ModelAttribute("idCondominium") Condominium condominium, BindingResult validation, ModelMap model) {
+        condominiumService.validate(condominium, validation);
+        if (validation.hasErrors()) {
+            model.addAttribute("content", "condominioRegister");
+            return new ModelAndView("layouts/trustee", model);
         }
         condominiumService.update(condominium);
-        return new ModelAndView("redirect:/home");
+        return new ModelAndView("redirect:/trustee/condominium/cadastro");
     }
-
-
 }

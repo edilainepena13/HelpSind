@@ -39,9 +39,9 @@
 			    <tbody>				
 			        <tr th:each="statement : ${statement.content}">
 			            <th scope="row" th:text="${statement.controlAccounts}" >  </th>
-			            <th scope="row" th:text="${statement.totalExpenses}">  </th>
-						<th scope="row" th:text="${statement.funds}">  </th>
-						<th scope="row" th:text="${statement.totalPaid}">  </th>
+						<th scope="row" th:text="${#numbers.formatDecimal(statement.totalExpenses, 1, 'DEFAULT', 2, 'DEFAULT')}"></th>
+						<th scope="row" th:text="${#numbers.formatDecimal(statement.funds, 1, 'DEFAULT', 2, 'DEFAULT')}"></th>
+						<th scope="row" th:text="${#numbers.formatDecimal(statement.totalPaid, 1, 'DEFAULT', 2, 'DEFAULT')}"></th>
 			        </tr>
 			    </tbody>
 			</table>
@@ -67,7 +67,7 @@
 				<tbody>
 				<tr th:each="statement : ${statement.content}">
 					<th scope="row" th:text="${statement.expense}" >  </th>
-					<th scope="row" th:text="${statement.totalOutput}">  </th>
+					<th scope="row" th:text="${#numbers.formatDecimal(statement.totalOutput, 1, 'DEFAULT', 2, 'DEFAULT')}"></th>
 				</tr>
 				</tbody>
 			</table>

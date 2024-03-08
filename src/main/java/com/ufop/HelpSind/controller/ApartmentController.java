@@ -78,7 +78,7 @@ public class ApartmentController {
         apartmentService.validate(apartments, validation);
         if (validation.hasErrors()) {
             model.addAttribute("content", "apartmentRegister");
-            return new ModelAndView("layout/trustee", model);
+            return new ModelAndView("layouts/trustee", model);
         }
         apartmentService.update(apartments);
         return new ModelAndView("redirect:/trustee/apartments");

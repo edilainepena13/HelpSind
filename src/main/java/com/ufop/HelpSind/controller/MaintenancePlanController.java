@@ -83,16 +83,16 @@ public class MaintenancePlanController {
         maintenancePlanService.validate(maintenancePlan, validation);
         if (validation.hasErrors()) {
             model.addAttribute("content", "maintenancePlanRegister");
-            return new ModelAndView("layout/trustee", model);
+            return new ModelAndView("layouts/trustee", model);
         }
         maintenancePlanService.update(maintenancePlan);
         return new ModelAndView("redirect:/trustee/maintenancePlan");
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/excluir")
     public ModelAndView deleteMaintenancePlanRegister(@RequestParam("idObj") Long idObj) {
         maintenancePlanService.delete(maintenancePlanService.read(idObj));
-        return new ModelAndView();
+        return new ModelAndView("redirect:/trustee/maintenancePlan");
     }
 
 }

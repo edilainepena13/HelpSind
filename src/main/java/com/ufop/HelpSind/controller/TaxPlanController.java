@@ -79,16 +79,16 @@ public class TaxPlanController {
         taxPlanService.validate(taxPlan, validation);
         if (validation.hasErrors()) {
             model.addAttribute("content", "taxPlanRegister");
-            return new ModelAndView("layout/trustee", model);
+            return new ModelAndView("layouts/trustee", model);
         }
         taxPlanService.update(taxPlan);
         return new ModelAndView("redirect:/trustee/taxPlan");
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/excluir")
     public ModelAndView deleteTaxPlanRegister(@RequestParam("idObj") Long idObj) {
         taxPlanService.delete(taxPlanService.read(idObj));
-        return new ModelAndView();
+        return new ModelAndView("redirect:/trustee/taxPlan");
     }
 
 }

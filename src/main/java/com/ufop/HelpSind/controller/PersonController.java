@@ -86,8 +86,8 @@ public class PersonController {
         return new ModelAndView("redirect:/trustee/person");
     }
 
-    @PutMapping(value = "/cadastro")
-    public ModelAndView putPerson(@Valid @ModelAttribute("pessoa") Person person, BindingResult validation, ModelMap model) {
+    @PutMapping("/cadastro")
+    public ModelAndView putPersonRegister(@Valid @ModelAttribute("idPerson") Person person, BindingResult validation, ModelMap model) {
         personService.validate(person, validation);
         if (validation.hasErrors()) {
             model.addAttribute("content", "personRegister");

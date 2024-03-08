@@ -23,7 +23,7 @@
 				        <th scope="col" style="font-size: 14px; width: 100px;"> Tipo de Rateio </th>
 				        <th scope="col" style="font-size: 14px; width: 90px;"> Valor </th>
 				        <th scope="col" style="font-size: 14px; width: 50px;"> Taxa Mínima </th>
-				        <th scope="col" style="font-size: 14px; width: 60px;"> Mês de Referencia </th>
+				        <th scope="col" style="font-size: 14px; width: 60px;"> Mês de Referência </th>
 				        <th scope="col" style="font-size: 14px; width: 70px;"> Leitura Inicial </th>
 				        <th scope="col" style="font-size: 14px; width: 70px;"> Leitura Final </th>
 				        <th scope="col" style="font-size: 14px; width: 60px;"> Data da Leitura </th>
@@ -34,10 +34,10 @@
 			    <tbody>				
 			        <tr th:each="expense : ${expense.content}">
 				        <th scope="row" th:text="${expense.name}" style="font-size: 14px;">  </th>
-						<th scope="row" th:text="${expense.expenseTypeEnum}" style="font-size: 14px;">  </th>
+						<th scope="row" th:text="${expense.expenseTypeEnumComplete}" style="font-size: 14px;">  </th>
 				        <th scope="row" th:text="${expense.apportionmentTypeEnumComplete}" style="font-size: 14px;">  </th>
-				        <th scope="row" th:text="|R$ ${expense.total}|" style="font-size: 14px;">  </th>
-						<th scope="row" th:text="${expense.minimumRate}" style="font-size: 14px;">  </th>
+						<th scope="row" th:text="${#numbers.formatDecimal(expense.total, 1, 'DEFAULT', 2, 'DEFAULT')}" style="font-size: 14px;"></th>
+						<th scope="row" th:text="${#numbers.formatDecimal(expense.minimumRate, 1, 'DEFAULT', 2, 'DEFAULT')}" style="font-size: 14px;"></th>
 						<th scope="row" th:text="${expense.referenceMonth}" style="font-size: 14px;">  </th>
 						<th scope="row" th:text="${#numbers.formatDecimal(expense.initialReading, 1, 'DEFAULT', 2, 'DEFAULT')}" style="font-size: 14px;"></th>
 						<th scope="row" th:text="${#numbers.formatDecimal(expense.finalReading, 1, 'DEFAULT', 2, 'DEFAULT')}" style="font-size: 14px;"></th>

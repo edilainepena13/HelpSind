@@ -82,16 +82,16 @@ public class AccountController {
         accountService.validate(account, validation);
         if (validation.hasErrors()) {
             model.addAttribute("content", "accountRegister");
-            return new ModelAndView("layout/trustee", model);
+            return new ModelAndView("layouts/trustee", model);
         }
         accountService.update(account);
         return new ModelAndView("redirect:/trustee/account");
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/excluir")
     public ModelAndView deleteAccountRegister(@RequestParam("idObj") Long idObj) {
         accountService.delete(accountService.read(idObj));
-        return new ModelAndView();
+        return new ModelAndView("redirect:/trustee/account");
     }
 
 }

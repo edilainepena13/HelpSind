@@ -197,15 +197,16 @@ public class ExpenseController {
         expenseService.validate(expense, validation);
         if (validation.hasErrors()) {
             model.addAttribute("content", "expenseRegister");
-            return new ModelAndView("layout/trustee", model);
+            return new ModelAndView("layouts/trustee", model);
         }
         expenseService.update(expense);
         return new ModelAndView("redirect:/trustee/expense");
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/excluir")
     public ModelAndView deleteExpensesRegister(@RequestParam("idObj") Long idObj) {
         expenseService.delete(expenseService.read(idObj));
-        return new ModelAndView();
+        return new ModelAndView("redirect:/trustee/expense");
     }
+
 }
